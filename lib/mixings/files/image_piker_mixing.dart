@@ -6,10 +6,10 @@ import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
- import 'package:dio/dio.dart' as dio;
+import 'package:dio/dio.dart' as dio;
 
-import '../ui/multi_image_picker_ui.dart';
-import '../ui/single_image_picker_ui.dart';
+import '../../ui/images/multi_image_picker_ui.dart';
+import '../../ui/images/single_image_picker_ui.dart';
 
 mixin ImagePickerMixin {
   RxList<File> images = RxList([]);
@@ -56,7 +56,7 @@ mixin ImagePickerMixin {
       if (isMultiFiles) {
         //take only  required item fro compete images list length to imageCount
         List<PlatformFile> pikerImages =
-        result.files.take(imageCount - images.length).toList();
+            result.files.take(imageCount - images.length).toList();
         if (images.isEmpty) {
           for (PlatformFile img in pikerImages) {
             images.add(File("${img.path}"));
