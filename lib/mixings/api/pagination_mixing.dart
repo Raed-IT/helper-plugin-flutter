@@ -30,7 +30,8 @@ mixin PaginationMixin {
     bool isPrintResponse = false,
   }) async {
     if (mainUrl == null) {
-      throw Exception("pleas assign url in oninit function in controller (^._.^)  ");
+      throw Exception(
+          "pleas assign url in oninit function in controller (^._.^)  ");
     }
     if (isRefresh) {
       //break loop get data from api page 1, 2 ,3, 4 , ... 1, 2, 3,
@@ -105,7 +106,13 @@ mixin PaginationMixin {
   }) {
     return RefreshLoadComponent(
       appBar: appBar,
-      onRefresh: onRefresh,
+      onRefresh: () {
+        return getData(
+          url: mainUrl!,
+          isRefresh: true,
+          setData: setData,
+        );
+      },
       isLoadMore: isLoadMore,
       loadModer: loadModer,
       widgets: widgets,
