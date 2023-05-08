@@ -5,147 +5,170 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import 'images_view_gallery.dart';
+
 // ignore: must_be_immutable
 class MultiImagePickerComponent extends StatelessWidget {
   RxList<File> images = RxList([]);
   void Function()? onPicker;
   void Function(RxList<File> images) syncImages;
-  Color? primaryColor;
-  Color? secondaryColor;
-  Color? elevationColor;
+  Color? pickerWidgetColor;
   int imageCount;
+  Widget? Function(int imagesCount) imagePickerUi;
+  Widget? Function(File image) imageCardUi;
+  Widget? deleteIcon;
 
   MultiImagePickerComponent(
       {required this.images,
-        required this.onPicker,
-        this.elevationColor,
-        this.secondaryColor,
-        this.primaryColor,
-        required this.imageCount,
-        required this.syncImages,
-        Key? key})
+      required this.onPicker,
+      required this.imageCount,
+      required this.syncImages,
+      required this.imagePickerUi,
+      required this.imageCardUi,
+      this.pickerWidgetColor,
+      this.deleteIcon,
+      Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Obx(
-          () => (images.isEmpty)
+      () => (images.isEmpty)
           ? GestureDetector(
-        onTap: onPicker,
-        child: DottedBorder(
-          color: primaryColor ?? Colors.black.withOpacity(0.7),
-          borderType: BorderType.RRect,
-          radius: const Radius.circular(12),
-          padding: const EdgeInsets.all(6),
-          child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(12.sp)),
-            child: Container(
-              height: 150.h,
-              width: Get.width,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.image_outlined,
-                    size: 50.sp,
-                    color: secondaryColor ?? Colors.black26,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(10.sp),
-                    child: Text(" انقر لرفع عدة صور  $imageCount  صورة "),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-      )
-          : Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: EdgeInsets.all(10.sp),
-                child: Text(
-                  "الصور المختارة ${images.length}/${imageCount}",
-                  style: TextStyle(
-                      color:
-                      primaryColor ?? Colors.black.withOpacity(0.7),
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              if (images.length < imageCount)
-                MaterialButton(
-                  onPressed: onPicker,
-                  child: Text(
-                    "اختر المزيد ",
-                    style: TextStyle(
-                        color: secondaryColor ?? Colors.black26,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-            ],
-          ),
-          SizedBox(
-            height: 150.h,
-            child: ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              itemCount: images.length,
-              itemBuilder: (context, index) {
-                return Stack(
-                  children: [
-                    Card(
-                      shadowColor: elevationColor ?? Colors.black12,
-                      elevation: 3,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(0),
-                        ),
-                      ),
+              onTap: onPicker,
+              child: imagePickerUi(imageCount) ??
+                  DottedBorder(
+                    color: pickerWidgetColor ?? Colors.black.withOpacity(0.7),
+                    borderType: BorderType.RRect,
+                    radius: const Radius.circular(12),
+                    padding: const EdgeInsets.all(6),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(12.sp)),
                       child: Container(
-                        height: Get.height,
-                        width: 160.w,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: FileImage(images[index]),
-                          ),
+                        height: 150.h,
+                        width: Get.width,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.image_outlined,
+                              size: 50.sp,
+                              color: pickerWidgetColor ?? Colors.black,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(10.sp),
+                              child: Text(
+                                  " انقر لرفع عدة صور  $imageCount  صورة ",
+                                  style: TextStyle(
+                                      color:
+                                          pickerWidgetColor ?? Colors.black)),
+                            )
+                          ],
                         ),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        images.removeAt(index);
-                        syncImages(images);
-                      },
-                      child: Container(
-                        height: 25.sp,
-                        width: 25.sp,
-                        decoration: BoxDecoration(
-                          color: secondaryColor ?? Colors.black26,
-                          borderRadius: const BorderRadius.all(
-                              Radius.circular(02958)),
-                        ),
-                        child: Center(
-                          child: Icon(
-                            size: 15.sp,
-                            Icons.delete,
-                            color: primaryColor ??
-                                Colors.black.withOpacity(0.7),
-                          ),
+                  ),
+            )
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(10.sp),
+                      child: Text(
+                        "الصور المختارة ${images.length}/${imageCount}",
+                        style: TextStyle(
+                            color: pickerWidgetColor ?? Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    if (images.length < imageCount)
+                      MaterialButton(
+                        onPressed: onPicker,
+                        child: Text(
+                          "اختر المزيد ",
+                          style: TextStyle(
+                              color: pickerWidgetColor ?? Colors.black,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
-                    )
                   ],
-                );
-              },
+                ),
+                SizedBox(
+                  height: 150.h,
+                  child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: images.length,
+                    itemBuilder: (context, index) {
+                      return Stack(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ImageViewGallery(
+                                    images: images
+                                        .map((element) => FileImage(element))
+                                        .toList(),
+                                  ),
+                                ),
+                              );
+                            },
+                            child: imageCardUi(images[index]) ??
+                                Card(
+                                  shadowColor: Colors.black12,
+                                  elevation: 3,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(0),
+                                    ),
+                                  ),
+                                  child: Container(
+                                    height: Get.height,
+                                    width: 160.w,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: FileImage(images[index]),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              images.removeAt(index);
+                              syncImages(images);
+                            },
+                            child: deleteIcon ??
+                                Container(
+                                  height: 25.sp,
+                                  width: 25.sp,
+                                  decoration: BoxDecoration(
+                                    color: pickerWidgetColor ?? Colors.black26,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(02958)),
+                                  ),
+                                  child: Center(
+                                    child: Icon(
+                                      size: 15.sp,
+                                      Icons.delete,
+                                      color: Colors.black.withOpacity(0.7),
+                                    ),
+                                  ),
+                                ),
+                          )
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }

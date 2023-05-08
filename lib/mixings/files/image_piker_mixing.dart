@@ -106,31 +106,44 @@ mixin ImagePickerMixin {
     return compressedFile;
   }
 
+  //syncImages todo sync image/s from ui to controller
   Widget buildPickerImagesWidget({
-    Color? primaryColor,
-    Color? secondaryColor,
-    Color? elevationColor,
+    Widget? Function(int imagesCount)? imagePickerUi,
+    Widget? Function(File image)? imageCardUi,
+    Widget? deleteIcon,
+    Color? pickerWidgetColor,
   }) {
     return MultiImagePickerComponent(
-      elevationColor: elevationColor,
-      primaryColor: primaryColor,
-      secondaryColor: primaryColor,
+      pickerWidgetColor: pickerWidgetColor,
       images: images,
+      deleteIcon: deleteIcon,
       imageCount: imageCount,
       syncImages: (imgs) {
         images = imgs;
       },
       onPicker: () => picker(),
+      imagePickerUi: imagePickerUi ?? (imagesCount) => null,
+      imageCardUi: imageCardUi ?? (File image) => null,
     );
   }
 
-  Widget buildPickerImageWidget() {
+  Widget buildPickerImageWidget(
+      {Widget? imagePickerUi,
+      Widget? Function(File img)? imageViewUi,
+      Widget? deleteIcon}) {
     return SingleImagePickerComponent(
+      imagePickerUi: imagePickerUi,
+      imageViewUi: imageViewUi ??
+          (img) {
+            //return null widget
+            return null;
+          },
       syncImage: (image) {
         image = image;
       },
       image: image,
       onPicker: () => picker(isMultiFiles: false),
+      deleteIcon: deleteIcon,
     );
   }
 }

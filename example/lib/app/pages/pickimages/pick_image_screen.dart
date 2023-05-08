@@ -30,9 +30,23 @@ class PickImageScreen extends GetView<PickImageController> {
           //   child: const Text("pick image "),
           // ),
 
-          Padding( 
-              padding: EdgeInsets.all(20.sp),
-              child: controller.buildPickerImagesWidget()),
+          Padding(
+            padding: EdgeInsets.all(20.sp),
+            child: controller.buildPickerImagesWidget(
+              imageCardUi: (img){
+               return Image.file(img);
+              }
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(20.sp),
+            child: Text("single  image picker  ",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22.sp)),
+          ),
+          Padding(
+            padding: EdgeInsets.all(20.sp),
+            child: controller.buildPickerImageWidget(),
+          ),
         ],
       ),
     );
