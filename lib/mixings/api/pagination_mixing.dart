@@ -39,7 +39,7 @@ mixin PaginationMixin {
         Response response = await paginationProvider.getData(
             url: "$url${parameter != null ? '?$parameter' : ''}");
         if (isPrintResponse) {
-          debugPrint("${response.body}");
+          printHelper("${response.body}");
         }
         if (response.statusCode == 200) {
           setData(response.body, isRefresh);
