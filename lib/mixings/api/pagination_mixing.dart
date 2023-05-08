@@ -1,9 +1,9 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:helper_plugin/utilitis/constats.dart';
 import 'package:helper_plugin/utilitis/helper_functions.dart';
 import '../../providers/pagination_provider.dart';
+import '../../ui/lists/refresh_load_ui.dart';
 
 mixin PaginationMixin {
   String? nextPageUrl;
@@ -11,7 +11,7 @@ mixin PaginationMixin {
   Rx<bool> isLoad = RxBool(false);
   RxInt total = RxInt(0);
   bool isFirstPage = false;
-
+  ScrollController scrollController = ScrollController();
   PaginationProvider paginationProvider = PaginationProvider();
   String? parameter;
 
@@ -87,5 +87,19 @@ mixin PaginationMixin {
       nextPageUrl = data["pagination"]['next_page_url'];
       total.value = data["pagination"]['total'];
     }
+  }
+
+  Widget buildScreen({
+    required List<Widget> widgets,
+    Future<void> Function()? onRefresh,
+    Future<bool> Function()? loadModer,
+  }) {
+    return RefreshLoadComponent(
+      onRefresh: onRefresh,
+      isLoadMore: isLoadMore,
+      loadModer: loadModer,
+      widgets: widgets,
+      scrollController: scrollController,
+    );
   }
 }
