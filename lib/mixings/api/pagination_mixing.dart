@@ -115,6 +115,7 @@ mixin PaginationMixin {
       },
       isLoadMore: isLoadMore,
       loadModer: () {
+        //if nextPageUrl equal null the page is last page return false for show no more data widget
         if (nextPageUrl != null) {
           return getData(
             url: nextPageUrl!,
