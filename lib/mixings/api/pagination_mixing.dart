@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:helper_plugin/utilitis/constats.dart';
+import 'package:helper_plugin/utilitis/helper_functions.dart';
 import '../../providers/pagination_provider.dart';
 
 mixin PaginationMixin {
@@ -32,9 +34,8 @@ mixin PaginationMixin {
     if (nextPageUrl == null && !isLoad.value && isFirstPage) {
       isLoad.value = true;
       try {
-        debugPrint(
-            "print from helper -->> $url${parameter != null ? '?$parameter' : ''}");
-
+        printHelper("${Constants.appName}");
+        printHelper("$url${parameter != null ? '?$parameter' : ''}");
         Response response = await paginationProvider.getData(
             url: "$url${parameter != null ? '?$parameter' : ''}");
         debugPrint(response.body);
@@ -58,8 +59,7 @@ mixin PaginationMixin {
         try {
           Response response = await paginationProvider.getData(
               url: '${nextPageUrl!}${parameter != null ? '&$parameter' : ''}');
-          debugPrint(
-              "print from helper -- load now ---- >> ${response.statusCode}");
+          printHelper("${response.statusCode}");
           if (response.statusCode == 200) {
             setData(response.body, isRefresh);
             setPaginationData(response.body);
