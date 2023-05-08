@@ -86,7 +86,7 @@ mixin PaginationMixin {
         }
       }
     }
-    // return true is Last page data else whe have more data
+    // return true is Last page data else we have more data
     return nextPageUrl == null;
   }
 
@@ -114,7 +114,13 @@ mixin PaginationMixin {
         );
       },
       isLoadMore: isLoadMore,
-      loadModer: loadModer,
+      loadModer: () {
+        return getData(
+          url: nextPageUrl!,
+          isRefresh: false,
+          setData: setData,
+        );
+      },
       widgets: widgets,
       scrollController: scrollController,
     );
