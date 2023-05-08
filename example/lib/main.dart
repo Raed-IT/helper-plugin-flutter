@@ -4,12 +4,14 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:helper_plugin/helper.dart';
 import 'package:helper_plugin_example/app/pages/home/home_page.dart';
 
 import 'app/pages/pickimages/pick_image_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+   runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
