@@ -1,12 +1,14 @@
 import 'package:get/get.dart';
+import 'package:helper_plugin/utilitis/helper_functions.dart';
 
 import '../mixings/api/check_response.dart';
 import 'constats.dart';
 
 class BaseGetConnect extends GetConnect with CheckResponseMixin {
   BaseGetConnect() {
-    httpClient.timeout = Duration(seconds: 8);
+    httpClient.timeout = const Duration(seconds: 8);
     httpClient.addRequestModifier<dynamic>((request) {
+      printHelper("${request.url}");
       request.headers['Authorization'] =
           "Bearer ${ConstantHelperMadaFlutter.token}";
       request.headers['Accept'] = "application/json";
@@ -18,4 +20,5 @@ class BaseGetConnect extends GetConnect with CheckResponseMixin {
       },
     );
   }
+
 }

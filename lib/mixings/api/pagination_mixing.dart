@@ -35,7 +35,6 @@ mixin PaginationMixin {
     if (nextPageUrl == null && !isLoad.value && isFirstPage) {
       isLoad.value = true;
       try {
-        printHelper("$url${parameter != null ? '?$parameter' : ''}");
         Response response = await paginationProvider.getData(
             url: "$url${parameter != null ? '?$parameter' : ''}");
         if (isPrintResponse) {
