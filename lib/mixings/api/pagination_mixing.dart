@@ -122,7 +122,7 @@ mixin PaginationMixin {
             setData: setData,
           );
         }
-        return Future.value(false);
+        return Future.value(true);
       },
       widgets: widgets,
       scrollController: scrollController,
