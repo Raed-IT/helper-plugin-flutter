@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
+import '../../utilitis/constats.dart';
+
 // ignore: must_be_immutable
 class RefreshLoadComponent extends StatefulWidget {
   ScrollController scrollController;
@@ -41,7 +43,9 @@ class _RefreshLoadComponentState extends State<RefreshLoadComponent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawerEnableOpenDragGesture: widget.floatingActionButton == null,
+      drawerEnableOpenDragGesture:
+          ConstantHelperMadaFlutter.drawerWidget == null,
+      drawer: ConstantHelperMadaFlutter.drawerWidget,
       floatingActionButton: widget.floatingActionButton,
       floatingActionButtonLocation: widget.floatingActionButtonLocation,
       body: WillPopScope(

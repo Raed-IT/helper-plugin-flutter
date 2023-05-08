@@ -6,6 +6,8 @@ class ConstantHelperMadaFlutter {
   static String? appName;
 
   static String? token;
+  static Widget? drawerWidget;
 
-  static final ConstantHelperMadaFlutter instance = ConstantHelperMadaFlutter._();
+  static final ConstantHelperMadaFlutter instance =
+      ConstantHelperMadaFlutter._();
 }
