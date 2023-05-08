@@ -76,12 +76,9 @@ mixin PaginationMixin {
 
   void setPaginationData(Map<String, dynamic> data) {
     data = data['data'];
-
     if (data.containsKey("pagination")) {
       nextPageUrl = data["pagination"]['next_page_url'];
       total.value = data["pagination"]['total'];
     }
-    print("pagination data from set data == >>${data['pagination']}");
-    print("nextPageUrl==> $nextPageUrl");
   }
 }

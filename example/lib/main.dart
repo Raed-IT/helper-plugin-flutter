@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:helper_plugin_example/app/pages/home/home_page.dart';
+
+import 'app/pages/pickimages/pick_image_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,19 +20,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: Text('Running on: test \n'),
-        ),
-      ),
-    );
+    return ScreenUtilInit(builder: (BuildContext context, Widget? child) {
+      return GetMaterialApp(
+        getPages: [HomePage(), PickImagePage()],
+        initialRoute: "/home",
+      );
+    });
   }
 }

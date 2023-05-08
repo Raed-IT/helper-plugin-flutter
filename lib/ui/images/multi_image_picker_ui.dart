@@ -70,7 +70,7 @@ class MultiImagePickerComponent extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(10.sp),
                 child: Text(
-                  "الصور المختارة ",
+                  "الصور المختارة ${images.length}/${imageCount}",
                   style: TextStyle(
                       color:
                       primaryColor ?? Colors.black.withOpacity(0.7),
