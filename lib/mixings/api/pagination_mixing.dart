@@ -32,11 +32,12 @@ mixin PaginationMixin {
     if (nextPageUrl == null && !isLoad.value && isFirstPage) {
       isLoad.value = true;
       try {
-        Response response = await paginationProvider.getData(
-            url: "$url${parameter != null ? '?$parameter' : ''}");
-
         debugPrint(
             "print from helper -->> $url${parameter != null ? '?$parameter' : ''}");
+
+        Response response = await paginationProvider.getData(
+            url: "$url${parameter != null ? '?$parameter' : ''}");
+        debugPrint(response.body);
         if (response.statusCode == 200) {
           setData(response.body, isRefresh);
           setPaginationData(response.body);
@@ -57,7 +58,8 @@ mixin PaginationMixin {
         try {
           Response response = await paginationProvider.getData(
               url: '${nextPageUrl!}${parameter != null ? '&$parameter' : ''}');
-          debugPrint("print from helper -->> ${response.statusCode}");
+          debugPrint(
+              "print from helper -- load now ---- >> ${response.statusCode}");
           if (response.statusCode == 200) {
             setData(response.body, isRefresh);
             setPaginationData(response.body);
