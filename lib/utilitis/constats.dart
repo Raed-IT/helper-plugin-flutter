@@ -1,11 +1,11 @@
 import 'package:flutter/widgets.dart';
 
-class HelperMadaFlutter {
-  HelperMadaFlutter._();
+class ConstantHelperMadaFlutter {
+  ConstantHelperMadaFlutter._();
 
   static String? appName;
 
   static String? token;
 
-  static final HelperMadaFlutter instance = HelperMadaFlutter._();
+  static final ConstantHelperMadaFlutter instance = ConstantHelperMadaFlutter._();
 }
