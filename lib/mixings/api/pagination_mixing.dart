@@ -115,11 +115,14 @@ mixin PaginationMixin {
       },
       isLoadMore: isLoadMore,
       loadModer: () {
-        return getData(
-          url: nextPageUrl!,
-          isRefresh: false,
-          setData: setData,
-        );
+        if (nextPageUrl != null) {
+          return getData(
+            url: nextPageUrl!,
+            isRefresh: false,
+            setData: setData,
+          );
+        }
+        return Future.value(false);
       },
       widgets: widgets,
       scrollController: scrollController,
