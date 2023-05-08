@@ -6,12 +6,14 @@ import 'package:get/get.dart';
 class RefreshLoadComponent extends StatefulWidget {
   ScrollController scrollController;
   List<Widget> widgets;
+  Widget appBar;
   Future<void> Function()? onRefresh;
   Future<bool> Function()? loadModer;
   RxBool? isLoadMore;
 
   RefreshLoadComponent({
     super.key,
+    required this.appBar,
     required this.widgets,
     this.onRefresh,
     this.isLoadMore,
@@ -42,6 +44,7 @@ class _RefreshLoadComponentState extends State<RefreshLoadComponent> {
             // physics: BouncingScrollPhysics(),
             controller: widget.scrollController,
             slivers: [
+              widget.appBar,
               ...widget.widgets,
               if (_isFinshLoadMore)
                 SliverToBoxAdapter(

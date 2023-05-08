@@ -6,6 +6,7 @@ import '../../providers/pagination_provider.dart';
 import '../../ui/lists/refresh_load_ui.dart';
 
 mixin PaginationMixin {
+  String? mainUrl;
   String? nextPageUrl;
   RxBool isLoadMore = RxBool(false);
   Rx<bool> isLoad = RxBool(false);
@@ -18,12 +19,19 @@ mixin PaginationMixin {
   //Todo:: [setData] this function return data from request
   void setData(Map<String, dynamic>? data, bool isRefresh);
 
+  set url(String url) {
+    mainUrl = url;
+  }
+
   Future<bool> getData({
     required void Function(Map<String, dynamic>? data, bool isRefresh) setData,
     required String url,
     required bool isRefresh,
     bool isPrintResponse = false,
   }) async {
+    if (mainUrl == null) {
+      throw Exception("pleas ");
+    }
     if (isRefresh) {
       //break loop get data from api page 1, 2 ,3, 4 , ... 1, 2, 3,
       nextPageUrl = null;
@@ -91,10 +99,12 @@ mixin PaginationMixin {
 
   Widget buildScreen({
     required List<Widget> widgets,
+    required Widget appBar,
     Future<void> Function()? onRefresh,
     Future<bool> Function()? loadModer,
   }) {
     return RefreshLoadComponent(
+      appBar: appBar,
       onRefresh: onRefresh,
       isLoadMore: isLoadMore,
       loadModer: loadModer,
