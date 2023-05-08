@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:helper_plugin/utilitis/helper_functions.dart';
@@ -101,10 +102,16 @@ mixin PaginationMixin {
   Widget buildScreen({
     required List<Widget> widgets,
     required Widget appBar,
+    Widget? floatingActionButton,
+    FloatingActionButtonLocation? floatingActionButtonLocation,
+    bool isClosable = false,
     Future<void> Function()? onRefresh,
     Future<bool> Function()? loadModer,
   }) {
     return RefreshLoadComponent(
+      floatingActionButton: floatingActionButton,
+      floatingActionButtonLocation: floatingActionButtonLocation,
+      isClosable: isClosable,
       appBar: appBar,
       onRefresh: () {
         return getData(

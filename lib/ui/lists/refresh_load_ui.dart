@@ -18,7 +18,7 @@ class RefreshLoadComponent extends StatefulWidget {
 
   RefreshLoadComponent({
     super.key,
-    this.isClosable = false,
+    required this.isClosable,
     this.floatingActionButton,
     this.floatingActionButtonLocation,
     required this.appBar,
