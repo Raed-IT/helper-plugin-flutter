@@ -18,11 +18,12 @@ mixin PaginationMixin {
   //Todo:: [setData] this function return data from request
   void setData(Map<String, dynamic>? data, bool isRefresh);
 
-  Future<bool> getData(
-      {required void Function(Map<String, dynamic>? data, bool isRefresh)
-          setData,
-      required String url,
-      required bool isRefresh}) async {
+  Future<bool> getData({
+    required void Function(Map<String, dynamic>? data, bool isRefresh) setData,
+    required String url,
+    required bool isRefresh,
+    bool isPrintResponse = false,
+  }) async {
     if (isRefresh) {
       //break loop get data from api page 1, 2 ,3, 4 , ... 1, 2, 3,
       nextPageUrl = null;
@@ -34,11 +35,12 @@ mixin PaginationMixin {
     if (nextPageUrl == null && !isLoad.value && isFirstPage) {
       isLoad.value = true;
       try {
-        printHelper("${ConstantHelperMadaFlutter.appName}");
         printHelper("$url${parameter != null ? '?$parameter' : ''}");
         Response response = await paginationProvider.getData(
             url: "$url${parameter != null ? '?$parameter' : ''}");
-        debugPrint(response.body);
+        if (isPrintResponse) {
+          debugPrint(response.body);
+        }
         if (response.statusCode == 200) {
           setData(response.body, isRefresh);
           setPaginationData(response.body);
