@@ -7,7 +7,8 @@ import '../../ui/lists/refresh_load_ui.dart';
 import '../../utilitis/general_model.dart';
 
 // Generics
-mixin PaginationMixin<T extends Model> {
+mixin PaginationMixin<T> {
+
   String? mainUrl;
   String? nextPageUrl;
   RxBool isLoadMore = RxBool(false);
@@ -26,7 +27,7 @@ mixin PaginationMixin<T extends Model> {
         data.clear();
       }
       for (var item in mapData['data']) {
-        printHelper("$item");
+
       }
     }
   }
