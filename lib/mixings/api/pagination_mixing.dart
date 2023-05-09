@@ -19,21 +19,17 @@ mixin PaginationMixin<T> {
   String? parameter;
   RxList<T> data = RxList([]);
 
-  Model getModelFromJsonUsing(Map<String, dynamic> json);
+  List<T> getModelFromJsonUsing(Map<String, dynamic> json);
 
   //Todo:: [setData] this function return data from request
   void setData(Map<String, dynamic>? mapData, bool isRefresh) {
     if (mapData != null) {
       if (isRefresh) {
         data.clear();
-      }
-      for (var item in mapData['data']['studenr']) {
-        try {
-          data.add(getModelFromJsonUsing(item) as T);
-        } catch (e) {
-          throw Exception(
-              "please extend model from helper $T from helper model ");
-        }
+        data.value = getModelFromJsonUsing(mapData);
+      } else {
+        //load data
+        data.addAll(getModelFromJsonUsing(mapData));
       }
     }
   }
@@ -43,7 +39,6 @@ mixin PaginationMixin<T> {
   }
 
   Future<bool> getData({
-    required void Function(Map<String, dynamic>? data, bool isRefresh) setData,
     required bool isRefresh,
     bool isPrintResponse = false,
   }) async {
@@ -74,7 +69,7 @@ mixin PaginationMixin<T> {
           isFirstPage = false;
         } else if (response.statusCode == null) {
           await Future.delayed(const Duration(seconds: 3), () async {
-            await getData(setData: setData, isRefresh: isRefresh);
+            await getData(isRefresh: isRefresh);
           });
         }
       } catch (e) {
@@ -95,7 +90,7 @@ mixin PaginationMixin<T> {
           } else {
             await Future.delayed(const Duration(seconds: 3), () async {
               isLoadMore.value = false;
-              await getData(setData: setData, isRefresh: false);
+              await getData(isRefresh: false);
             });
           }
         } catch (e) {
@@ -132,7 +127,6 @@ mixin PaginationMixin<T> {
       onRefresh: () {
         return getData(
           isRefresh: true,
-          setData: setData,
         );
       },
       isLoadMore: isLoadMore,
@@ -141,7 +135,6 @@ mixin PaginationMixin<T> {
         if (nextPageUrl != null) {
           return getData(
             isRefresh: false,
-            setData: setData,
           );
         }
         return Future.value(true);
