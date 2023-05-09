@@ -26,7 +26,6 @@ mixin PaginationMixin {
 
   Future<bool> getData({
     required void Function(Map<String, dynamic>? data, bool isRefresh) setData,
-    required String url,
     required bool isRefresh,
     bool isPrintResponse = false,
   }) async {
@@ -46,7 +45,7 @@ mixin PaginationMixin {
       isLoad.value = true;
       try {
         Response response = await paginationProvider.getData(
-            url: "$url${parameter != null ? '?$parameter' : ''}");
+            url: "$mainUrl${parameter != null ? '?$parameter' : ''}");
         if (isPrintResponse) {
           printHelper("${response.body}");
         }
@@ -57,7 +56,7 @@ mixin PaginationMixin {
           isFirstPage = false;
         } else if (response.statusCode == null) {
           await Future.delayed(const Duration(seconds: 3), () async {
-            await getData(setData: setData, url: url, isRefresh: isRefresh);
+            await getData(setData: setData, isRefresh: isRefresh);
           });
         }
       } catch (e) {
@@ -78,8 +77,7 @@ mixin PaginationMixin {
           } else {
             await Future.delayed(const Duration(seconds: 3), () async {
               isLoadMore.value = false;
-              await getData(
-                  setData: setData, url: nextPageUrl ?? url, isRefresh: false);
+              await getData(setData: setData, isRefresh: false);
             });
           }
         } catch (e) {
@@ -115,7 +113,6 @@ mixin PaginationMixin {
       appBar: appBar,
       onRefresh: () {
         return getData(
-          url: mainUrl!,
           isRefresh: true,
           setData: setData,
         );
@@ -125,7 +122,6 @@ mixin PaginationMixin {
         //if nextPageUrl equal null the page is last page return false for show no more data widget
         if (nextPageUrl != null) {
           return getData(
-            url: nextPageUrl!,
             isRefresh: false,
             setData: setData,
           );
