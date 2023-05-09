@@ -1,3 +1,3 @@
-abstract class Model {
-  Model fromJson(Map<String, dynamic> json);
+  class Model {
+  Model.fromJson(Map<String, dynamic> json);
 }

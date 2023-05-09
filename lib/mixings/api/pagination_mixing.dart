@@ -18,7 +18,6 @@ mixin PaginationMixin<T> {
   PaginationProvider paginationProvider = PaginationProvider();
   String? parameter;
   RxList<T> data = RxList([]);
-  Model? model;
 
   //Todo:: [setData] this function return data from request
   void setData(Map<String, dynamic>? mapData, bool isRefresh) {
@@ -27,7 +26,12 @@ mixin PaginationMixin<T> {
         data.clear();
       }
       for (var item in mapData['data']) {
-        data.add(model!.fromJson(item) as T);
+        try {
+          data.add(Model.fromJson(item) as T);
+        } catch (e) {
+          throw Exception(
+              "please extend model from helper $T from helper model ");
+        }
       }
     }
   }
