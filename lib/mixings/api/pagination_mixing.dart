@@ -19,15 +19,17 @@ mixin PaginationMixin<T> {
   String? parameter;
   RxList<T> data = RxList([]);
 
+  Model getModelFromJsonUsing(Map<String, dynamic> json);
+
   //Todo:: [setData] this function return data from request
   void setData(Map<String, dynamic>? mapData, bool isRefresh) {
     if (mapData != null) {
       if (isRefresh) {
         data.clear();
       }
-      for (var item in mapData['data']) {
+      for (var item in mapData['data']['studenr']) {
         try {
-          data.add(Model.fromJson(item) as T);
+          data.add(getModelFromJsonUsing(item) as T);
         } catch (e) {
           throw Exception(
               "please extend model from helper $T from helper model ");
@@ -48,9 +50,6 @@ mixin PaginationMixin<T> {
     if (mainUrl == null) {
       throw Exception(
           "[helper] : pleas assign url in onInit function in controller (^._.^)  ");
-    } else if (model == null) {
-      throw Exception(
-          "[helper] : pleas assign the model type  onInit function in controller (^._.^)  ");
     }
     if (isRefresh) {
       //break loop get data from api page 1, 2 ,3, 4 , ... 1, 2, 3,

@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:developer' as developer;
 
 printHelper(String message) {
-  debugPrint('[helper] : $message');
+  developer.log('[helper] : $message', name: "helper");
 }

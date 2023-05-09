@@ -1,3 +1,5 @@
-  class Model {
-  Model.fromJson(Map<String, dynamic> json);
+class Model {
+  Model();
+
+  Model.fromJson(Map<String, dynamic> json) ;
 }
