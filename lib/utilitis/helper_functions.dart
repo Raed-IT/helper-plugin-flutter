@@ -1,5 +1,9 @@
 import 'dart:developer' as developer;
 
+import 'package:helper_plugin/utilitis/constats.dart';
+
 printHelper(String message) {
-  developer.log('$message', name: "helper");
+  if (ConstantHelperMadaFlutter.allowPrint) {
+    developer.log('$message', name: "helper");
+  }
 }

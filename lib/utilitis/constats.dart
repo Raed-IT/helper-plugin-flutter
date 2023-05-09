@@ -4,7 +4,7 @@ class ConstantHelperMadaFlutter {
   ConstantHelperMadaFlutter._();
 
   static String? appName;
-
+  static bool allowPrint = false;
   static String? token;
   static Widget? drawerWidget;
 
