@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:helper_plugin/utilitis/general_model.dart';
 import 'package:helper_plugin/utilitis/helper_functions.dart';
 import '../../providers/pagination_provider.dart';
 import '../../ui/lists/refresh_load_ui.dart';
-import '../../utilitis/general_model.dart';
 
 // Generics
 mixin PaginationMixin<T> {
-
   String? mainUrl;
   String? nextPageUrl;
   RxBool isLoadMore = RxBool(false);
@@ -19,6 +18,7 @@ mixin PaginationMixin<T> {
   PaginationProvider paginationProvider = PaginationProvider();
   String? parameter;
   RxList<T> data = RxList([]);
+  Model? model;
 
   //Todo:: [setData] this function return data from request
   void setData(Map<String, dynamic>? mapData, bool isRefresh) {
@@ -27,7 +27,7 @@ mixin PaginationMixin<T> {
         data.clear();
       }
       for (var item in mapData['data']) {
-
+        data.add(model!.fromJson(item) as T);
       }
     }
   }
@@ -44,6 +44,9 @@ mixin PaginationMixin<T> {
     if (mainUrl == null) {
       throw Exception(
           "[helper] : pleas assign url in onInit function in controller (^._.^)  ");
+    } else if (model == null) {
+      throw Exception(
+          "[helper] : pleas assign the model type  onInit function in controller (^._.^)  ");
     }
     if (isRefresh) {
       //break loop get data from api page 1, 2 ,3, 4 , ... 1, 2, 3,
