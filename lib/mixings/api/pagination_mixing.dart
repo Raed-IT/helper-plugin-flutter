@@ -1,12 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:helper_plugin/utilitis/helper_functions.dart';
 import '../../providers/pagination_provider.dart';
 import '../../ui/lists/refresh_load_ui.dart';
+import '../../utilitis/general_model.dart';
 
-mixin PaginationMixin {
+// Generics
+mixin PaginationMixin<T extends Model> {
   String? mainUrl;
   String? nextPageUrl;
   RxBool isLoadMore = RxBool(false);
@@ -16,9 +17,19 @@ mixin PaginationMixin {
   ScrollController scrollController = ScrollController();
   PaginationProvider paginationProvider = PaginationProvider();
   String? parameter;
+  RxList<T> data = RxList([]);
 
   //Todo:: [setData] this function return data from request
-  void setData(Map<String, dynamic>? data, bool isRefresh);
+  void setData(Map<String, dynamic>? mapData, bool isRefresh) {
+    if (mapData != null) {
+      if (isRefresh) {
+        data.clear();
+      }
+      for (var item in mapData['data']) {
+        printHelper("$item");
+      }
+    }
+  }
 
   set url(String url) {
     mainUrl = url;
@@ -31,7 +42,7 @@ mixin PaginationMixin {
   }) async {
     if (mainUrl == null) {
       throw Exception(
-          "pleas assign url in oninit function in controller (^._.^)  ");
+          "[helper] : pleas assign url in onInit function in controller (^._.^)  ");
     }
     if (isRefresh) {
       //break loop get data from api page 1, 2 ,3, 4 , ... 1, 2, 3,
