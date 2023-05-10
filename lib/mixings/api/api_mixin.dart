@@ -13,7 +13,7 @@ mixin ApiHelperMixin {
   ApiProvider apiProvider = ApiProvider();
   String? parameter;
 
-  Future<void> getModelFromJsonUsing(Map<String, dynamic> json, String urlType);
+  void getModelFromJsonUsing(Map<String, dynamic> json, String urlType);
 
   Future<void> getData({isPrintResponse = false }) async {
     for (var url in urlsGetRequest) {
