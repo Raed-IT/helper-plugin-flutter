@@ -33,9 +33,7 @@ class PickImageScreen extends GetView<PickImageController> {
           Padding(
             padding: EdgeInsets.all(20.sp),
             child: controller.buildPickerImagesWidget(
-              imageCardUi: (img){
-               return Image.file(img);
-              }
+
             ),
           ),
           Padding(

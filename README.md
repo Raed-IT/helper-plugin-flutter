@@ -33,7 +33,7 @@ helper_plugin:
 
 ## Usage/Pagination
 
-`controlle : `
+`controller : `
 
 ```dart
 import 'package:helper_plugin/helper.dart';
@@ -107,20 +107,87 @@ class NotificationScreen extends GetView<NotificationController> {
 
 ## pagination mixin
 
-| val name             | desription                                                                |
-| ----------------- | ------------------------------------------------------------------ |
-| isLoade |  true when call api else false  |
-| data  |   List of  data available from same model screen ex: NotificationModel |
+| val name | description                                                          |
+|----------|----------------------------------------------------------------------|
+| isLoad   | true when call api else false                                        |
+| data     | List of  data available from same model screen ex: NotificationModel |
 
 ## image  picker mixin
 
-| val name | desription                                                                   |
-|----------|------------------------------------------------------------------------------|
-| image    | picked image file                                                            |
-| images   | List of Picked images files                                                  |
-| imageCount   | to set count images for picker in multi images usage in oninit in controller |
-| isEmptyImages  | get if images List is Empty                                                  |
-| isEmptyImage   | get if image is Empty                                                                   |
-| isEmptyImage   | get if image is Empty                                                                   |
- 
+| val name      | description                                                                  |
+|---------------|------------------------------------------------------------------------------|
+| image         | picked image file                                                            |
+| images        | List of Picked images files                                                  |
+| imageCount    | to set count images for picker in multi images usage in oninit in controller |
+| isEmptyImages | get if images List is Empty                                                  |
+| isEmptyImage  | get if image is Empty                                                        |
+| isEmptyImage  | get if image is Empty                                                        |
 
+| function name           | description                                                                                               |
+|-------------------------|-----------------------------------------------------------------------------------------------------------|
+| getImage                | return  single piked image as MultipartFile                                                               |
+| getImages               | return  List piked images as List of MultipartFile                                                        |
+| buildPickerImageWidget  | build selected image ui if  image file is empty and preview image if image file not empty                 |
+| buildPickerImagesWidget | build selected images ui if List  images files is empty and preview images if List images files not empty |
+
+## Usage/imagePickerMixin
+
+`Screen (UI) :`
+
+```dart
+
+class PickImageScreen extends GetView<PickImageController> {
+  const PickImageScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text("pick image example "),
+      ),
+
+      body: Column(
+          children: [
+            //single image picker 
+            controller.buildPickerImageWidget(),
+
+
+            //  multi images picker 
+            controller.buildPickerImagesWidget()
+          ]
+      ),
+    );
+  }
+}
+
+```
+
+`Controller `
+
+```dart
+import 'package:helper_plugin/helper.dart';
+
+class PickImageController extends GetxController with ImagePickerMixin {
+  @override
+  void onInit() {
+    imageCount = 5;
+    super.onInit();
+  }
+
+  Future<void> getImagesForApi() async {
+    // if use multi images picker use get imageS
+    await getImages();
+
+    //  if use single image picker use getImage ();
+    await getImage();
+
+   
+     FormData data = FormData.fromMap({
+      // data her .......
+    });
+    data.files.addAll(await getImages());
+  }
+}
+
+```
