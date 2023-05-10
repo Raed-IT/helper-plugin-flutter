@@ -1,11 +1,11 @@
-
-
 # Helper Plugin for flutter
 
 this plugin used wiht GETX pakage .. Developed by  [@Raed_IT](https://www.github.com/Raed-IT)
+
 ## Installation
 
 open `pubspec.yaml` file and past below code
+
 ```bash
 dependencies:
 .
@@ -18,58 +18,58 @@ helper_plugin:
 ```
 
 ## Features
+
 `Under development for more Features`
-
-
-
 
 \
 `images mixin `
-- selecet multi images or singile image and pressure  it eslay
+
+- selecet multi images or singile image and pressure it eslay
 - update any ui for privew selected image or main selected widget
 
 `api mixin `
+
 - eslay implement pagination or load more ui or `API` handling
 
-
 ## Usage/Pagination
+
 `controlle : `
+
 ```dart
 import 'package:helper_plugin/helper.dart';
 
 class NotificationController extends GetxController
     with PaginationMixin<NotificationModel> {
 
-    @override
-    void onInit() {
-        super.onInit();
-        //set the main url 
-        url = GlobalApiRouts.NOTIFICATION;
+  @override
+  void onInit() {
+    super.onInit();
+    //set the main url 
+    url = GlobalApiRouts.NOTIFICATION;
 
-        // call get data method from PaginationMixin
-        getData(
-        isRefresh: true,
-        );
+    // call get data method from PaginationMixin
+    getData(
+      isRefresh: true,
+    );
+  }
+
+  // return data in this funtion for specialty api data keys 
+  @override
+  List<NotificationModel> getModelFromJsonUsing(Map<String, dynamic> json) {
+    List<NotificationModel> notifications = [];
+    for (var item in json['data']['notifications']) {
+      notifications.add(NotificationModel.fromJson(item));
     }
+    return notifications;
+  }
 
-        // return data in this funtion for specialty api data keys 
-        @override
-        List<NotificationModel> getModelFromJsonUsing(Map<String, dynamic> json) {
-            List<NotificationModel> notifications = [];
-            for (var item in json['data']['notifications']) {
-            notifications.add(NotificationModel.fromJson(item));
-            }
-             return notifications;
-        }
-
-    }
+}
 ```
 
 `Screen (UI) :`
 
 ```dart
 import 'package:helper_plugin/helper.dart';
-
 
 
 class NotificationScreen extends GetView<NotificationController> {
@@ -84,18 +84,19 @@ class NotificationScreen extends GetView<NotificationController> {
       appBar: SliverAppBar(),
       widgets: [
         Obx(
-          () => (controller.isLoad.value)
+              () =>
+          (controller.isLoad.value)
               ? ListProgressNotification()
               : (controller.data.isNotEmpty)
-                  ? AnimationSliverList(
-                      length: controller.data.length,
-                      builder: (context, index, animation) {
-                        return buildCard(notification: controller.data[index]);
-                      },
-                    )
-                  : NoDataSliverComponent(
-                      onTap: () => controller.getData(isRefresh: true),
-                    ),
+              ? AnimationSliverList(
+            length: controller.data.length,
+            builder: (context, index, animation) {
+              return buildCard(notification: controller.data[index]);
+            },
+          )
+              : NoDataSliverComponent(
+            onTap: () => controller.getData(isRefresh: true),
+          ),
         ),
       ],
     );
@@ -103,11 +104,23 @@ class NotificationScreen extends GetView<NotificationController> {
 }
 
 ```
+
 ## pagination mixin
 
 | val name             | desription                                                                |
 | ----------------- | ------------------------------------------------------------------ |
 | isLoade |  true when call api else false  |
-| data  |   List of  data avilabel from same model screen ex: NotificationModel |
+| data  |   List of  data available from same model screen ex: NotificationModel |
+
+## image  picker mixin
+
+| val name | desription                                                                   |
+|----------|------------------------------------------------------------------------------|
+| image    | picked image file                                                            |
+| images   | List of Picked images files                                                  |
+| imageCount   | to set count images for picker in multi images usage in oninit in controller |
+| isEmptyImages  | get if images List is Empty                                                  |
+| isEmptyImage   | get if image is Empty                                                                   |
+| isEmptyImage   | get if image is Empty                                                                   |
  
 
