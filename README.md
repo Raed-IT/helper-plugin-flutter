@@ -136,6 +136,8 @@ class NotificationScreen extends GetView<NotificationController> {
 
 ```dart
 
+import 'package:helper_plugin/helper.dart';
+
 class PickImageScreen extends GetView<PickImageController> {
   const PickImageScreen({super.key});
 
