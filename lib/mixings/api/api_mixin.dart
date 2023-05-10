@@ -28,7 +28,7 @@ mixin ApiHelperMixin {
           getModelFromJsonUsing(response.body, "${url.type}");
           isLoad.value = false;
         } else if (response.statusCode == null) {
-          await Future.delayed(const Duration(seconds: 3), () async {
+          Future.delayed(const Duration(seconds: 3), () async {
             _reGetData(
                 url: "${url.url}",
                 isRefresh: isRefresh,
@@ -42,12 +42,11 @@ mixin ApiHelperMixin {
     }
   }
 
-  Future<void> _reGetData(
-      {required String url,
-      required String type,
-      required bool isRefresh,
-      required bool isPrintResponse,
-      int countTying = 0}) async {
+  Future<void> _reGetData({required String url,
+    required String type,
+    required bool isRefresh,
+    required bool isPrintResponse,
+    int? countTying }) async {
     try {
       Response response = await apiProvider.getData(
           url: "$url${parameter != null ? '?$parameter' : ''}");
@@ -59,13 +58,16 @@ mixin ApiHelperMixin {
         isLoad.value = false;
       } else if (response.statusCode == null) {
         await Future.delayed(const Duration(seconds: 3), () async {
-          printHelper("count trying = $countTying");
-          _reGetData(
-              url: url,
-              isRefresh: isRefresh,
-              type: type,
-              isPrintResponse: isPrintResponse,
-              countTying: countTying++);
+          if (countTying != null && countTying == 4) {
+            Fluttertoast.showToast(msg: "الرجاء التاكد من الاتصال بالانترنت  ");
+          } else {
+            _reGetData(
+                url: url,
+                isRefresh: isRefresh,
+                type: type,
+                isPrintResponse: isPrintResponse,
+                countTying: countTying == null ? 1 : (countTying + 1));
+          }
         });
       }
     } catch (e) {
@@ -73,11 +75,10 @@ mixin ApiHelperMixin {
     }
   }
 
-  Future<dio.Response?> uploadFilesWithData(
-      {required String url,
-      required dio.FormData data,
-      String? token,
-      required Function(int count) onSendProgress}) async {
+  Future<dio.Response?> uploadFilesWithData({required String url,
+    required dio.FormData data,
+    String? token,
+    required Function(int count) onSendProgress}) async {
     if (!isUpload) {
       isUpload = true;
       dio.Dio dioR = dio.Dio();
@@ -90,8 +91,9 @@ mixin ApiHelperMixin {
                 validateStatus: (status) {
                   return status! < 500;
                 }), onSendProgress: (rec, total) {
-          onSendProgress(int.parse(((rec / total) * 100).toStringAsFixed(0)));
-        });
+              onSendProgress(
+                  int.parse(((rec / total) * 100).toStringAsFixed(0)));
+            });
         isUpload = false;
         return response;
       } on dio.DioError catch (e) {
