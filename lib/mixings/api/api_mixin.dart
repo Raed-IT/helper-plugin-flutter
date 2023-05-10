@@ -46,7 +46,8 @@ mixin ApiHelperMixin {
       {required String url,
       required String type,
       required bool isRefresh,
-      required bool isPrintResponse}) async {
+      required bool isPrintResponse,
+      int countTying = 0}) async {
     try {
       Response response = await apiProvider.getData(
           url: "$url${parameter != null ? '?$parameter' : ''}");
@@ -58,11 +59,13 @@ mixin ApiHelperMixin {
         isLoad.value = false;
       } else if (response.statusCode == null) {
         await Future.delayed(const Duration(seconds: 3), () async {
+          printHelper("count trying = $countTying");
           _reGetData(
               url: url,
               isRefresh: isRefresh,
               type: type,
-              isPrintResponse: isPrintResponse);
+              isPrintResponse: isPrintResponse,
+              countTying: countTying++);
         });
       }
     } catch (e) {
