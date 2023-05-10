@@ -72,13 +72,15 @@ class _RefreshLoadComponentState extends State<RefreshLoadComponent> {
         child: ScrollConfiguration(
           behavior: ScrollAppBehavior(),
           child: RefreshIndicator(
+            triggerMode: RefreshIndicatorTriggerMode.anywhere,
             edgeOffset: widget.onRefresh == null ? -1000 : 20.h,
             onRefresh: widget.onRefresh ??
                 () {
                   return Future.value(false);
                 },
+
             child: CustomScrollView(
-              // physics: BouncingScrollPhysics(),
+              physics: BouncingScrollPhysics(),
               controller: widget.scrollController,
               slivers: [
                 widget.appBar,
