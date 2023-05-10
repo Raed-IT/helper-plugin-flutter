@@ -2,7 +2,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:helper_plugin/utilitis/constats.dart';
-import 'package:helper_plugin/utilitis/constats.dart';
 
 mixin CheckResponseMixin {
   Response checkResponse({required Response response}) {

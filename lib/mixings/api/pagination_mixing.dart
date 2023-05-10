@@ -3,8 +3,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:helper_plugin/utilitis/general_model.dart';
 import 'package:helper_plugin/utilitis/helper_functions.dart';
-import '../../providers/pagination_provider.dart';
-import '../../ui/lists/refresh_load_ui.dart';
+import '../../providers/api_provider.dart';
+ import '../../ui/lists/refresh_load_ui.dart';
 
 // Generics
 mixin PaginationMixin<T> {
@@ -15,7 +15,7 @@ mixin PaginationMixin<T> {
   RxInt total = RxInt(0);
   bool isFirstPage = false;
   ScrollController scrollController = ScrollController();
-  PaginationProvider paginationProvider = PaginationProvider();
+  ApiProvider paginationProvider = ApiProvider();
   String? parameter;
   RxList<T> data = RxList([]);
 
