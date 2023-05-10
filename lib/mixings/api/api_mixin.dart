@@ -13,9 +13,11 @@ mixin ApiHelperMixin {
   ApiProvider apiProvider = ApiProvider();
   String? parameter;
 
-  void getModelFromJsonUsing(Map<String, dynamic> json, String urlType);
+  void getModelFromJsonUsing(
+      Map<String, dynamic> json, String urlType, bool isRefresh);
 
-  Future<void> getData({isPrintResponse = false }) async {
+  Future<void> getData(
+      {isPrintResponse = false, bool isRefresh = false}) async {
     for (var url in urlsGetRequest) {
       try {
         Response response = await apiProvider.getData(
@@ -24,7 +26,7 @@ mixin ApiHelperMixin {
           printHelper("${response.body}");
         }
         if (response.statusCode == 200) {
-          getModelFromJsonUsing(response.body ,"${url.type}");
+          getModelFromJsonUsing(response.body, "${url.type}", isRefresh);
           isLoad.value = false;
         } else if (response.statusCode == null) {
           await Future.delayed(const Duration(seconds: 3), () async {
