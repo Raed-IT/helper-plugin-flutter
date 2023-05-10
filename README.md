@@ -175,7 +175,7 @@ class PickImageController extends GetxController with ImagePickerMixin {
     super.onInit();
   }
 
-  Future<void> getImagesForApi() async {
+  Future<void> sendRequest() async {
     // if use multi images picker use get imageS
     await getImages();
 
