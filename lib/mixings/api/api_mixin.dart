@@ -13,8 +13,7 @@ mixin ApiHelperMixin {
   ApiProvider apiProvider = ApiProvider();
   String? parameter;
 
-  void getModelFromJsonUsing(
-      Map<String, dynamic> json, String urlType, bool isRefresh);
+  void getModelFromJsonUsing(Map<String, dynamic> json, String urlType);
 
   Future<void> getData(
       {isPrintResponse = false, bool isRefresh = false}) async {
@@ -26,16 +25,48 @@ mixin ApiHelperMixin {
           printHelper("${response.body}");
         }
         if (response.statusCode == 200) {
-          getModelFromJsonUsing(response.body, "${url.type}", isRefresh);
+          getModelFromJsonUsing(response.body, "${url.type}");
           isLoad.value = false;
         } else if (response.statusCode == null) {
           await Future.delayed(const Duration(seconds: 3), () async {
-            await getData();
+            _reGetData(
+                url: "${url.url}",
+                isRefresh: isRefresh,
+                type: url.type!,
+                isPrintResponse: isPrintResponse);
           });
         }
       } catch (e) {
         Fluttertoast.showToast(msg: "$e");
       }
+    }
+  }
+
+  Future<void> _reGetData(
+      {required String url,
+      required String type,
+      required bool isRefresh,
+      required bool isPrintResponse}) async {
+    try {
+      Response response = await apiProvider.getData(
+          url: "$url${parameter != null ? '?$parameter' : ''}");
+      if (isPrintResponse) {
+        printHelper(" retry get url ==> ${response.body}");
+      }
+      if (response.statusCode == 200) {
+        getModelFromJsonUsing(response.body, type);
+        isLoad.value = false;
+      } else if (response.statusCode == null) {
+        await Future.delayed(const Duration(seconds: 3), () async {
+          _reGetData(
+              url: url,
+              isRefresh: isRefresh,
+              type: type,
+              isPrintResponse: isPrintResponse);
+        });
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: "$e");
     }
   }
 
