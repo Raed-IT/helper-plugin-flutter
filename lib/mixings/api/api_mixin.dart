@@ -17,6 +17,7 @@ mixin ApiHelperMixin {
 
   Future<void> getData(
       {isPrintResponse = false, bool isRefresh = false}) async {
+    isLoad.value = true;
     for (var url in urlsGetRequest) {
       try {
         Response response = await apiProvider.getData(
@@ -60,6 +61,7 @@ mixin ApiHelperMixin {
         await Future.delayed(const Duration(seconds: 3), () async {
           if (countTying != null && countTying == 4) {
             Fluttertoast.showToast(msg: "الرجاء التاكد من الاتصال بالانترنت  ");
+            isLoad.value = false;
           } else {
             _reGetData(
                 url: url,
