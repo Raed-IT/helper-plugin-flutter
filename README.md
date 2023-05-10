@@ -1,15 +1,32 @@
-# helper_plugin
 
-A new Flutter project.
+# Helper Plugin for flutter
 
-## Getting Started
+this plugin used wiht GETX pakage .. Developed by  [@Raed_IT](https://www.github.com/Raed-IT)
+## Installation
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+open `pubspec.yaml` file and past below code
+```bash
+dependencies:
+.
+.
+.
 
-For help getting started with Flutter development, view the
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+helper_plugin:
+    git:
+      url: https://github.com/Raed-IT/helper-plugin-flutter.git
+```
+
+## Features
+`Under development for more Features`
+
+
+
+
+\
+`images mixin `
+- selecet multi images or singile image and pressure  it eslay
+- update any ui for privew selected image or main selected widget
+
+`api mixin `
+- eslay implement pagination or load more ui or `API` handling
 
