@@ -18,6 +18,7 @@ mixin PaginationMixin<T> {
   ApiProvider paginationProvider = ApiProvider();
   String? parameter;
   RxList<T> data = RxList([]);
+  bool _isConnectionError = false;
 
   List<T> getModelFromJsonUsing(Map<String, dynamic> json);
 
@@ -92,11 +93,13 @@ mixin PaginationMixin<T> {
           Response response = await paginationProvider.getData(
               url: '${nextPageUrl!}${parameter != null ? '&$parameter' : ''}');
           if (response.statusCode == 200) {
+            _isConnectionError = false;
             setData(response.body, isRefresh);
             setPaginationData(response.body);
             isLoadMore.value = false;
           } else {
             await Future.delayed(const Duration(seconds: 3), () async {
+              _isConnectionError = true;
               isLoadMore.value = false;
               if (countTying != null && countTying == 4) {
                 isLoadMore.value = true;
@@ -116,7 +119,7 @@ mixin PaginationMixin<T> {
       }
     }
     // return true is Last page data else we have more data
-    return nextPageUrl == null;
+    return nextPageUrl == null && !_isConnectionError;
   }
 
   void setPaginationData(Map<String, dynamic> data) {
@@ -154,6 +157,7 @@ mixin PaginationMixin<T> {
             isRefresh: false,
           );
         }
+
         return Future.value(true);
       },
       widgets: widgets,
