@@ -153,14 +153,19 @@ mixin PaginationMixin<T> {
         //if nextPageUrl equal null the page is last page return false for show no more data widget
         printHelper("loadMore => nexUrl => $nextPageUrl");
         if (nextPageUrl != null) {
-          if (isTap){
-            isConnectionError.value=false;
+          if (isTap) {
+            isLoadMore.value = false;
+            isConnectionError.value = false;
+            return getData(
+              countTying: null,
+              isRefresh: false,
+            );
+          } else {
+            return getData(
+              isRefresh: false,
+            );
           }
-          return getData(
-            isRefresh: false,
-          );
         }
-
         return Future.value(true);
       },
       widgets: widgets,
