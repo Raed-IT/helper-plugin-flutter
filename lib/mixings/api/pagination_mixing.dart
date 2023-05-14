@@ -98,9 +98,10 @@ mixin PaginationMixin<T> {
             isLoadMore.value = false;
           } else {
             await Future.delayed(const Duration(seconds: 3), () async {
-              isConnectionError.value = true;
+
               isLoadMore.value = false;
               if (countTying != null && countTying == 4) {
+                isConnectionError.value = true;
                 isLoadMore.value = true;
                 Fluttertoast.showToast(
                     msg: "الرجاء التاكد من الاتصال بالانترنت  ");
