@@ -98,7 +98,16 @@ mixin PaginationMixin<T> {
           } else {
             await Future.delayed(const Duration(seconds: 3), () async {
               isLoadMore.value = false;
-              await getData(isRefresh: false);
+              if (countTying != null && countTying == 4) {
+                isLoadMore.value = true;
+                Fluttertoast.showToast(
+                    msg: "الرجاء التاكد من الاتصال بالانترنت  ");
+              } else {
+                getData(
+                    isRefresh: false,
+                    isPrintResponse: isPrintResponse,
+                    countTying: countTying == null ? 1 : (countTying + 1));
+              }
             });
           }
         } catch (e) {
