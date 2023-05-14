@@ -117,7 +117,7 @@ mixin PaginationMixin<T> {
       }
     }
     // return true is Last page data else we have more data
-    printHelper("countTying=> $countTying");
+    // printHelper("countTrying=> $countTying");
     return nextPageUrl == null;
   }
 
@@ -151,7 +151,6 @@ mixin PaginationMixin<T> {
       isLoadMore: isLoadMore,
       loadModer: (isTap) {
         //if nextPageUrl equal null the page is last page return false for show no more data widget
-        printHelper("loadMore => nexUrl => $nextPageUrl");
         if (nextPageUrl != null) {
           if (isTap) {
             isLoadMore.value = false;
