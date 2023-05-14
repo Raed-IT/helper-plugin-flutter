@@ -21,7 +21,8 @@ mixin PaginationMixin<T> {
 
   List<T> getModelFromJsonUsing(Map<String, dynamic> json);
 
-  //Todo:: [setData] this function return data from request
+  String? getPaginationUsing(Map<String, dynamic> data) => null;
+
   void setData(Map<String, dynamic>? mapData, bool isRefresh) {
     if (mapData != null) {
       if (isRefresh) {
@@ -38,9 +39,10 @@ mixin PaginationMixin<T> {
     mainUrl = url;
   }
 
-  Future<bool> getData({required bool isRefresh,
-    bool isPrintResponse = false,
-    int? countTying}) async {
+  Future<bool> getData(
+      {required bool isRefresh,
+      bool isPrintResponse = false,
+      int? countTying}) async {
     if (mainUrl == null) {
       throw Exception(
           "[helper] : pleas assign url in onInit function in controller (^._.^)  ");
@@ -98,7 +100,7 @@ mixin PaginationMixin<T> {
           } else {
             await Future.delayed(const Duration(seconds: 3), () async {
               isLoadMore.value = false;
-              if (countTying != null && countTying == 4) {
+              if (countTying != null && countTying == 2) {
                 isConnectionError.value = true;
                 isLoadMore.value = true;
                 Fluttertoast.showToast(
@@ -122,6 +124,8 @@ mixin PaginationMixin<T> {
   }
 
   void setPaginationData(Map<String, dynamic> data) {
+    String?frontUrl=getPaginationUsing(data);
+    // if (){}
     data = data['data'];
     if (data.containsKey("pagination")) {
       nextPageUrl = data["pagination"]['next_page_url'];

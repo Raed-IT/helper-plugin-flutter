@@ -59,7 +59,7 @@ mixin ApiHelperMixin {
         isLoad.value = false;
       } else if (response.statusCode == null) {
         await Future.delayed(const Duration(seconds: 3), () async {
-          if (countTying != null && countTying == 4) {
+          if (countTying != null && countTying == 2) {
             Fluttertoast.showToast(msg: "الرجاء التاكد من الاتصال بالانترنت  ");
             isLoad.value = false;
           } else {
