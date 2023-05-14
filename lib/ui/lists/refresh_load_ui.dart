@@ -1,9 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:helper_plugin/utilitis/helper_functions.dart';
 
 import '../../utilitis/constats.dart';
 
@@ -14,7 +14,7 @@ class RefreshLoadComponent extends StatefulWidget {
   Widget appBar;
   Widget? floatingActionButton;
   Future<void> Function()? onRefresh;
-  Future<bool> Function()? loadModer;
+  Future<bool> Function(bool isTap)? loadModer;
   RxBool? isLoadMore;
   RxBool isConnectionError = RxBool(false);
   bool isClosable;
@@ -82,7 +82,7 @@ class _RefreshLoadComponentState extends State<RefreshLoadComponent> {
                   return Future.value(false);
                 },
             child: CustomScrollView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               controller: widget.scrollController,
               slivers: [
                 widget.appBar,
@@ -117,7 +117,9 @@ class _RefreshLoadComponentState extends State<RefreshLoadComponent> {
                           return SliverToBoxAdapter(
                             child: (widget.isConnectionError.value)
                                 ? GestureDetector(
-                                    onTap: () => widget.loadModer,
+                                    onTap: () {
+                                      widget.loadModer!(true);
+                                    },
                                     child: Container(
                                       margin: EdgeInsets.only(
                                           bottom: 40.h, top: 10.h),
@@ -127,16 +129,18 @@ class _RefreshLoadComponentState extends State<RefreshLoadComponent> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          Text('خطاء في الاتصال  ',
-                                              style: TextStyle(
-                                                  color: Colors.black45)),
+                                          const Text(
+                                            'خطاء في الاتصال  ',
+                                            style: TextStyle(
+                                                color: Colors.black45),
+                                          ),
                                           SizedBox(
                                             width: 10.w,
                                           ),
                                           SizedBox(
                                             height: 20.h,
                                             width: 20.h,
-                                            child: Icon(Icons.refresh),
+                                            child: const Icon(Icons.refresh),
                                           )
                                         ],
                                       ),
@@ -191,7 +195,7 @@ class _RefreshLoadComponentState extends State<RefreshLoadComponent> {
   void handelScrollController() async {
     if (widget.scrollController.position.extentAfter < 300.h) {
       if (widget.loadModer != null) {
-        bool state = await widget.loadModer!();
+        bool state = await widget.loadModer!(false);
         if (mounted) {
           setState(() {
             _isFinshLoadMore = state;

@@ -38,10 +38,9 @@ mixin PaginationMixin<T> {
     mainUrl = url;
   }
 
-  Future<bool> getData(
-      {required bool isRefresh,
-      bool isPrintResponse = false,
-      int? countTying}) async {
+  Future<bool> getData({required bool isRefresh,
+    bool isPrintResponse = false,
+    int? countTying}) async {
     if (mainUrl == null) {
       throw Exception(
           "[helper] : pleas assign url in onInit function in controller (^._.^)  ");
@@ -98,7 +97,6 @@ mixin PaginationMixin<T> {
             isLoadMore.value = false;
           } else {
             await Future.delayed(const Duration(seconds: 3), () async {
-
               isLoadMore.value = false;
               if (countTying != null && countTying == 4) {
                 isConnectionError.value = true;
@@ -119,7 +117,7 @@ mixin PaginationMixin<T> {
       }
     }
     // return true is Last page data else we have more data
-    printHelper("$countTying");
+    printHelper("countTying=> $countTying");
     return nextPageUrl == null;
   }
 
@@ -151,9 +149,13 @@ mixin PaginationMixin<T> {
         );
       },
       isLoadMore: isLoadMore,
-      loadModer: () {
+      loadModer: (isTap) {
         //if nextPageUrl equal null the page is last page return false for show no more data widget
+        printHelper("loadMore => nexUrl => $nextPageUrl");
         if (nextPageUrl != null) {
+          if (isTap){
+            isConnectionError.value=false;
+          }
           return getData(
             isRefresh: false,
           );
