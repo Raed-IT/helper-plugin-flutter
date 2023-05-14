@@ -21,7 +21,12 @@ mixin PaginationMixin<T> {
 
   List<T> getModelFromJsonUsing(Map<String, dynamic> json);
 
-  String? getPaginationUsing(Map<String, dynamic> data) => null;
+  Map<String, dynamic> getNextUrlForPaginationUsing(
+          Map<String, dynamic> data) =>
+      {
+        "usage": false,
+        "url": "",
+      };
 
   void setData(Map<String, dynamic>? mapData, bool isRefresh) {
     if (mapData != null) {
@@ -124,12 +129,16 @@ mixin PaginationMixin<T> {
   }
 
   void setPaginationData(Map<String, dynamic> data) {
-    String?frontUrl=getPaginationUsing(data);
-    // if (){}
-    data = data['data'];
-    if (data.containsKey("pagination")) {
-      nextPageUrl = data["pagination"]['next_page_url'];
-      total.value = data["pagination"]['total'];
+    Map<String, dynamic> urlDAta = getNextUrlForPaginationUsing(data);
+    if (urlDAta['usage'] == true) {
+      printHelper(urlDAta['url']);
+      nextPageUrl = urlDAta['url'];
+    } else {
+      data = data['data'];
+      if (data.containsKey("pagination")) {
+        nextPageUrl = data["pagination"]['next_page_url'];
+        total.value = data["pagination"]['total'];
+      }
     }
   }
 
