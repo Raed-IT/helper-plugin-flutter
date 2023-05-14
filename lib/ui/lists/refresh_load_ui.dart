@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,6 +17,7 @@ class RefreshLoadComponent extends StatefulWidget {
   Future<void> Function()? onRefresh;
   Future<bool> Function()? loadModer;
   RxBool? isLoadMore;
+  RxBool isConnectionError = RxBool(false);
   bool isClosable;
   FloatingActionButtonLocation? floatingActionButtonLocation;
 
@@ -26,6 +29,7 @@ class RefreshLoadComponent extends StatefulWidget {
     required this.appBar,
     required this.widgets,
     this.onRefresh,
+    required this.isConnectionError,
     this.isLoadMore,
     this.loadModer,
     required this.scrollController,
@@ -78,7 +82,6 @@ class _RefreshLoadComponentState extends State<RefreshLoadComponent> {
                 () {
                   return Future.value(false);
                 },
-
             child: CustomScrollView(
               physics: BouncingScrollPhysics(),
               controller: widget.scrollController,
@@ -113,28 +116,59 @@ class _RefreshLoadComponentState extends State<RefreshLoadComponent> {
                       () {
                         if (widget.isLoadMore!.value) {
                           return SliverToBoxAdapter(
-                            child: Container(
-                              margin: EdgeInsets.only(bottom: 40.h, top: 10.h),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text('يتم تحميل البيانات ',
-                                      style: TextStyle(color: Colors.black45)),
-                                  SizedBox(
-                                    width: 10.w,
-                                  ),
-                                  SizedBox(
-                                    height: 20.h,
-                                    width: 20.h,
-                                    child: CircularProgressIndicator(
-                                      color: Colors.black45,
-                                      strokeWidth: 1.sp,
+                            child: (widget.isConnectionError.value)
+                                ? GestureDetector(
+                                    onTap: () => widget.loadModer,
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          bottom: 40.h, top: 10.h),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text('خطاء في الاتصال  ',
+                                              style: TextStyle(
+                                                  color: Colors.black45)),
+                                          SizedBox(
+                                            width: 10.w,
+                                          ),
+                                          SizedBox(
+                                            height: 20.h,
+                                            width: 20.h,
+                                            child: Icon(Icons.refresh),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   )
-                                ],
-                              ),
-                            ),
+                                : Container(
+                                    margin: EdgeInsets.only(
+                                        bottom: 40.h, top: 10.h),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text('يتم تحميل البيانات ',
+                                            style: TextStyle(
+                                                color: Colors.black45)),
+                                        SizedBox(
+                                          width: 10.w,
+                                        ),
+                                        SizedBox(
+                                          height: 20.h,
+                                          width: 20.h,
+                                          child: CircularProgressIndicator(
+                                            color: Colors.black45,
+                                            strokeWidth: 1.sp,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
                           );
                         } else {
                           return SliverToBoxAdapter();

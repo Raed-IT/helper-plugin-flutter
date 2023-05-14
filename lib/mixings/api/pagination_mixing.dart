@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:helper_plugin/utilitis/general_model.dart';
 import 'package:helper_plugin/utilitis/helper_functions.dart';
 import '../../providers/api_provider.dart';
 import '../../ui/lists/refresh_load_ui.dart';
@@ -10,6 +9,7 @@ import '../../ui/lists/refresh_load_ui.dart';
 mixin PaginationMixin<T> {
   String? mainUrl;
   String? nextPageUrl;
+  RxBool isConnectionError = RxBool(false);
   RxBool isLoadMore = RxBool(false);
   Rx<bool> isLoad = RxBool(false);
   RxInt total = RxInt(0);
@@ -18,7 +18,6 @@ mixin PaginationMixin<T> {
   ApiProvider paginationProvider = ApiProvider();
   String? parameter;
   RxList<T> data = RxList([]);
-  bool _isConnectionError = false;
 
   List<T> getModelFromJsonUsing(Map<String, dynamic> json);
 
@@ -93,13 +92,13 @@ mixin PaginationMixin<T> {
           Response response = await paginationProvider.getData(
               url: '${nextPageUrl!}${parameter != null ? '&$parameter' : ''}');
           if (response.statusCode == 200) {
-            _isConnectionError = false;
+            isConnectionError.value = false;
             setData(response.body, isRefresh);
             setPaginationData(response.body);
             isLoadMore.value = false;
           } else {
             await Future.delayed(const Duration(seconds: 3), () async {
-              _isConnectionError = true;
+              isConnectionError.value = true;
               isLoadMore.value = false;
               if (countTying != null && countTying == 4) {
                 isLoadMore.value = true;
@@ -119,7 +118,8 @@ mixin PaginationMixin<T> {
       }
     }
     // return true is Last page data else we have more data
-    return nextPageUrl == null && !_isConnectionError;
+    printHelper("$countTying");
+    return nextPageUrl == null;
   }
 
   void setPaginationData(Map<String, dynamic> data) {
@@ -162,6 +162,7 @@ mixin PaginationMixin<T> {
       },
       widgets: widgets,
       scrollController: scrollController,
+      isConnectionError: isConnectionError,
     );
   }
 }
