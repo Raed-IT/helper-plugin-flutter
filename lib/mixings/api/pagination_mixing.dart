@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:helper_plugin/utilitis/general_model.dart';
 import 'package:helper_plugin/utilitis/helper_functions.dart';
 import '../../providers/api_provider.dart';
- import '../../ui/lists/refresh_load_ui.dart';
+import '../../ui/lists/refresh_load_ui.dart';
 
 // Generics
 mixin PaginationMixin<T> {
@@ -38,10 +38,10 @@ mixin PaginationMixin<T> {
     mainUrl = url;
   }
 
-  Future<bool> getData({
-    required bool isRefresh,
-    bool isPrintResponse = false,
-  }) async {
+  Future<bool> getData(
+      {required bool isRefresh,
+      bool isPrintResponse = false,
+      int? countTying}) async {
     if (mainUrl == null) {
       throw Exception(
           "[helper] : pleas assign url in onInit function in controller (^._.^)  ");
@@ -69,7 +69,16 @@ mixin PaginationMixin<T> {
           isFirstPage = false;
         } else if (response.statusCode == null) {
           await Future.delayed(const Duration(seconds: 3), () async {
-            await getData(isRefresh: isRefresh);
+            if (countTying != null && countTying == 4) {
+              Fluttertoast.showToast(
+                  msg: "الرجاء التاكد من الاتصال بالانترنت  ");
+              isLoad.value = false;
+            } else {
+              getData(
+                  isRefresh: isRefresh,
+                  isPrintResponse: isPrintResponse,
+                  countTying: countTying == null ? 1 : (countTying + 1));
+            }
           });
         }
       } catch (e) {
@@ -82,7 +91,6 @@ mixin PaginationMixin<T> {
         try {
           Response response = await paginationProvider.getData(
               url: '${nextPageUrl!}${parameter != null ? '&$parameter' : ''}');
-          printHelper("${response.statusCode}");
           if (response.statusCode == 200) {
             setData(response.body, isRefresh);
             setPaginationData(response.body);
