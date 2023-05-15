@@ -28,6 +28,13 @@ mixin PaginationMixin<T> {
         "url": "",
       };
 
+/*
+  @override
+  Map<String, dynamic> getNextUrlForPaginationUsing(Map<String, dynamic> data) {
+    return {"usage": true,"url":data['data']['pagination']['next_page_url']};
+  }
+
+*/
   void setData(Map<String, dynamic>? mapData, bool isRefresh) {
     if (mapData != null) {
       if (isRefresh) {
@@ -49,8 +56,10 @@ mixin PaginationMixin<T> {
       bool isPrintResponse = false,
       int? countTying}) async {
     if (mainUrl == null) {
-      throw Exception(
-          "[helper] : pleas assign url in onInit function in controller (^._.^)  ");
+      String message =
+          "[helper] : pleas assign url in onInit function in controller (^._.^)  ";
+      printHelper(message);
+      throw Exception(message);
     }
     if (isRefresh) {
       //break loop get data from api page 1, 2 ,3, 4 , ... 1, 2, 3,
@@ -86,6 +95,8 @@ mixin PaginationMixin<T> {
                   countTying: countTying == null ? 1 : (countTying + 1));
             }
           });
+        } else {
+          isLoad.value = false;
         }
       } catch (e) {
         Fluttertoast.showToast(msg: "$e");

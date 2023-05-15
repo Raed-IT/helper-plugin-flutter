@@ -2,6 +2,7 @@ import 'package:dio/dio.dart' as dio;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:helper_plugin/providers/api_provider.dart';
+import 'package:helper_plugin/utilitis/constats.dart';
 import 'package:helper_plugin/utilitis/url_model.dart';
 
 import '../../utilitis/helper_functions.dart';
@@ -43,11 +44,12 @@ mixin ApiHelperMixin {
     }
   }
 
-  Future<void> _reGetData({required String url,
-    required String type,
-    required bool isRefresh,
-    required bool isPrintResponse,
-    int? countTying }) async {
+  Future<void> _reGetData(
+      {required String url,
+      required String type,
+      required bool isRefresh,
+      required bool isPrintResponse,
+      int? countTying}) async {
     try {
       Response response = await apiProvider.getData(
           url: "$url${parameter != null ? '?$parameter' : ''}");
@@ -77,14 +79,16 @@ mixin ApiHelperMixin {
     }
   }
 
-  Future<dio.Response?> uploadFilesWithData({required String url,
-    required dio.FormData data,
-    String? token,
-    required Function(int count) onSendProgress}) async {
+  Future<dio.Response?> postDataDio(
+      {required String url,
+      required dio.FormData data,
+      String? token,
+      required Function(int count) onSendProgress}) async {
     if (!isUpload) {
       isUpload = true;
       dio.Dio dioR = dio.Dio();
-      dioR.options.headers["authorization"] = "Bearer $token";
+      dioR.options.headers["authorization"] =
+          "Bearer ${ConstantHelperMadaFlutter.token}";
       try {
         dio.Response response = await dioR.post(url,
             data: data,
@@ -93,9 +97,12 @@ mixin ApiHelperMixin {
                 validateStatus: (status) {
                   return status! < 500;
                 }), onSendProgress: (rec, total) {
-              onSendProgress(
-                  int.parse(((rec / total) * 100).toStringAsFixed(0)));
-            });
+          onSendProgress(
+            int.parse(
+              ((rec / total) * 100).toStringAsFixed(0),
+            ),
+          );
+        });
         isUpload = false;
         return response;
       } on dio.DioError catch (e) {
