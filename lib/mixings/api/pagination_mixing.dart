@@ -24,9 +24,13 @@ mixin PaginationMixin<T> {
   String? getNextUrlForPaginationUsing(Map<String, dynamic> data) => "not used";
 
 /*
+
+  Usage below .....
+
+
   @override
   Map<String, dynamic> getNextUrlForPaginationUsing(Map<String, dynamic> data) {
-    return {"usage": true,"url":data['data']['pagination']['next_page_url']};
+    return "${data['data']['pagination']['next_page_url']}";
   }
 
 */
