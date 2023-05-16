@@ -121,7 +121,7 @@ mixin ApiHelperMixin {
     return null;
   }
 
-  Future<Response?> postGetConnect({
+  Future<Response > postGetConnect({
     required String url,
     required FormData data,
   }) async {
