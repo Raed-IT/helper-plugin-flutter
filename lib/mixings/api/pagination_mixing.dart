@@ -7,17 +7,17 @@ import '../../ui/lists/refresh_load_ui.dart';
 
 // Generics
 mixin PaginationMixin<T> {
-  String? mainUrl;
+  String? mainPaginationUrl;
   String? nextPageUrl;
   RxBool isConnectionError = RxBool(false);
   RxBool isLoadMore = RxBool(false);
-  Rx<bool> isLoad = RxBool(false);
+  Rx<bool> isLoadPagination = RxBool(false);
   RxInt total = RxInt(0);
   bool isFirstPage = false;
   ScrollController scrollController = ScrollController();
   ApiProvider paginationProvider = ApiProvider();
-  String? parameter;
-  RxList<T> data = RxList([]);
+  String? paginationParameter;
+  RxList<T> paginationData = RxList([]);
 
   List<T> getModelFromPaginationJsonUsing(Map<String, dynamic> json);
 
@@ -37,24 +37,24 @@ mixin PaginationMixin<T> {
   void setData(Map<String, dynamic>? mapData, bool isRefresh) {
     if (mapData != null) {
       if (isRefresh) {
-        data.clear();
-        data.value = getModelFromPaginationJsonUsing(mapData);
+        paginationData.clear();
+        paginationData.value = getModelFromPaginationJsonUsing(mapData);
       } else {
         //load data
-        data.addAll(getModelFromPaginationJsonUsing(mapData));
+        paginationData.addAll(getModelFromPaginationJsonUsing(mapData));
       }
     }
   }
 
   set url(String url) {
-    mainUrl = url;
+    mainPaginationUrl = url;
   }
 
   Future<bool> getPaginationData(
       {required bool isRefresh,
       bool isPrintResponse = false,
       int? countTying}) async {
-    if (mainUrl == null) {
+    if (mainPaginationUrl == null) {
       String message =
           "[helper] : pleas assign url in onInit function in controller (^._.^)  ";
       printHelper(message);
@@ -64,29 +64,29 @@ mixin PaginationMixin<T> {
       //break loop get data from api page 1, 2 ,3, 4 , ... 1, 2, 3,
       nextPageUrl = null;
       isFirstPage = true;
-      isLoad.value = false;
+      isLoadPagination.value = false;
     }
 
     //get fresh data now
-    if (nextPageUrl == null && !isLoad.value && isFirstPage) {
-      isLoad.value = true;
+    if (nextPageUrl == null && !isLoadPagination.value && isFirstPage) {
+      isLoadPagination.value = true;
       try {
         Response response = await paginationProvider.getData(
-            url: "$mainUrl${parameter != null ? '?$parameter' : ''}");
+            url: "$mainPaginationUrl${paginationParameter != null ? '?$paginationParameter' : ''}");
         if (isPrintResponse) {
           printHelper("${response.body}");
         }
         if (response.statusCode == 200) {
           setData(response.body, isRefresh);
           setPaginationData(response.body);
-          isLoad.value = false;
+          isLoadPagination.value = false;
           isFirstPage = false;
         } else if (response.statusCode == null) {
           await Future.delayed(const Duration(seconds: 3), () async {
             if (countTying != null && countTying == 4) {
               Fluttertoast.showToast(
                   msg: "الرجاء التاكد من الاتصال بالانترنت  ");
-              isLoad.value = false;
+              isLoadPagination.value = false;
             } else {
               getPaginationData(
                   isRefresh: isRefresh,
@@ -95,7 +95,7 @@ mixin PaginationMixin<T> {
             }
           });
         } else {
-          isLoad.value = false;
+          isLoadPagination.value = false;
         }
       } catch (e) {
         Fluttertoast.showToast(msg: "$e");
@@ -106,7 +106,7 @@ mixin PaginationMixin<T> {
         isLoadMore.value = true;
         try {
           Response response = await paginationProvider.getData(
-              url: '${nextPageUrl!}${parameter != null ? '&$parameter' : ''}');
+              url: '${nextPageUrl!}${paginationParameter != null ? '&$paginationParameter' : ''}');
           if (response.statusCode == 200) {
             isConnectionError.value = false;
             setData(response.body, isRefresh);
