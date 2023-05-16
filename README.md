@@ -18,13 +18,33 @@ helper_plugin:
       ref: <ref last commit for get last version >
 ```
 
-open `android/app/build.grael` and Make sure enable  multiDex
+open `android/app/build.grael` and Make sure enable multiDex
 
 ```dart
 defaultConfig {
- 
+
 multiDexEnabled true
 
+}
+```
+
+## listing to app token
+
+Open the controller you are storing in Token as `RxnString`
+
+```dart
+class MainController extends GetxController {
+
+  RxnString token = RxnString();
+
+  @override
+  void onInit() {
+    //provide token to helper package any time user login package detected token 
+    token.listen((value) {
+      ConstantHelperMadaFlutter.token = token.value;
+    });
+    super.onInit();
+  }
 }
 ```
 
