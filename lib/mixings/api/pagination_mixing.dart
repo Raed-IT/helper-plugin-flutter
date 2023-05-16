@@ -72,7 +72,8 @@ mixin PaginationMixin<T> {
       isLoadPagination.value = true;
       try {
         Response response = await paginationProvider.getData(
-            url: "$mainPaginationUrl${paginationParameter != null ? '?$paginationParameter' : ''}");
+            url:
+                "$mainPaginationUrl${paginationParameter != null ? '?$paginationParameter' : ''}");
         if (isPrintResponse) {
           printHelper("${response.body}");
         }
@@ -106,7 +107,8 @@ mixin PaginationMixin<T> {
         isLoadMore.value = true;
         try {
           Response response = await paginationProvider.getData(
-              url: '${nextPageUrl!}${paginationParameter != null ? '&$paginationParameter' : ''}');
+              url:
+                  '${nextPageUrl!}${paginationParameter != null ? '&$paginationParameter' : ''}');
           if (response.statusCode == 200) {
             isConnectionError.value = false;
             setData(response.body, isRefresh);
@@ -162,7 +164,7 @@ mixin PaginationMixin<T> {
     FloatingActionButtonLocation? floatingActionButtonLocation,
     bool isClosable = false,
     Future<void> Function()? onRefresh,
-    Future<bool> Function()? loadModer,
+    Future<bool> Function()? onLoadModer,
   }) {
     return RefreshLoadComponent(
       floatingActionButton: floatingActionButton,
@@ -170,6 +172,9 @@ mixin PaginationMixin<T> {
       isClosable: isClosable,
       appBar: appBar,
       onRefresh: () {
+        if (onRefresh != null) {
+          onRefresh();
+        }
         return getPaginationData(
           isRefresh: true,
         );
@@ -178,6 +183,9 @@ mixin PaginationMixin<T> {
       loadModer: (isTap) {
         //if nextPageUrl equal null the page is last page return false for show no more data widget
         if (nextPageUrl != null) {
+          if (onLoadModer != null) {
+            onLoadModer();
+          }
           if (isTap) {
             isLoadMore.value = false;
             isConnectionError.value = false;
