@@ -11,7 +11,7 @@ mixin ApiHelperMixin {
   bool isPostDio = false;
   RxBool isLoad = RxBool(false);
   RxBool isPostGetConnect = RxBool(false);
-   List<UrlModel> urlsGetRequest = [];
+  List<UrlModel> urlsGetRequest = [];
   ApiProvider apiProvider = ApiProvider();
   String? parameter;
 
@@ -138,15 +138,14 @@ mixin ApiHelperMixin {
     required String url,
     required FormData data,
   }) async {
-    isPostGetConnect.value=true;
+    isPostGetConnect.value = true;
     Response res = await apiProvider.postData(url: url, data: data);
-
-    if (res.isOk){
-      getModelFromJsonUsing(res.body,"postGetConnect");
-    }else if (res.statusCode ==null) {
+    if (res.statusCode == ConstantHelperMadaFlutter.normalResponse) {
+      getModelFromJsonUsing(res.body, "postGetConnect");
+    } else if (res.statusCode == null) {
       Fluttertoast.showToast(msg: "خطاء في الاتصال ");
     }
-    isPostGetConnect.value=false;
+    isPostGetConnect.value = false;
     return res;
   }
 }

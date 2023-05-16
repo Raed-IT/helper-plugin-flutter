@@ -5,7 +5,7 @@ class ConstantHelperMadaFlutter {
   ConstantHelperMadaFlutter._();
 
   static ToastGravity toastPosition = ToastGravity.TOP;
-
+  static int normalResponse = 200;
   static String? appName;
   static String? loginPageRout;
   static bool allowPrint = false;
