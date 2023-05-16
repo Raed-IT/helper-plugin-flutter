@@ -21,12 +21,7 @@ mixin PaginationMixin<T> {
 
   List<T> getModelFromJsonUsing(Map<String, dynamic> json);
 
-  Map<String, dynamic> getNextUrlForPaginationUsing(
-          Map<String, dynamic> data) =>
-      {
-        "usage": false,
-        "url": "",
-      };
+  String? getNextUrlForPaginationUsing(Map<String, dynamic> data) => "not used";
 
 /*
   @override
@@ -140,10 +135,13 @@ mixin PaginationMixin<T> {
   }
 
   void setPaginationData(Map<String, dynamic> data) {
-    Map<String, dynamic> urlDAta = getNextUrlForPaginationUsing(data);
-    if (urlDAta['usage'] == true) {
-      printHelper(urlDAta['url']);
-      nextPageUrl = urlDAta['url'];
+    String? urlDAta = getNextUrlForPaginationUsing(data);
+
+    /// [getNextUrlForPaginationUsing] return null if current page is last page else return next page url  or not used
+
+    if (urlDAta != "not used") {
+      printHelper(urlDAta);
+      nextPageUrl = urlDAta;
     } else {
       data = data['data'];
       if (data.containsKey("pagination")) {
