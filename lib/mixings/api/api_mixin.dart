@@ -8,9 +8,10 @@ import 'package:helper_plugin/utilitis/url_model.dart';
 import '../../utilitis/helper_functions.dart';
 
 mixin ApiHelperMixin {
-  bool isUpload = false;
+  bool isPostDio = false;
   RxBool isLoad = RxBool(false);
-  List<UrlModel> urlsGetRequest = [];
+  RxBool isPostGetConnect = RxBool(false);
+   List<UrlModel> urlsGetRequest = [];
   ApiProvider apiProvider = ApiProvider();
   String? parameter;
 
@@ -41,7 +42,8 @@ mixin ApiHelperMixin {
           isLoad.value = false;
         }
       } catch (e) {
-        Fluttertoast.showToast(msg: "$e",gravity: ConstantHelperMadaFlutter.toastPosition);
+        Fluttertoast.showToast(
+            msg: "$e", gravity: ConstantHelperMadaFlutter.toastPosition);
       }
     }
   }
@@ -64,7 +66,9 @@ mixin ApiHelperMixin {
       } else if (response.statusCode == null) {
         await Future.delayed(const Duration(seconds: 3), () async {
           if (countTying != null && countTying == 2) {
-            Fluttertoast.showToast(msg: "الرجاء التاكد من الاتصال بالانترنت  ",gravity: ConstantHelperMadaFlutter.toastPosition);
+            Fluttertoast.showToast(
+                msg: "الرجاء التاكد من الاتصال بالانترنت  ",
+                gravity: ConstantHelperMadaFlutter.toastPosition);
             isLoad.value = false;
           } else {
             _reGetData(
@@ -77,7 +81,8 @@ mixin ApiHelperMixin {
         });
       }
     } catch (e) {
-      Fluttertoast.showToast(msg: "$e",gravity: ConstantHelperMadaFlutter.toastPosition);
+      Fluttertoast.showToast(
+          msg: "$e", gravity: ConstantHelperMadaFlutter.toastPosition);
     }
   }
 
@@ -85,8 +90,8 @@ mixin ApiHelperMixin {
       {required String url,
       required dio.FormData data,
       required Function(int count) onSendProgress}) async {
-    if (!isUpload) {
-      isUpload = true;
+    if (!isPostDio) {
+      isPostDio = true;
       dio.Dio dioR = dio.Dio();
       dioR.options.headers["authorization"] =
           "Bearer ${ConstantHelperMadaFlutter.token}";
@@ -104,20 +109,25 @@ mixin ApiHelperMixin {
             ),
           );
         });
-        isUpload = false;
+        isPostDio = false;
         return response;
       } on dio.DioError catch (e) {
-        isUpload = false;
-        Fluttertoast.showToast(msg: "فشل في الرفع", gravity: ConstantHelperMadaFlutter.toastPosition);
+        isPostDio = false;
+        Fluttertoast.showToast(
+            msg: "فشل في الرفع",
+            gravity: ConstantHelperMadaFlutter.toastPosition);
         if (e.response?.statusCode == 404) {
           Fluttertoast.showToast(
-              msg: "الطلب غير موجود ", gravity: ConstantHelperMadaFlutter.toastPosition);
+              msg: "الطلب غير موجود ",
+              gravity: ConstantHelperMadaFlutter.toastPosition);
         } else if (e.response?.statusCode == 500) {
           Fluttertoast.showToast(
-              msg: "خطاء السيرفر  ", gravity: ConstantHelperMadaFlutter.toastPosition);
+              msg: "خطاء السيرفر  ",
+              gravity: ConstantHelperMadaFlutter.toastPosition);
         } else {
           Fluttertoast.showToast(
-              msg: "${e.message}", gravity: ConstantHelperMadaFlutter.toastPosition);
+              msg: "${e.message}",
+              gravity: ConstantHelperMadaFlutter.toastPosition);
         }
       }
     }
@@ -128,6 +138,9 @@ mixin ApiHelperMixin {
     required String url,
     required FormData data,
   }) async {
-    return await apiProvider.postData(url: url, data: data);
+    isPostGetConnect.value=true;
+    Response res = await apiProvider.postData(url: url, data: data);
+    isPostGetConnect.value=false;
+    return res;
   }
 }
