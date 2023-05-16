@@ -19,7 +19,7 @@ mixin PaginationMixin<T> {
   String? parameter;
   RxList<T> data = RxList([]);
 
-  List<T> getModelFromJsonUsing(Map<String, dynamic> json);
+  List<T> getModelFromPaginationJsonUsing(Map<String, dynamic> json);
 
   String? getNextUrlForPaginationUsing(Map<String, dynamic> data) => "not used";
 
@@ -38,10 +38,10 @@ mixin PaginationMixin<T> {
     if (mapData != null) {
       if (isRefresh) {
         data.clear();
-        data.value = getModelFromJsonUsing(mapData);
+        data.value = getModelFromPaginationJsonUsing(mapData);
       } else {
         //load data
-        data.addAll(getModelFromJsonUsing(mapData));
+        data.addAll(getModelFromPaginationJsonUsing(mapData));
       }
     }
   }
