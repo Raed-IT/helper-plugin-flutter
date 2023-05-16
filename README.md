@@ -15,6 +15,16 @@ dependencies:
 helper_plugin:
     git:
       url: https://github.com/Raed-IT/helper-plugin-flutter.git
+      ref: <ref last commit for get last version >
+```
+
+open `android/app/build.grael` :
+
+```dart
+defaultConfig {
+
+// Make sure enable  multiDex ...
+multiDexEnabled true}
 ```
 
 ## Features
@@ -182,8 +192,8 @@ class PickImageController extends GetxController with ImagePickerMixin {
     //  if use single image picker use getImage ();
     await getImage();
 
-   
-     FormData data = FormData.fromMap({
+
+    FormData data = FormData.fromMap({
       // data her .......
     });
     data.files.addAll(await getImages());
