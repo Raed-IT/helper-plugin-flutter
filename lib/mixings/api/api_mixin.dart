@@ -37,6 +37,8 @@ mixin ApiHelperMixin {
                 type: url.type!,
                 isPrintResponse: isPrintResponse);
           });
+        }else{
+          isLoad.value = false;
         }
       } catch (e) {
         Fluttertoast.showToast(msg: "$e");
