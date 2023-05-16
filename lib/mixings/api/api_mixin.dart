@@ -140,6 +140,9 @@ mixin ApiHelperMixin {
   }) async {
     isPostGetConnect.value=true;
     Response res = await apiProvider.postData(url: url, data: data);
+    if (res.isOk){
+      getModelFromJsonUsing(res.body,"postGetConnect");
+    }
     isPostGetConnect.value=false;
     return res;
   }
