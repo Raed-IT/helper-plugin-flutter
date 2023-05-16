@@ -108,20 +108,23 @@ mixin ApiHelperMixin {
         return response;
       } on dio.DioError catch (e) {
         isUpload = false;
-        Fluttertoast.showToast(msg: "فشل في الرفع");
+        Fluttertoast.showToast(msg: "فشل في الرفع", gravity: ToastGravity.TOP);
         if (e.response?.statusCode == 404) {
-          Fluttertoast.showToast(msg: "الطلب غير موجود ");
+          Fluttertoast.showToast(
+              msg: "الطلب غير موجود ", gravity: ToastGravity.TOP);
         } else if (e.response?.statusCode == 500) {
-          Fluttertoast.showToast(msg: "خطاء السيرفر  ");
+          Fluttertoast.showToast(
+              msg: "خطاء السيرفر  ", gravity: ToastGravity.TOP);
         } else {
-          Fluttertoast.showToast(msg: "${e.message}");
+          Fluttertoast.showToast(
+              msg: "${e.message}", gravity: ToastGravity.TOP);
         }
       }
     }
     return null;
   }
 
-  Future<Response > postGetConnect({
+  Future<Response> postGetConnect({
     required String url,
     required FormData data,
   }) async {
