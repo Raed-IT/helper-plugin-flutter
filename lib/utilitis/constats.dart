@@ -9,6 +9,7 @@ class ConstantHelperMadaFlutter {
   static String? appName;
   static String? loginPageRout;
   static bool allowPrint = false;
+  static bool allowPrintResponse = false;
   static String? token;
   static Widget? drawerWidget;
 

@@ -140,8 +140,11 @@ mixin ApiHelperMixin {
   }) async {
     isPostGetConnect.value=true;
     Response res = await apiProvider.postData(url: url, data: data);
+
     if (res.isOk){
       getModelFromJsonUsing(res.body,"postGetConnect");
+    }else if (res.statusCode ==null) {
+      Fluttertoast.showToast(msg: "خطاء في الاتصال ");
     }
     isPostGetConnect.value=false;
     return res;

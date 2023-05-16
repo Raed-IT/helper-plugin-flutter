@@ -16,9 +16,12 @@ class BaseGetConnect extends GetConnect with CheckResponseMixin {
     });
     httpClient.addResponseModifier<dynamic>(
       (request, response) {
+        if (ConstantHelperMadaFlutter.allowPrintResponse) {
+          printHelper("Response status code =>   ${response.statusCode}");
+          printHelper("Response body => ${response.body} ");
+        }
         return checkResponse(response: response);
       },
     );
   }
-
 }
