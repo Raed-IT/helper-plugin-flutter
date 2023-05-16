@@ -58,6 +58,6 @@ mixin CheckResponseMixin {
     ConstantHelperMadaFlutter.token = null;
     GetStorage("${ConstantHelperMadaFlutter.appName}").remove("token");
     GetStorage("${ConstantHelperMadaFlutter.appName}").remove("user");
-    Get.toNamed('/login');
+    Get.toNamed(ConstantHelperMadaFlutter.loginPageRout ?? "/login");
   }
 }

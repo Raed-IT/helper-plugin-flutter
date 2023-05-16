@@ -37,7 +37,7 @@ mixin ApiHelperMixin {
                 type: url.type!,
                 isPrintResponse: isPrintResponse);
           });
-        }else{
+        } else {
           isLoad.value = false;
         }
       } catch (e) {
@@ -84,7 +84,6 @@ mixin ApiHelperMixin {
   Future<dio.Response?> postDataDio(
       {required String url,
       required dio.FormData data,
-      String? token,
       required Function(int count) onSendProgress}) async {
     if (!isUpload) {
       isUpload = true;
@@ -120,5 +119,12 @@ mixin ApiHelperMixin {
       }
     }
     return null;
+  }
+
+  Future<Response?> postGetConnect({
+    required String url,
+    required FormData data,
+  }) async {
+    return await apiProvider.postData(url: url, data: data);
   }
 }
