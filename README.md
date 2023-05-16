@@ -18,13 +18,14 @@ helper_plugin:
       ref: <ref last commit for get last version >
 ```
 
-open `android/app/build.grael` :
+open `android/app/build.grael` and Make sure enable  multiDex
 
 ```dart
 defaultConfig {
+ 
+multiDexEnabled true
 
-// Make sure enable  multiDex ...
-multiDexEnabled true}
+}
 ```
 
 ## Features
