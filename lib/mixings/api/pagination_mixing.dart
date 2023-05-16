@@ -50,7 +50,7 @@ mixin PaginationMixin<T> {
     mainUrl = url;
   }
 
-  Future<bool> getData(
+  Future<bool> getPaginationData(
       {required bool isRefresh,
       bool isPrintResponse = false,
       int? countTying}) async {
@@ -88,7 +88,7 @@ mixin PaginationMixin<T> {
                   msg: "الرجاء التاكد من الاتصال بالانترنت  ");
               isLoad.value = false;
             } else {
-              getData(
+              getPaginationData(
                   isRefresh: isRefresh,
                   isPrintResponse: isPrintResponse,
                   countTying: countTying == null ? 1 : (countTying + 1));
@@ -121,7 +121,7 @@ mixin PaginationMixin<T> {
                 Fluttertoast.showToast(
                     msg: "الرجاء التاكد من الاتصال بالانترنت  ");
               } else {
-                getData(
+                getPaginationData(
                     isRefresh: false,
                     isPrintResponse: isPrintResponse,
                     countTying: countTying == null ? 1 : (countTying + 1));
@@ -170,7 +170,7 @@ mixin PaginationMixin<T> {
       isClosable: isClosable,
       appBar: appBar,
       onRefresh: () {
-        return getData(
+        return getPaginationData(
           isRefresh: true,
         );
       },
@@ -181,12 +181,12 @@ mixin PaginationMixin<T> {
           if (isTap) {
             isLoadMore.value = false;
             isConnectionError.value = false;
-            return getData(
+            return getPaginationData(
               countTying: null,
               isRefresh: false,
             );
           } else {
-            return getData(
+            return getPaginationData(
               isRefresh: false,
             );
           }
