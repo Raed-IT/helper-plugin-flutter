@@ -41,7 +41,7 @@ mixin ApiHelperMixin {
           isLoad.value = false;
         }
       } catch (e) {
-        Fluttertoast.showToast(msg: "$e");
+        Fluttertoast.showToast(msg: "$e",gravity: ConstantHelperMadaFlutter.toastPosition);
       }
     }
   }
@@ -64,7 +64,7 @@ mixin ApiHelperMixin {
       } else if (response.statusCode == null) {
         await Future.delayed(const Duration(seconds: 3), () async {
           if (countTying != null && countTying == 2) {
-            Fluttertoast.showToast(msg: "الرجاء التاكد من الاتصال بالانترنت  ");
+            Fluttertoast.showToast(msg: "الرجاء التاكد من الاتصال بالانترنت  ",gravity: ConstantHelperMadaFlutter.toastPosition);
             isLoad.value = false;
           } else {
             _reGetData(
@@ -77,7 +77,7 @@ mixin ApiHelperMixin {
         });
       }
     } catch (e) {
-      Fluttertoast.showToast(msg: "$e");
+      Fluttertoast.showToast(msg: "$e",gravity: ConstantHelperMadaFlutter.toastPosition);
     }
   }
 
@@ -108,16 +108,16 @@ mixin ApiHelperMixin {
         return response;
       } on dio.DioError catch (e) {
         isUpload = false;
-        Fluttertoast.showToast(msg: "فشل في الرفع", gravity: ToastGravity.TOP);
+        Fluttertoast.showToast(msg: "فشل في الرفع", gravity: ConstantHelperMadaFlutter.toastPosition);
         if (e.response?.statusCode == 404) {
           Fluttertoast.showToast(
-              msg: "الطلب غير موجود ", gravity: ToastGravity.TOP);
+              msg: "الطلب غير موجود ", gravity: ConstantHelperMadaFlutter.toastPosition);
         } else if (e.response?.statusCode == 500) {
           Fluttertoast.showToast(
-              msg: "خطاء السيرفر  ", gravity: ToastGravity.TOP);
+              msg: "خطاء السيرفر  ", gravity: ConstantHelperMadaFlutter.toastPosition);
         } else {
           Fluttertoast.showToast(
-              msg: "${e.message}", gravity: ToastGravity.TOP);
+              msg: "${e.message}", gravity: ConstantHelperMadaFlutter.toastPosition);
         }
       }
     }

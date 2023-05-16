@@ -7,13 +7,17 @@ mixin CheckResponseMixin {
   Response checkResponse({required Response response}) {
     try {
       if (response.body == null) {
-        Fluttertoast.showToast(msg: "خطاء بااتصال");
+        Fluttertoast.showToast(
+            msg: "خطاء بااتصال",
+            gravity: ConstantHelperMadaFlutter.toastPosition);
       }
       if (response.isOk) {
         if (response.body['status'] == "success") {
           return response;
         } else {
-          Fluttertoast.showToast(msg: response.body['msg']);
+          Fluttertoast.showToast(
+              msg: response.body['msg'],
+              gravity: ConstantHelperMadaFlutter.toastPosition);
           return Response(
               request: response.request,
               statusText: response.statusText,
@@ -26,25 +30,36 @@ mixin CheckResponseMixin {
       } else {
         // theirs error
         if (response.status.connectionError) {
-          Fluttertoast.showToast(msg: "خطاء بااتصال");
+          Fluttertoast.showToast(
+              msg: "خطاء بااتصال",
+              gravity: ConstantHelperMadaFlutter.toastPosition);
           return response;
         } else if (response.status.isForbidden) {
-          Fluttertoast.showToast(msg: "محظور من الوصول ");
+          Fluttertoast.showToast(
+              msg: "محظور من الوصول ",
+              gravity: ConstantHelperMadaFlutter.toastPosition);
           exitApp();
           return response;
         } else if (response.status.isNotFound) {
-          Fluttertoast.showToast(msg: "لم يتم العثور على الطلب ");
+          Fluttertoast.showToast(
+              msg: "لم يتم العثور على الطلب ",
+              gravity: ConstantHelperMadaFlutter.toastPosition);
           return response;
         } else if (response.status.isServerError) {
           Fluttertoast.showToast(
-              msg: "خطأ بالسيرفر الرجاء الاتصال بالدعم الفني  ");
+              msg: "خطأ بالسيرفر الرجاء الاتصال بالدعم الفني  ",
+              gravity: ConstantHelperMadaFlutter.toastPosition);
           return response;
         } else if (response.status.isUnauthorized) {
-          Fluttertoast.showToast(msg: "الرجاء تسجيل الدخول  ");
+          Fluttertoast.showToast(
+              msg: "الرجاء تسجيل الدخول  ",
+              gravity: ConstantHelperMadaFlutter.toastPosition);
           exitApp();
           return response;
         } else {
-          Fluttertoast.showToast(msg: "خطاء غير معروف   ");
+          Fluttertoast.showToast(
+              msg: "خطاء غير معروف   ",
+              gravity: ConstantHelperMadaFlutter.toastPosition);
           return response;
         }
       }
