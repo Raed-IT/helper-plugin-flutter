@@ -12,7 +12,7 @@ mixin PaginationMixin<T> {
   RxBool isConnectionError = RxBool(false);
   RxBool isLoadMore = RxBool(false);
   Rx<bool> isLoadPagination = RxBool(false);
-  RxInt total = RxInt(0);
+  // RxInt total = RxInt(0);
   bool isFirstPage = false;
   ScrollController scrollController = ScrollController();
   ApiProvider paginationProvider = ApiProvider();
@@ -152,7 +152,7 @@ mixin PaginationMixin<T> {
       data = data['data'];
       if (data.containsKey("pagination")) {
         nextPageUrl = data["pagination"]['next_page_url'];
-        total.value = data["pagination"]['total'];
+        // total.value = data["pagination"]['total'];
       }
     }
   }
