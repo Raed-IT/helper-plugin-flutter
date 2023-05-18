@@ -125,9 +125,9 @@ mixin ApiHelperMixin {
           printHelper(e.response);
         }
         isPostDio = false;
-        Fluttertoast.showToast(
-            msg: "فشل في الرفع",
-            gravity: ConstantHelperMadaFlutter.toastPosition);
+        if (onSendProgress != null) {
+          onSendProgress(0);
+        }
         if (e.response?.statusCode == 404) {
           Fluttertoast.showToast(
               msg: "الطلب غير موجود ",
