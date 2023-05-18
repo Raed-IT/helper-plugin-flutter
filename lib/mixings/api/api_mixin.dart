@@ -14,7 +14,7 @@ mixin ApiHelperMixin {
   List<UrlModel> urlsGetRequest = [];
   ApiProvider apiProvider = ApiProvider();
 
-  void onError(String type){}
+  void onError(String type) {}
 
   void getModelFromJsonUsing(dynamic json, String urlType);
 
@@ -93,7 +93,7 @@ mixin ApiHelperMixin {
   Future<dio.Response?> postDataDio(
       {required String url,
       required dio.FormData data,
-       Function(int count)? onSendProgress}) async {
+      Function(int count)? onSendProgress}) async {
     if (!isPostDio) {
       isPostDio = true;
       dio.Dio dioR = dio.Dio();
@@ -107,7 +107,7 @@ mixin ApiHelperMixin {
                 validateStatus: (status) {
                   return status! < 500;
                 }), onSendProgress: (rec, total) {
-          if (onSendProgress!=null){
+          if (onSendProgress != null) {
             onSendProgress(
               int.parse(
                 ((rec / total) * 100).toStringAsFixed(0),
@@ -115,9 +115,15 @@ mixin ApiHelperMixin {
             );
           }
         });
+        if (ConstantHelperMadaFlutter.allowPrintResponse) {
+          printHelper(response.data);
+        }
         isPostDio = false;
         return response;
       } on dio.DioError catch (e) {
+        if (ConstantHelperMadaFlutter.allowPrintResponse) {
+          printHelper(e.response);
+        }
         isPostDio = false;
         Fluttertoast.showToast(
             msg: "فشل في الرفع",
