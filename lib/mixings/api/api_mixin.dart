@@ -16,7 +16,7 @@ mixin ApiHelperMixin {
 
   void onError(String type){}
 
-  void getModelFromJsonUsing(Map<String, dynamic> json, String urlType);
+  void getModelFromJsonUsing(dynamic json, String urlType);
 
   Future<void> getData(
       {isPrintResponse = false, bool isRefresh = false}) async {

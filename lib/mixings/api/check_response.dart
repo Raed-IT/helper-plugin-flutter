@@ -12,11 +12,12 @@ mixin CheckResponseMixin {
             gravity: ConstantHelperMadaFlutter.toastPosition);
       }
       if (response.isOk) {
-        if (response.body['status'] == "success") {
+        if (response.body[ConstantHelperMadaFlutter.normalApiKey] ==
+            ConstantHelperMadaFlutter.normalApiVal) {
           return response;
         } else {
           Fluttertoast.showToast(
-              msg: response.body['msg'],
+              msg: response.body[ConstantHelperMadaFlutter.normalErrorMessage],
               gravity: ConstantHelperMadaFlutter.toastPosition);
           return Response(
               request: response.request,
