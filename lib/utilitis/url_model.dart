@@ -3,5 +3,5 @@ class UrlModel {
   String? type;
   String? parameter;
 
-  UrlModel(this.url, this.type, this.parameter);
+  UrlModel({this.url, this.type, this.parameter});
 }
