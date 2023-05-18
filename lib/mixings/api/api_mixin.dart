@@ -93,7 +93,7 @@ mixin ApiHelperMixin {
   Future<dio.Response?> postDataDio(
       {required String url,
       required dio.FormData data,
-      required Function(int count)? onSendProgress}) async {
+       Function(int count)? onSendProgress}) async {
     if (!isPostDio) {
       isPostDio = true;
       dio.Dio dioR = dio.Dio();
