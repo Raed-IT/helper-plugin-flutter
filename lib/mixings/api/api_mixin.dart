@@ -93,7 +93,7 @@ mixin ApiHelperMixin {
   Future<dio.Response?> postDataDio(
       {required String url,
       required dio.FormData data,
-      required Function(int count) onSendProgress}) async {
+      required Function(int count)? onSendProgress}) async {
     if (!isPostDio) {
       isPostDio = true;
       dio.Dio dioR = dio.Dio();
@@ -107,11 +107,13 @@ mixin ApiHelperMixin {
                 validateStatus: (status) {
                   return status! < 500;
                 }), onSendProgress: (rec, total) {
-          onSendProgress(
-            int.parse(
-              ((rec / total) * 100).toStringAsFixed(0),
-            ),
-          );
+          if (onSendProgress!=null){
+            onSendProgress(
+              int.parse(
+                ((rec / total) * 100).toStringAsFixed(0),
+              ),
+            );
+          }
         });
         isPostDio = false;
         return response;
