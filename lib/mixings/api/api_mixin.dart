@@ -13,7 +13,6 @@ mixin ApiHelperMixin {
   RxBool isPostGetConnect = RxBool(false);
   List<UrlModel> urlsGetRequest = [];
   ApiProvider apiProvider = ApiProvider();
-  String? parameter;
 
   void getModelFromJsonUsing(Map<String, dynamic> json, String urlType);
 
@@ -23,7 +22,8 @@ mixin ApiHelperMixin {
     for (var url in urlsGetRequest) {
       try {
         Response response = await apiProvider.getData(
-            url: "${url.url}${parameter != null ? '?$parameter' : ''}");
+          url: "${url.url}${url.parameter != null ? "?${url.parameter}" : ''}",
+        );
         if (isPrintResponse) {
           printHelper("${response.body}");
         }
@@ -33,7 +33,8 @@ mixin ApiHelperMixin {
         } else if (response.statusCode == null) {
           Future.delayed(const Duration(seconds: 3), () async {
             _reGetData(
-                url: "${url.url}",
+                url:
+                    "${url.url}${url.parameter != null ? "?${url.parameter}" : ''}",
                 isRefresh: isRefresh,
                 type: url.type!,
                 isPrintResponse: isPrintResponse);
@@ -55,10 +56,9 @@ mixin ApiHelperMixin {
       required bool isPrintResponse,
       int? countTying}) async {
     try {
-      Response response = await apiProvider.getData(
-          url: "$url${parameter != null ? '?$parameter' : ''}");
+      Response response = await apiProvider.getData(url: url);
       if (isPrintResponse) {
-        printHelper(" retry get url ==> ${response.body}");
+        printHelper(" retry get url ==> $url");
       }
       if (response.statusCode == 200) {
         getModelFromJsonUsing(response.body, type);
