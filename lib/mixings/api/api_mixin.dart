@@ -115,9 +115,9 @@ mixin ApiHelperMixin {
             );
           }
         });
-        if (ConstantHelperMadaFlutter.allowPrintResponse) {
-          printHelper(response.data);
-        }
+        // if (ConstantHelperMadaFlutter.allowPrintResponse) {
+        //   printHelper(response.data);
+        // }
         isPostDio = false;
         return response;
       } on dio.DioError catch (e) {
