@@ -43,6 +43,7 @@ mixin ApiHelperMixin {
           });
         } else {
           isLoad.value = false;
+          onError("${url.type}");
         }
       } catch (e) {
         Fluttertoast.showToast(
