@@ -14,6 +14,8 @@ mixin ApiHelperMixin {
   List<UrlModel> urlsGetRequest = [];
   ApiProvider apiProvider = ApiProvider();
 
+  void onError(String type){}
+
   void getModelFromJsonUsing(Map<String, dynamic> json, String urlType);
 
   Future<void> getData(
@@ -66,6 +68,7 @@ mixin ApiHelperMixin {
       } else if (response.statusCode == null) {
         await Future.delayed(const Duration(seconds: 3), () async {
           if (countTying != null && countTying == 2) {
+            onError(type);
             Fluttertoast.showToast(
                 msg: "الرجاء التاكد من الاتصال بالانترنت  ",
                 gravity: ConstantHelperMadaFlutter.toastPosition);
