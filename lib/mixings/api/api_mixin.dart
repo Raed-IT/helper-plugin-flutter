@@ -21,8 +21,9 @@ mixin ApiHelperMixin {
   void getDataFromPostDioUsing(dynamic json) {}
 
   Future<void> getData({isPrintResponse = false}) async {
-    assert(urlsGetRequest.isEmpty,
-        "please assign urls into urlsGetRequest array ");
+    if (urlsGetRequest.isEmpty) {
+      throw Exception("please add url to urlsGetRequest array");
+    }
     isLoad.value = true;
     for (var url in urlsGetRequest) {
       try {
