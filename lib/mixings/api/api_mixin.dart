@@ -20,8 +20,7 @@ mixin ApiHelperMixin {
 
   void getDataFromPostDioUsing(dynamic json) {}
 
-  Future<void> getData(
-      {isPrintResponse = false, bool isRefresh = false}) async {
+  Future<void> getData({isPrintResponse = false}) async {
     isLoad.value = true;
     for (var url in urlsGetRequest) {
       try {
@@ -39,7 +38,6 @@ mixin ApiHelperMixin {
             _reGetData(
                 url:
                     "${url.url}${url.parameter != null ? "?${url.parameter}" : ''}",
-                isRefresh: isRefresh,
                 type: url.type!,
                 isPrintResponse: isPrintResponse);
           });
@@ -57,7 +55,6 @@ mixin ApiHelperMixin {
   Future<void> _reGetData(
       {required String url,
       required String type,
-      required bool isRefresh,
       required bool isPrintResponse,
       int? countTying}) async {
     try {
@@ -79,7 +76,6 @@ mixin ApiHelperMixin {
           } else {
             _reGetData(
                 url: url,
-                isRefresh: isRefresh,
                 type: type,
                 isPrintResponse: isPrintResponse,
                 countTying: countTying == null ? 1 : (countTying + 1));
