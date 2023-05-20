@@ -18,6 +18,8 @@ mixin ApiHelperMixin {
 
   void getModelFromJsonUsing(dynamic json, String urlType);
 
+  void getDataFromPostDioUsing(dynamic json) {}
+
   Future<void> getData(
       {isPrintResponse = false, bool isRefresh = false}) async {
     isLoad.value = true;
@@ -115,9 +117,10 @@ mixin ApiHelperMixin {
             );
           }
         });
-        // if (ConstantHelperMadaFlutter.allowPrintResponse) {
-        //   printHelper(response.data);
-        // }
+        if (ConstantHelperMadaFlutter.allowPrintResponse) {
+          printHelper(response.data);
+        }
+        getDataFromPostDioUsing(response.data);
         isPostDio = false;
         return response;
       } on dio.DioError catch (e) {
