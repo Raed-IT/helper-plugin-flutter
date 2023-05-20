@@ -146,4 +146,12 @@ mixin ImagePickerMixin {
       deleteIcon: deleteIcon,
     );
   }
+
+  void restImages() {
+    images.value = [];
+  }
+
+  void restImage() {
+    image.value = null;
+  }
 }
