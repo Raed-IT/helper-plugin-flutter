@@ -14,7 +14,9 @@ mixin ApiHelperMixin {
   List<UrlModel> urlsGetRequest = [];
   ApiProvider apiProvider = ApiProvider();
 
-  void onError(String type) {}
+  void onError(String type) {
+    isLoad.value = false;
+  }
 
   void getModelFromJsonUsing(dynamic json, String urlType);
 
