@@ -158,6 +158,9 @@ mixin ApiHelperMixin {
     Response res = await apiProvider.postData(url: url, data: data);
     if (res.statusCode == ConstantHelperMadaFlutter.normalResponse) {
       getModelFromJsonUsing(res.body, "postGetConnect");
+    } else if (res.statusCode ==
+        ConstantHelperMadaFlutter.normalErrorResponse) {
+      onError("postGetConnect");
     } else if (res.statusCode == null) {
       Fluttertoast.showToast(msg: "خطاء في الاتصال ");
     }
