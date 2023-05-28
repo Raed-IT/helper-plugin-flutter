@@ -42,7 +42,7 @@ mixin ApiHelperMixin {
           Future.delayed(const Duration(seconds: 3), () async {
             _reGetData(
                 url:
-                    "${url.url}${url.parameter != null ? "?${url.parameter}" : ''}",
+                "${url.url}${url.parameter != null ? "?${url.parameter}" : ''}",
                 type: url.type!,
                 isPrintResponse: isPrintResponse);
           });
@@ -59,9 +59,9 @@ mixin ApiHelperMixin {
 
   Future<void> _reGetData(
       {required String url,
-      required String type,
-      required bool isPrintResponse,
-      int? countTying}) async {
+        required String type,
+        required bool isPrintResponse,
+        int? countTying}) async {
     try {
       Response response = await apiProvider.getData(url: url);
       if (isPrintResponse) {
@@ -95,13 +95,13 @@ mixin ApiHelperMixin {
 
   Future<dio.Response?> postDataDio(
       {required String url,
-      required dio.FormData data,
-      Function(int count)? onSendProgress}) async {
+        required dio.FormData data,
+        Function(int count)? onSendProgress}) async {
     if (!isPostDio) {
       isPostDio = true;
       dio.Dio dioR = dio.Dio();
       dioR.options.headers["authorization"] =
-          "Bearer ${ConstantHelperMadaFlutter.token}";
+      "Bearer ${ConstantHelperMadaFlutter.token}";
       try {
         dio.Response response = await dioR.post(url,
             data: data,
@@ -110,14 +110,14 @@ mixin ApiHelperMixin {
                 validateStatus: (status) {
                   return status! < 500;
                 }), onSendProgress: (rec, total) {
-          if (onSendProgress != null) {
-            onSendProgress(
-              int.parse(
-                ((rec / total) * 100).toStringAsFixed(0),
-              ),
-            );
-          }
-        });
+              if (onSendProgress != null) {
+                onSendProgress(
+                  int.parse(
+                    ((rec / total) * 100).toStringAsFixed(0),
+                  ),
+                );
+              }
+            });
         if (ConstantHelperMadaFlutter.allowPrintResponse) {
           printHelper(response.data);
         }
@@ -160,6 +160,8 @@ mixin ApiHelperMixin {
       getModelFromJsonUsing(res.body, "postGetConnect");
     } else if (res.statusCode ==
         ConstantHelperMadaFlutter.normalErrorResponse) {
+      onError("postGetConnect");
+    } else if (res.statusCode==500){
       onError("postGetConnect");
     } else if (res.statusCode == null) {
       Fluttertoast.showToast(msg: "خطاء في الاتصال ");
