@@ -18,7 +18,7 @@ import 'images_view_gallery.dart';
 // ignore: must_be_immutable
 class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
   RxList<File> images = RxList([]);
-  void Function()? onPicker;
+  void Function(int? realImageCount)? onPicker;
   void Function(RxList<File> images) syncImages;
   Color? pickerWidgetColor;
   int imageCount;
@@ -53,7 +53,7 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
       this.isDeletableNetworkImage = false,
       Key? key})
       : super(key: key) {
-    if (imagesUrls.isNotEmpty && imageCount >0) {
+    if (imagesUrls.isNotEmpty && imageCount > 0) {
       imageCount -= imagesUrls.length;
     }
   }
@@ -141,7 +141,7 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
     return Obx(
       () => (images.isEmpty)
           ? GestureDetector(
-              onTap: onPicker,
+              onTap: () => onPicker!,
               child: imagePickerUi(imageCount) ??
                   DottedBorder(
                     color: pickerWidgetColor ?? Colors.black.withOpacity(0.7),
@@ -193,7 +193,7 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
                     ),
                     if (images.length < imageCount)
                       MaterialButton(
-                        onPressed: onPicker,
+                        onPressed: () => onPicker,
                         child: Text(
                           "اختر المزيد ",
                           style: TextStyle(

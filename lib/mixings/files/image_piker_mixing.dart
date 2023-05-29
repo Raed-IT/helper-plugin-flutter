@@ -50,7 +50,11 @@ mixin ImagePickerMixin {
     return imagesFiles;
   }
 
-  Future<void> picker({bool isMultiFiles = true}) async {
+  Future<void> picker({bool isMultiFiles = true, int? realImageCount}) async {
+    if (realImageCount != null) {
+      //set image count if using image url and decrement image count from main image count
+      imageCount = realImageCount;
+    }
     FilePickerResult? result = await FilePicker.platform
         .pickFiles(allowMultiple: isMultiFiles, type: FileType.image);
     if (result != null) {
@@ -120,7 +124,7 @@ mixin ImagePickerMixin {
     BoxFit? fitNetworkImage,
     double? heightNetworkImage,
     double? widthNetworkImage,
-    bool isDeletableNetworkImage =false,
+    bool isDeletableNetworkImage = false,
   }) {
     return MultiImagePickerComponent(
       onDeleteNetworkImage: (img) {
@@ -128,7 +132,7 @@ mixin ImagePickerMixin {
           onDeleteNetworkImage(img);
         }
       },
-      isDeletableNetworkImage:isDeletableNetworkImage,
+      isDeletableNetworkImage: isDeletableNetworkImage,
       borderRadiusNetworkCard: borderRadiusNetworkCard,
       fitNetworkImage: fitNetworkImage,
       heightNetworkImage: heightNetworkImage,
@@ -142,7 +146,9 @@ mixin ImagePickerMixin {
       syncImages: (imgs) {
         images = imgs;
       },
-      onPicker: () => picker(),
+      onPicker: (count) {
+        picker(realImageCount: count);
+      },
       imagePickerUi: imagePickerUi ?? (imagesCount) => null,
       imageCardUi: imageCardUi ?? (File image) => null,
     );
