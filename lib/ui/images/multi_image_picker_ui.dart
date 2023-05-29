@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,9 +41,34 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
   }
 
   Widget buildNetworkImages() {
-    return (imagesUrls.length < imageCount)
-        ? buildLocalFile()
-        : Text("network images with fiel ");
+    return Column(
+      children: [
+        Stack(
+          children: [
+            CachedNetworkImage(
+              imageUrl: "${imagesUrls[0].url}",
+              width: Get.width,
+              height: 200.h,
+            ),
+            Container(
+              color: Colors.black45,
+              width: Get.width,
+              height: 200.h,
+              child: Row(
+                children: [
+                  Icon(Icons.image),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("${imagesUrls.length}"),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+        if (imagesUrls.length < imageCount) buildLocalFile()
+      ],
+    );
   }
 
   Widget buildLocalFile() {
