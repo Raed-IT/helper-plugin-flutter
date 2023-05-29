@@ -31,9 +31,12 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
   BoxFit? fitNetworkImage;
   double? heightNetworkImage;
   double? widthNetworkImage;
+  Function(MediaModel img) onDeleteNetworkImage;
+  bool isDeletableNetworkImage;
 
   MultiImagePickerComponent(
       {required this.images,
+      required this.onDeleteNetworkImage,
       required this.mainContext,
       required this.onPicker,
       required this.imagesUrls,
@@ -47,6 +50,7 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
       this.widthNetworkImage,
       this.heightNetworkImage,
       this.fitNetworkImage,
+      this.isDeletableNetworkImage = false,
       Key? key})
       : super(key: key);
 
@@ -59,11 +63,10 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
     return GestureDetector(
       onTap: () {
         previewImage(
+            deletable: isDeletableNetworkImage,
             context: mainContext,
             imagesUrls: imagesUrls,
-            onDelete: (img) {
-              printHelper("delete image in mulit image picker ui ${img.id}");
-            });
+            onDelete: (img) => onDeleteNetworkImage(img));
       },
       child: Column(
         children: [
