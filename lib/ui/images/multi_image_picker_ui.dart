@@ -52,7 +52,11 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
       this.fitNetworkImage,
       this.isDeletableNetworkImage = false,
       Key? key})
-      : super(key: key);
+      : super(key: key) {
+    if (imagesUrls.isNotEmpty && imageCount >0) {
+      imageCount -= imagesUrls.length;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
