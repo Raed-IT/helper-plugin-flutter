@@ -17,7 +17,7 @@ Future<void> previewImage({
     allowShrinkPhoto: true,
     allowTapToPop: false,
     allowSwipeDownToPop: false,
-    positionedBuilders: imagesUrls
+    positionBuilders:imagesUrls
         .map(
           (e) =>
           (context, curIndex, totalNum) {
@@ -94,7 +94,7 @@ Future<void> previewImage({
       },
     )
         .toList(),
-    positioneds: (BuildContext context) =>
+    positions: (BuildContext context) =>
     <Positioned>[
       Positioned(
         child: SafeArea(

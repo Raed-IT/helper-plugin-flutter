@@ -427,10 +427,10 @@ packages:
     dependency: transitive
     description:
       name: photo_browser
-      sha256: "298d2b520b29ff8597c3889d07cee4e2f5a36b6dd23784312f8e674e43199714"
+      sha256: "865bbd6602b1444769158d40bb9c541c43b8f168da5726397db21a36182d6d7b"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.5"
+    version: "3.0.2"
   photo_view:
     dependency: transitive
     description:
