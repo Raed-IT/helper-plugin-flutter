@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:helper_plugin/utilitis/media_model.dart';
 
 import '../../ui/images/multi_image_picker_ui.dart';
 import '../../ui/images/single_image_picker_ui.dart';
@@ -108,12 +109,14 @@ mixin ImagePickerMixin {
 
   //syncImages todo sync image/s from ui to controller
   Widget buildPickerImagesWidget({
+    List<MediaModel> imagesUrls = const [],
     Widget? Function(int imagesCount)? imagePickerUi,
     Widget? Function(File image)? imageCardUi,
     Widget? deleteIcon,
     Color? pickerWidgetColor,
   }) {
     return MultiImagePickerComponent(
+      imagesUrls: imagesUrls,
       pickerWidgetColor: pickerWidgetColor,
       images: images,
       deleteIcon: deleteIcon,
