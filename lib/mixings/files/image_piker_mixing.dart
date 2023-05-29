@@ -109,6 +109,7 @@ mixin ImagePickerMixin {
 
   //syncImages todo sync image/s from ui to controller
   Widget buildPickerImagesWidget({
+    required BuildContext context,
     List<MediaModel> imagesUrls = const [],
     Widget? Function(int imagesCount)? imagePickerUi,
     Widget? Function(File image)? imageCardUi,
@@ -116,6 +117,7 @@ mixin ImagePickerMixin {
     Color? pickerWidgetColor,
   }) {
     return MultiImagePickerComponent(
+      mainContext: context,
       imagesUrls: imagesUrls,
       pickerWidgetColor: pickerWidgetColor,
       images: images,

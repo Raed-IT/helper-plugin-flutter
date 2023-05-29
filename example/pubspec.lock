@@ -279,6 +279,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  image_downloader:
+    dependency: transitive
+    description:
+      name: image_downloader
+      sha256: "2b1c1d1fcfb6677175d009af3fc86914aee07684c12ea061f380ef1f44cae8df"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.31.0"
   js:
     dependency: transitive
     description:
@@ -415,6 +423,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.1.0"
+  photo_browser:
+    dependency: transitive
+    description:
+      name: photo_browser
+      sha256: "298d2b520b29ff8597c3889d07cee4e2f5a36b6dd23784312f8e674e43199714"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.5"
   photo_view:
     dependency: transitive
     description:

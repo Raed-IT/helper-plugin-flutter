@@ -4,10 +4,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:helper_plugin/helper.dart';
+import 'package:helper_plugin/utilitis/helper_functions.dart';
+import 'package:image_downloader/image_downloader.dart';
+import 'package:photo_browser/photo_browser.dart';
 
 import '../../utilitis/media_model.dart';
+import 'componentes/privew_image.dart';
 import 'images_view_gallery.dart';
 
 // ignore: must_be_immutable
@@ -21,9 +26,11 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
   Widget? Function(File image) imageCardUi;
   Widget? deleteIcon;
   List<MediaModel> imagesUrls = const [];
+  BuildContext mainContext;
 
   MultiImagePickerComponent(
       {required this.images,
+      required this.mainContext,
       required this.onPicker,
       required this.imagesUrls,
       required this.imageCount,
@@ -37,37 +44,81 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
 
   @override
   Widget build(BuildContext context) {
-    return (imagesUrls.isEmpty) ? buildLocalFile() : buildNetworkImages();
+    return (imagesUrls.isEmpty)
+        ? buildLocalFile()
+        : buildNetworkImages( );
   }
 
-  Widget buildNetworkImages() {
-    return Column(
-      children: [
-        Stack(
-          children: [
-            CachedNetworkImage(
-              imageUrl: "${imagesUrls[0].url}",
-              width: Get.width,
-              height: 200.h,
-            ),
-            Container(
-              color: Colors.black45,
-              width: Get.width,
-              height: 200.h,
-              child: Row(
-                children: [
-                  Icon(Icons.image),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("${imagesUrls.length}"),
-                  )
-                ],
+  Widget buildNetworkImages(
+      {
+      BorderRadiusGeometry? borderRadius,
+      BoxFit? fit,
+      double? height,
+      double? width}) {
+    return GestureDetector(
+      onTap: () {
+        previewImage(
+            context: mainContext,
+            imagesUrls: imagesUrls,
+            onDelete: (img) {
+              printHelper("delete image in mulit image picker ui ${img.id}");
+            });
+      },
+      child: Column(
+        children: [
+          Stack(
+            children: [
+              CachedNetworkImage(
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    borderRadius: borderRadius ??
+                        BorderRadius.all(Radius.circular(20.sp)),
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: fit ?? BoxFit.cover,
+                    ),
+                  ),
+                  height: height ?? 200.h,
+                  width: width ?? Get.width,
+                ),
+                imageUrl: "${imagesUrls[0].url}",
+                width: Get.width,
+                height: 200.h,
               ),
-            )
-          ],
-        ),
-        if (imagesUrls.length < imageCount) buildLocalFile()
-      ],
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.black45,
+                    borderRadius: borderRadius ??
+                        BorderRadius.all(Radius.circular(20.sp))),
+                width: Get.width,
+                height: 200.h,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.image,
+                      size: 22.sp,
+                      color: Colors.white,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "${imagesUrls.length}",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 22.sp,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+          if (imagesUrls.length < imageCount) buildLocalFile()
+        ],
+      ),
     );
   }
 
