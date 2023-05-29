@@ -24,7 +24,7 @@ mixin ApiHelperMixin {
 
   void getDataFromPostDioUsing(dynamic json) {}
 
-  void onDelete() {}
+  void onDeleteSuccess() {}
 
   Future<void> getData({isPrintResponse = false}) async {
     if (urlsGetRequest.isEmpty) {
@@ -186,7 +186,7 @@ mixin ApiHelperMixin {
       }
       if (res.statusCode == 200) {
         isDelete = true;
-        onDelete();
+        onDeleteSuccess();
       } else {
         onError("delete");
       }
