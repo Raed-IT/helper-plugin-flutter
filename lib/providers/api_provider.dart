@@ -7,4 +7,6 @@ class ApiProvider extends BaseGetConnect {
 
   Future<Response> postData({required String url, required FormData data}) =>
       post(url, data);
+  Future<Response> deleteData({required String url, required int id }) =>
+      delete("$url/$id");
 }

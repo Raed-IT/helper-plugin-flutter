@@ -10,6 +10,8 @@ import '../../utilitis/helper_functions.dart';
 mixin ApiHelperMixin {
   bool isPostDio = false;
   RxBool isLoad = RxBool(false);
+  bool isDelete = false;
+
   RxBool isPostGetConnect = RxBool(false);
   List<UrlModel> urlsGetRequest = [];
   ApiProvider apiProvider = ApiProvider();
@@ -18,9 +20,11 @@ mixin ApiHelperMixin {
     isLoad.value = false;
   }
 
-  void getModelFromJsonUsing(dynamic json, String urlType){}
+  void getModelFromJsonUsing(dynamic json, String urlType) {}
 
   void getDataFromPostDioUsing(dynamic json) {}
+
+  void onDelete() {}
 
   Future<void> getData({isPrintResponse = false}) async {
     if (urlsGetRequest.isEmpty) {
@@ -42,7 +46,7 @@ mixin ApiHelperMixin {
           Future.delayed(const Duration(seconds: 3), () async {
             _reGetData(
                 url:
-                "${url.url}${url.parameter != null ? "?${url.parameter}" : ''}",
+                    "${url.url}${url.parameter != null ? "?${url.parameter}" : ''}",
                 type: url.type!,
                 isPrintResponse: isPrintResponse);
           });
@@ -59,9 +63,9 @@ mixin ApiHelperMixin {
 
   Future<void> _reGetData(
       {required String url,
-        required String type,
-        required bool isPrintResponse,
-        int? countTying}) async {
+      required String type,
+      required bool isPrintResponse,
+      int? countTying}) async {
     try {
       Response response = await apiProvider.getData(url: url);
       if (isPrintResponse) {
@@ -95,13 +99,13 @@ mixin ApiHelperMixin {
 
   Future<dio.Response?> postDataDio(
       {required String url,
-        required dio.FormData data,
-        Function(int count)? onSendProgress}) async {
+      required dio.FormData data,
+      Function(int count)? onSendProgress}) async {
     if (!isPostDio) {
       isPostDio = true;
       dio.Dio dioR = dio.Dio();
       dioR.options.headers["authorization"] =
-      "Bearer ${ConstantHelperMadaFlutter.token}";
+          "Bearer ${ConstantHelperMadaFlutter.token}";
       try {
         dio.Response response = await dioR.post(url,
             data: data,
@@ -110,14 +114,14 @@ mixin ApiHelperMixin {
                 validateStatus: (status) {
                   return status! < 500;
                 }), onSendProgress: (rec, total) {
-              if (onSendProgress != null) {
-                onSendProgress(
-                  int.parse(
-                    ((rec / total) * 100).toStringAsFixed(0),
-                  ),
-                );
-              }
-            });
+          if (onSendProgress != null) {
+            onSendProgress(
+              int.parse(
+                ((rec / total) * 100).toStringAsFixed(0),
+              ),
+            );
+          }
+        });
         if (ConstantHelperMadaFlutter.allowPrintResponse) {
           printHelper(response.data);
         }
@@ -161,12 +165,31 @@ mixin ApiHelperMixin {
     } else if (res.statusCode ==
         ConstantHelperMadaFlutter.normalErrorResponse) {
       onError("postGetConnect");
-    } else if (res.statusCode==500){
+    } else if (res.statusCode == 500) {
       onError("postGetConnect");
     } else if (res.statusCode == null) {
       Fluttertoast.showToast(msg: "خطاء في الاتصال ");
     }
     isPostGetConnect.value = false;
     return res;
+  }
+
+  Future<void> deleteGetConnect(
+      {required String url,
+      required int id,
+      bool isPrintResponse = false}) async {
+    if (!isDelete) {
+      isDelete = true;
+      Response res = await apiProvider.deleteData(url: url, id: id);
+      if (isPrintResponse) {
+        printHelper("${res.body}");
+      }
+      if (res.statusCode == 200) {
+        isDelete = true;
+        onDelete();
+      } else {
+        onError("delete");
+      }
+    }
   }
 }
