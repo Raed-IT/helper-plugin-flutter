@@ -27,6 +27,10 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
   Widget? deleteIcon;
   List<MediaModel> imagesUrls = const [];
   BuildContext mainContext;
+  BorderRadiusGeometry? borderRadiusNetworkCard;
+  BoxFit? fitNetworkImage;
+  double? heightNetworkImage;
+  double? widthNetworkImage;
 
   MultiImagePickerComponent(
       {required this.images,
@@ -39,22 +43,19 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
       required this.imageCardUi,
       this.pickerWidgetColor,
       this.deleteIcon,
+      this.borderRadiusNetworkCard,
+      this.widthNetworkImage,
+      this.heightNetworkImage,
+      this.fitNetworkImage,
       Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return (imagesUrls.isEmpty)
-        ? buildLocalFile()
-        : buildNetworkImages( );
+    return (imagesUrls.isEmpty) ? buildLocalFile() : buildNetworkImages();
   }
 
-  Widget buildNetworkImages(
-      {
-      BorderRadiusGeometry? borderRadius,
-      BoxFit? fit,
-      double? height,
-      double? width}) {
+  Widget buildNetworkImages() {
     return GestureDetector(
       onTap: () {
         previewImage(
@@ -71,15 +72,15 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
               CachedNetworkImage(
                 imageBuilder: (context, imageProvider) => Container(
                   decoration: BoxDecoration(
-                    borderRadius: borderRadius ??
+                    borderRadius: borderRadiusNetworkCard ??
                         BorderRadius.all(Radius.circular(20.sp)),
                     image: DecorationImage(
                       image: imageProvider,
-                      fit: fit ?? BoxFit.cover,
+                      fit: fitNetworkImage ?? BoxFit.cover,
                     ),
                   ),
-                  height: height ?? 200.h,
-                  width: width ?? Get.width,
+                  height: heightNetworkImage ?? 200.h,
+                  width: widthNetworkImage ?? Get.width,
                 ),
                 imageUrl: "${imagesUrls[0].url}",
                 width: Get.width,
@@ -87,9 +88,12 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
               ),
               Container(
                 decoration: BoxDecoration(
-                    color: Colors.black45,
-                    borderRadius: borderRadius ??
-                        BorderRadius.all(Radius.circular(20.sp))),
+                  color: Colors.black45,
+                  borderRadius: borderRadiusNetworkCard ??
+                      BorderRadius.all(
+                        Radius.circular(20.sp),
+                      ),
+                ),
                 width: Get.width,
                 height: 200.h,
                 child: Row(
@@ -116,6 +120,10 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
               )
             ],
           ),
+          if (imagesUrls.length < imageCount)
+            SizedBox(
+              height: 20.h,
+            ),
           if (imagesUrls.length < imageCount) buildLocalFile()
         ],
       ),

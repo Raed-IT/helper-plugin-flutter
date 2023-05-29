@@ -27,7 +27,10 @@ mixin ImagePickerMixin {
           await compressFile(
             file: image.value!,
           ).then((value) => value!.path),
-          filename: image.value!.path.split('/').last),
+          filename: image.value!
+              .path
+              .split('/')
+              .last),
     });
     return formData;
   }
@@ -43,7 +46,9 @@ mixin ImagePickerMixin {
               await compressFile(
                 file: images[i],
               ).then((value) => value!.path),
-              filename: images[i].path.split('/').last),
+              filename: images[i].path
+                  .split('/')
+                  .last),
         ));
       }
     }
@@ -57,7 +62,7 @@ mixin ImagePickerMixin {
       if (isMultiFiles) {
         //take only  required item fro compete images list length to imageCount
         List<PlatformFile> pikerImages =
-            result.files.take(imageCount - images.length).toList();
+        result.files.take(imageCount - images.length).toList();
         if (images.isEmpty) {
           for (PlatformFile img in pikerImages) {
             images.add(File("${img.path}"));
@@ -66,7 +71,9 @@ mixin ImagePickerMixin {
           for (PlatformFile imgP in pikerImages) {
             bool addImage = true;
             for (File imgFile in images.toList()) {
-              if (imgP.path!.split("-").last == imgFile.path.split("-").last) {
+              if (imgP.path!.split("-").last == imgFile.path
+                  .split("-")
+                  .last) {
                 addImage = false;
               }
             }
@@ -115,8 +122,16 @@ mixin ImagePickerMixin {
     Widget? Function(File image)? imageCardUi,
     Widget? deleteIcon,
     Color? pickerWidgetColor,
+    BorderRadiusGeometry? borderRadiusNetworkCard,
+    BoxFit? fitNetworkImage,
+    double? heightNetworkImage,
+    double? widthNetworkImage,
   }) {
     return MultiImagePickerComponent(
+      borderRadiusNetworkCard:,
+      fitNetworkImage:,
+      heightNetworkImage:,
+      widthNetworkImage:,
       mainContext: context,
       imagesUrls: imagesUrls,
       pickerWidgetColor: pickerWidgetColor,
@@ -132,14 +147,13 @@ mixin ImagePickerMixin {
     );
   }
 
-  Widget buildPickerImageWidget(
-      {Widget? imagePickerUi,
-      Widget? Function(File img)? imageViewUi,
-      Widget? deleteIcon}) {
+  Widget buildPickerImageWidget({Widget? imagePickerUi,
+    Widget? Function(File img)? imageViewUi,
+    Widget? deleteIcon}) {
     return SingleImagePickerComponent(
       imagePickerUi: imagePickerUi,
       imageViewUi: imageViewUi ??
-          (img) {
+              (img) {
             //return null widget
             return null;
           },
