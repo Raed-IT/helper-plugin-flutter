@@ -18,7 +18,7 @@ mixin ApiHelperMixin {
     isLoad.value = false;
   }
 
-  void getModelFromJsonUsing(dynamic json, String urlType);
+  void getModelFromJsonUsing(dynamic json, String urlType){}
 
   void getDataFromPostDioUsing(dynamic json) {}
 
