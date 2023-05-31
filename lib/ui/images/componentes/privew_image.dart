@@ -16,6 +16,7 @@ Future<void> previewImage(
     allowPullDownToPop: false,
     allowShrinkPhoto: true,
     allowTapToPop: false,
+    filterQuality: FilterQuality.high,
     allowSwipeDownToPop: false,
     positionBuilders: imagesUrls
         .map(

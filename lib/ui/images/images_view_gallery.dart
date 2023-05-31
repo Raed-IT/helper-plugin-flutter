@@ -18,10 +18,11 @@ class ImageViewGallery extends StatelessWidget {
         scrollPhysics: const BouncingScrollPhysics(),
         builder: (BuildContext context, int index) {
           return PhotoViewGalleryPageOptions(
+            filterQuality: FilterQuality.high,
             maxScale: 2.0,
             minScale:0.5,
             imageProvider: images[index],
-            initialScale: PhotoViewComputedScale.contained * 0.8,
+            initialScale: PhotoViewComputedScale.contained,
           );
         },
         loadingBuilder: (context, event) => Center(
