@@ -191,6 +191,7 @@ mixin ApiHelperMixin {
         onDeleteSuccess();
         return true;
       } else {
+        isDelete = false;
         onError("delete");
       }
     }
