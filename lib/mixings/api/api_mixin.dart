@@ -24,7 +24,9 @@ mixin ApiHelperMixin {
 
   void getDataFromPostDioUsing(dynamic json) {}
 
-  void onDeleteSuccess() {}
+  void onDeleteSuccess() {
+    Fluttertoast.showToast(msg: "تم الحذف بنجاح");
+  }
 
   Future<void> getData({isPrintResponse = false}) async {
     if (urlsGetRequest.isEmpty) {
