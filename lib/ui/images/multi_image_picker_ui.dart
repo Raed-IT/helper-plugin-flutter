@@ -18,7 +18,7 @@ import 'images_view_gallery.dart';
 // ignore: must_be_immutable
 class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
   RxList<File> images = RxList([]);
-  void Function(int? realImageCount)? onPicker;
+  void Function(int imageCount) onPicker;
   void Function(RxList<File> images) syncImages;
   Color? pickerWidgetColor;
   int imageCount;
@@ -141,7 +141,15 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
     return Obx(
       () => (images.isEmpty)
           ? GestureDetector(
-              onTap: () => onPicker!,
+              onTap: () {
+                // int  count =imageCount - imagesUrls.length;
+                // if (count<0){
+                //   count=0;
+                // }
+                print(
+                    "imageCount   pick in multi image ui :149   =>> $imageCount");
+                onPicker(imageCount);
+              },
               child: imagePickerUi(imageCount) ??
                   DottedBorder(
                     color: pickerWidgetColor ?? Colors.black.withOpacity(0.7),
@@ -185,7 +193,7 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
                     Padding(
                       padding: EdgeInsets.all(10.sp),
                       child: Text(
-                        "الصور المختارة ${images.length}/${imageCount}",
+                        " الصور المختارة ${images.length + imagesUrls.length} من ${imageCount + imagesUrls.length}",
                         style: TextStyle(
                             color: pickerWidgetColor ?? Colors.black,
                             fontWeight: FontWeight.bold),
@@ -193,7 +201,7 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
                     ),
                     if (images.length < imageCount)
                       MaterialButton(
-                        onPressed: () => onPicker,
+                        onPressed: () => onPicker(imageCount),
                         child: Text(
                           "اختر المزيد ",
                           style: TextStyle(

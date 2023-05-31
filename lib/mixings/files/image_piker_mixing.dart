@@ -15,7 +15,6 @@ import '../../ui/images/single_image_picker_ui.dart';
 mixin ImagePickerMixin {
   RxList<File> images = RxList([]);
   Rxn<File> image = Rxn();
-  int imageCount = 3;
 
   bool get isEmptyImages => images.isEmpty;
 
@@ -50,18 +49,20 @@ mixin ImagePickerMixin {
     return imagesFiles;
   }
 
-  Future<void> picker({bool isMultiFiles = true, int? realImageCount}) async {
-    if (realImageCount != null) {
-      //set image count if using image url and decrement image count from main image count
-      imageCount = realImageCount;
-    }
+  Future<void> picker({
+    bool isMultiFiles = true,
+    required int imageCount,
+  }) async {
+    // if (realImageCount != null) {
+    //   //set image count if using image url and decrement image count from main image count
+    //   imageCount = realImageCount;
+    // }
     FilePickerResult? result = await FilePicker.platform
         .pickFiles(allowMultiple: isMultiFiles, type: FileType.image);
     if (result != null) {
       if (isMultiFiles) {
         //take only  required item fro compete images list length to imageCount
-        List<PlatformFile> pikerImages =
-            result.files.take(imageCount - images.length).toList();
+        List<PlatformFile> pikerImages = result.files.take(imageCount).toList();
         if (images.isEmpty) {
           for (PlatformFile img in pikerImages) {
             images.add(File("${img.path}"));
@@ -114,6 +115,7 @@ mixin ImagePickerMixin {
   //syncImages todo sync image/s from ui to controller
   Widget buildPickerImagesWidget({
     required BuildContext context,
+    required int imageCount,
     List<MediaModel> imagesUrls = const [],
     Widget? Function(int imagesCount)? imagePickerUi,
     Widget? Function(File image)? imageCardUi,
@@ -147,7 +149,7 @@ mixin ImagePickerMixin {
         images = imgs;
       },
       onPicker: (count) {
-        picker(realImageCount: count);
+        picker(imageCount: count);
       },
       imagePickerUi: imagePickerUi ?? (imagesCount) => null,
       imageCardUi: imageCardUi ?? (File image) => null,
@@ -169,7 +171,7 @@ mixin ImagePickerMixin {
         image = image;
       },
       image: image,
-      onPicker: () => picker(isMultiFiles: false),
+      onPicker: () => picker(isMultiFiles: false, imageCount: 1),
       deleteIcon: deleteIcon,
     );
   }
