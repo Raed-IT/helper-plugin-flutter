@@ -64,17 +64,17 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
   }
 
   Widget buildNetworkImages() {
-    return GestureDetector(
-      onTap: () {
-        previewImage(
-            deletable: isDeletableNetworkImage,
-            context: mainContext,
-            imagesUrls: imagesUrls,
-            onDelete: (img) => onDeleteNetworkImage(img));
-      },
-      child: Column(
-        children: [
-          Stack(
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: () {
+            previewImage(
+                deletable: isDeletableNetworkImage,
+                context: mainContext,
+                imagesUrls: imagesUrls,
+                onDelete: (img) => onDeleteNetworkImage(img));
+          },
+          child: Stack(
             children: [
               CachedNetworkImage(
                 imageBuilder: (context, imageProvider) => Container(
@@ -127,13 +127,13 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
               )
             ],
           ),
-          if (imagesUrls.length < imageCount)
-            SizedBox(
-              height: 20.h,
-            ),
-          if (imagesUrls.length < imageCount) buildLocalFile()
-        ],
-      ),
+        ),
+        if (imagesUrls.length < imageCount)
+          SizedBox(
+            height: 20.h,
+          ),
+        if (imagesUrls.length < imageCount) buildLocalFile()
+      ],
     );
   }
 
