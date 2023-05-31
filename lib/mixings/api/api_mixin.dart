@@ -187,7 +187,7 @@ mixin ApiHelperMixin {
         printHelper("${res.body}");
       }
       if (res.statusCode == 200) {
-        isDelete = true;
+        isDelete = false;
         onDeleteSuccess();
         return true;
       } else {
