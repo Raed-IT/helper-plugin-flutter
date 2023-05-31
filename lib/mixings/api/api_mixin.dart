@@ -176,7 +176,7 @@ mixin ApiHelperMixin {
     return res;
   }
 
-  Future<void> deleteGetConnect(
+  Future<bool> deleteGetConnect(
       {required String url,
       required int id,
       bool isPrintResponse = false}) async {
@@ -189,9 +189,11 @@ mixin ApiHelperMixin {
       if (res.statusCode == 200) {
         isDelete = true;
         onDeleteSuccess();
+        return true;
       } else {
         onError("delete");
       }
     }
+    return false;
   }
 }
