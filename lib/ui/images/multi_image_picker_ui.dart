@@ -53,8 +53,9 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
       this.isDeletableNetworkImage = false,
       Key? key})
       : super(key: key) {
-    if (imagesUrls.isNotEmpty && imageCount > 0) {
+    if (imagesUrls.isNotEmpty && imageCount >= 0) {
       imageCount -= imagesUrls.length;
+      print(imageCount);
     }
   }
 
@@ -128,11 +129,11 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
             ],
           ),
         ),
-        if (imagesUrls.length < imageCount)
+        if (imagesUrls.length >= imageCount)
           SizedBox(
             height: 20.h,
           ),
-        if (imagesUrls.length <= imageCount) buildLocalFile()
+        if (imagesUrls.length >= imageCount) buildLocalFile()
       ],
     );
   }
