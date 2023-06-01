@@ -129,11 +129,11 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
             ],
           ),
         ),
-        if (imagesUrls.length >= imageCount)
+        if (imagesUrls.length > imageCount)
           SizedBox(
             height: 20.h,
           ),
-        if (imagesUrls.length >= imageCount) buildLocalFile()
+        if (imagesUrls.length > imageCount) buildLocalFile()
       ],
     );
   }
