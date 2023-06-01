@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart' as dio;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:helper_plugin/providers/api_provider.dart';
 import 'package:helper_plugin/utilitis/constats.dart';
+import 'package:helper_plugin/utilitis/error_type_enum.dart';
 import 'package:helper_plugin/utilitis/url_model.dart';
 
 import '../../utilitis/helper_functions.dart';
@@ -114,6 +116,7 @@ mixin ApiHelperMixin {
             options: dio.Options(
                 followRedirects: false,
                 validateStatus: (status) {
+                  printHelper(status);
                   return status! < 500;
                 }), onSendProgress: (rec, total) {
           if (onSendProgress != null) {
@@ -125,13 +128,25 @@ mixin ApiHelperMixin {
           }
         });
         if (ConstantHelperMadaFlutter.allowPrintResponse) {
+          printHelper(response.headers);
           printHelper(response.data);
         }
-        getDataFromPostDioUsing(response.data);
+        if (response.statusCode == ConstantHelperMadaFlutter.normalResponse) {
+          print(response.statusCode);
+          getDataFromPostDioUsing(response.data);
+        } else if (response.statusCode ==
+            ConstantHelperMadaFlutter.normalErrorResponse) {
+          Fluttertoast.showToast(
+              msg: response.data[ConstantHelperMadaFlutter.normalErrorMessage]);
+          onError(ErrorApiTypeEnum.postDio.name);
+        } else {
+          onError(ErrorApiTypeEnum.postDio.name);
+        }
         isPostDio = false;
         return response;
       } on dio.DioError catch (e) {
         if (ConstantHelperMadaFlutter.allowPrintResponse) {
+          printHelper(e.response);
           printHelper(e.response);
         }
         isPostDio = false;
@@ -166,9 +181,9 @@ mixin ApiHelperMixin {
       getModelFromJsonUsing(res.body, "postGetConnect");
     } else if (res.statusCode ==
         ConstantHelperMadaFlutter.normalErrorResponse) {
-      onError("postGetConnect");
+      onError(ErrorApiTypeEnum.postGetConnect.name);
     } else if (res.statusCode == 500) {
-      onError("postGetConnect");
+      onError(ErrorApiTypeEnum.postGetConnect.name);
     } else if (res.statusCode == null) {
       Fluttertoast.showToast(msg: "خطاء في الاتصال ");
     }
@@ -192,7 +207,7 @@ mixin ApiHelperMixin {
         return true;
       } else {
         isDelete = false;
-        onError("delete");
+        onError(ErrorApiTypeEnum.delete.name);
       }
     }
     return false;
