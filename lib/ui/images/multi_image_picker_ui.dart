@@ -132,7 +132,7 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
           SizedBox(
             height: 20.h,
           ),
-        if (imagesUrls.length < imageCount) buildLocalFile()
+        if (imagesUrls.length <= imageCount) buildLocalFile()
       ],
     );
   }
@@ -142,12 +142,6 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
       () => (images.isEmpty)
           ? GestureDetector(
               onTap: () {
-                // int  count =imageCount - imagesUrls.length;
-                // if (count<0){
-                //   count=0;
-                // }
-                print(
-                    "imageCount   pick in multi image ui :149   =>> $imageCount");
                 onPicker(imageCount);
               },
               child: imagePickerUi(imageCount) ??
