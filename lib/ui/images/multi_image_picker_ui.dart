@@ -65,6 +65,8 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
   }
 
   Widget buildNetworkImages() {
+    print ("imagesUrls.length => ${imagesUrls.length}");
+    print ("imageCount => $imageCount");
     return Column(
       children: [
         GestureDetector(
@@ -129,11 +131,11 @@ class MultiImagePickerComponent extends StatelessWidget with ApiHelperMixin {
             ],
           ),
         ),
-        if (imagesUrls.length > imageCount)
+        if (imagesUrls.length > imageCount && imageCount!=0)
           SizedBox(
             height: 20.h,
           ),
-        if (imagesUrls.length > imageCount) buildLocalFile()
+        if (imagesUrls.length > imageCount &&imageCount!=0) buildLocalFile()
       ],
     );
   }
