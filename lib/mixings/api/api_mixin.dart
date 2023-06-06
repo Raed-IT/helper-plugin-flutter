@@ -37,27 +37,30 @@ mixin ApiHelperMixin {
     isLoad.value = true;
     for (var url in urlsGetRequest) {
       try {
-        Response response = await apiProvider.getData(
+        apiProvider
+            .getData(
           url: "${url.url}${url.parameter != null ? "?${url.parameter}" : ''}",
-        );
-        if (isPrintResponse) {
-          printHelper("${response.body}");
-        }
-        if (response.statusCode == 200) {
-          getModelFromJsonUsing(response.body, "${url.type}");
-          isLoad.value = false;
-        } else if (response.statusCode == null) {
-          Future.delayed(const Duration(seconds: 3), () async {
-            _reGetData(
-                url:
-                    "${url.url}${url.parameter != null ? "?${url.parameter}" : ''}",
-                type: url.type!,
-                isPrintResponse: isPrintResponse);
-          });
-        } else {
-          isLoad.value = false;
-          onError("${url.type}");
-        }
+        )
+            .then((response) {
+          if (isPrintResponse) {
+            printHelper("${response.body}");
+          }
+          if (response.statusCode == 200) {
+            getModelFromJsonUsing(response.body, "${url.type}");
+            isLoad.value = false;
+          } else if (response.statusCode == null) {
+            Future.delayed(const Duration(seconds: 3), () async {
+              _reGetData(
+                  url:
+                      "${url.url}${url.parameter != null ? "?${url.parameter}" : ''}",
+                  type: url.type!,
+                  isPrintResponse: isPrintResponse);
+            });
+          } else {
+            isLoad.value = false;
+            onError("${url.type}");
+          }
+        });
       } catch (e) {
         Fluttertoast.showToast(
             msg: "$e", gravity: ConstantHelperMadaFlutter.toastPosition);
