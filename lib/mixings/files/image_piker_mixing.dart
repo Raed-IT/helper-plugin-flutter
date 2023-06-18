@@ -20,9 +20,9 @@ mixin ImagePickerMixin {
 
   bool get isEmptyImage => image.value == null;
 
-  Future<MapEntry<String, dio.MultipartFile>?> getImage(
+  Future<MapEntry<String, dio.MultipartFile> > getImage(
       {String key = "image"}) async {
-    if (image.value != null) {
+
       return MapEntry(
         key,
         await dio.MultipartFile.fromFile(
@@ -31,8 +31,8 @@ mixin ImagePickerMixin {
             ).then((value) => value!.path),
             filename: image.value!.path.split('/').last),
       );
-    }
-    return null;
+
+
   }
 
   Future<List<MapEntry<String, dio.MultipartFile>>> getImages(
