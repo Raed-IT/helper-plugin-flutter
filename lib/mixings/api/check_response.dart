@@ -71,9 +71,7 @@ mixin CheckResponseMixin {
   }
 
   void exitApp() {
-    ConstantHelperMadaFlutter.token = null;
-    GetStorage("${ConstantHelperMadaFlutter.appName}").remove("token");
-    GetStorage("${ConstantHelperMadaFlutter.appName}").remove("user");
-    Get.toNamed(ConstantHelperMadaFlutter.loginPageRout ?? "/login");
+    ConstantHelperMadaFlutter.exitApp();
+
   }
 }
