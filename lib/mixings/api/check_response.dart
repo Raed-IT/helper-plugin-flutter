@@ -1,10 +1,9 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:helper_plugin/utilitis/constats.dart';
 
 mixin CheckResponseMixin {
-  Response  checkResponse({required Response response}) {
+  Response checkResponse({required Response response}) {
     try {
       if (response.body == null) {
         Fluttertoast.showToast(
@@ -19,7 +18,7 @@ mixin CheckResponseMixin {
           Fluttertoast.showToast(
               msg: response.body[ConstantHelperMadaFlutter.normalErrorMessage],
               gravity: ConstantHelperMadaFlutter.toastPosition);
-          return   Response(
+          return Response(
               request: response.request,
               statusText: response.statusText,
               statusCode: 201,
@@ -71,7 +70,6 @@ mixin CheckResponseMixin {
   }
 
   void exitApp() {
-    ConstantHelperMadaFlutter.exitApp();
-
+    ConstantHelperMadaFlutter.isLogOut.value = true;
   }
 }

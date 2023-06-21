@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
+import 'package:get/get.dart';
 class ConstantHelperMadaFlutter {
   ConstantHelperMadaFlutter._();
 
@@ -19,9 +19,9 @@ class ConstantHelperMadaFlutter {
   static bool allowPrint = false;
   static bool allowPrintResponse = false;
   static String? token;
+  static RxBool isLogOut = RxBool(false);
   static Widget? drawerWidget;
 
-  static void exitApp() {}
   static final ConstantHelperMadaFlutter instance =
       ConstantHelperMadaFlutter._();
 }
