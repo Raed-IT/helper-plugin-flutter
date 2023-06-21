@@ -52,7 +52,9 @@ mixin ApiHelperMixin {
             Future.delayed(const Duration(seconds: 3), () async {
               _reGetData(
                   url:
-                      "${url.url}${url.parameter != null ? "?${url.parameter}" : ''}",
+                  "${url.url}${url.parameter != null
+                      ? "?${url.parameter}"
+                      : ''}",
                   type: url.type!,
                   isPrintResponse: isPrintResponse);
             });
@@ -68,11 +70,10 @@ mixin ApiHelperMixin {
     }
   }
 
-  Future<void> _reGetData(
-      {required String url,
-      required String type,
-      required bool isPrintResponse,
-      int? countTying}) async {
+  Future<void> _reGetData({required String url,
+    required String type,
+    required bool isPrintResponse,
+    int? countTying}) async {
     try {
       Response response = await apiProvider.getData(url: url);
       if (isPrintResponse) {
@@ -104,15 +105,14 @@ mixin ApiHelperMixin {
     }
   }
 
-  Future<dio.Response?> postDataDio(
-      {required String url,
-      required dio.FormData data,
-      Function(int count)? onSendProgress}) async {
+  Future<dio.Response?> postDataDio({required String url,
+    required dio.FormData data,
+    Function(int count)? onSendProgress}) async {
     if (!isPostDio) {
       isPostDio = true;
       dio.Dio dioR = dio.Dio();
       dioR.options.headers["authorization"] =
-          "Bearer ${ConstantHelperMadaFlutter.token}";
+      "Bearer ${ConstantHelperMadaFlutter.token}";
       try {
         dio.Response response = await dioR.post(url,
             data: data,
@@ -122,14 +122,14 @@ mixin ApiHelperMixin {
                   printHelper(status);
                   return status! < 500;
                 }), onSendProgress: (rec, total) {
-          if (onSendProgress != null) {
-            onSendProgress(
-              int.parse(
-                ((rec / total) * 100).toStringAsFixed(0),
-              ),
-            );
-          }
-        });
+              if (onSendProgress != null) {
+                onSendProgress(
+                  int.parse(
+                    ((rec / total) * 100).toStringAsFixed(0),
+                  ),
+                );
+              }
+            });
         if (ConstantHelperMadaFlutter.allowPrintResponse) {
           printHelper(response.headers);
           printHelper(response.data);
@@ -174,30 +174,32 @@ mixin ApiHelperMixin {
     return null;
   }
 
-  Future<Response> postGetConnect({
+  Future<Response?> postGetConnect({
     required String url,
     required FormData data,
   }) async {
-    isPostGetConnect.value = true;
-    Response res = await apiProvider.postData(url: url, data: data);
-    if (res.statusCode == ConstantHelperMadaFlutter.normalResponse) {
-      getModelFromJsonUsing(res.body, "postGetConnect");
-    } else if (res.statusCode ==
-        ConstantHelperMadaFlutter.normalErrorResponse) {
-      onError(ErrorApiTypeEnum.postGetConnect.name);
-    } else if (res.statusCode == 500) {
-      onError(ErrorApiTypeEnum.postGetConnect.name);
-    } else if (res.statusCode == null) {
-      Fluttertoast.showToast(msg: "خطاء في الاتصال ");
+    if (!isPostGetConnect.value) {
+      isPostGetConnect.value = true;
+      Response res = await apiProvider.postData(url: url, data: data);
+      if (res.statusCode == ConstantHelperMadaFlutter.normalResponse) {
+        getModelFromJsonUsing(res.body, "postGetConnect");
+      } else if (res.statusCode ==
+          ConstantHelperMadaFlutter.normalErrorResponse) {
+        onError(ErrorApiTypeEnum.postGetConnect.name);
+      } else if (res.statusCode == 500) {
+        onError(ErrorApiTypeEnum.postGetConnect.name);
+      } else if (res.statusCode == null) {
+        Fluttertoast.showToast(msg: "خطاء في الاتصال ");
+      }
+      isPostGetConnect.value = false;
+      return res;
     }
-    isPostGetConnect.value = false;
-    return res;
+    return null;
   }
 
-  Future<bool> deleteGetConnect(
-      {required String url,
-      required int id,
-      bool isPrintResponse = false}) async {
+  Future<bool> deleteGetConnect({required String url,
+    required int id,
+    bool isPrintResponse = false}) async {
     if (!isDelete) {
       isDelete = true;
       Response res = await apiProvider.deleteData(url: url, id: id);
