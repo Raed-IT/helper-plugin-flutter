@@ -19,11 +19,13 @@ class RefreshLoadComponent extends StatefulWidget {
   RxBool isConnectionError = RxBool(false);
   bool isClosable;
   FloatingActionButtonLocation? floatingActionButtonLocation;
+  Widget? bottomNavigationBar;
 
   RefreshLoadComponent({
     super.key,
     required this.isClosable,
     this.floatingActionButton,
+    this.bottomNavigationBar,
     this.floatingActionButtonLocation,
     required this.appBar,
     required this.widgets,
@@ -46,6 +48,7 @@ class _RefreshLoadComponentState extends State<RefreshLoadComponent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: widget.bottomNavigationBar,
       drawerEnableOpenDragGesture:
           ConstantHelperMadaFlutter.drawerWidget == null,
       drawer: ConstantHelperMadaFlutter.drawerWidget,

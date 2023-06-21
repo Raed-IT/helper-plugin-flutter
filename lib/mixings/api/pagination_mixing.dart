@@ -162,11 +162,13 @@ mixin PaginationMixin<T> {
     required Widget appBar,
     Widget? floatingActionButton,
     FloatingActionButtonLocation? floatingActionButtonLocation,
+    Widget? bottomNavigationBar,
     bool isClosable = false,
     Future<void> Function()? onRefresh,
     Future<bool> Function()? onLoadModer,
   }) {
     return RefreshLoadComponent(
+      bottomNavigationBar: bottomNavigationBar,
       floatingActionButton: floatingActionButton,
       floatingActionButtonLocation: floatingActionButtonLocation,
       isClosable: isClosable,
