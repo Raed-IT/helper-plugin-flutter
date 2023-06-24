@@ -37,7 +37,7 @@ mixin ApiHelperMixin {
     isLoad.value = true;
     for (var url in urlsGetRequest) {
       try {
-        apiProvider
+       await apiProvider
             .getData(
           url: "${url.url}${url.parameter != null ? "?${url.parameter}" : ''}",
         )
