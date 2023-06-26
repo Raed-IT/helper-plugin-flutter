@@ -58,7 +58,7 @@ mixin CheckResponseMixin {
           return response;
         } else {
           Fluttertoast.showToast(
-              msg: "خطاء غير معروف   ",
+              msg: "خطاء غير معروف ${response.statusCode}",
               gravity: ConstantHelperMadaFlutter.toastPosition);
           return response;
         }
