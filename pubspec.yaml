@@ -26,6 +26,7 @@ dependencies:
   cached_network_image: ^3.2.3
   photo_browser: ^3.0.2
   image_downloader: ^0.31.0
+  internet_connection_checker_plus: ^1.0.1
 
 dev_dependencies:
   flutter_test:
