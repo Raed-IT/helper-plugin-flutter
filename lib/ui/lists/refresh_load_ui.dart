@@ -88,7 +88,7 @@ class _RefreshLoadComponentState extends State<RefreshLoadComponent> {
                   return Future.value(false);
                 },
             child: CustomScrollView(
-              physics: const BouncingScrollPhysics(),
+              physics: ConstantHelperMadaFlutter.scrollPhysics,
               controller: widget.scrollController,
               slivers: [
                 widget.appBar,
