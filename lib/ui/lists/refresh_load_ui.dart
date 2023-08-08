@@ -69,7 +69,7 @@ class _RefreshLoadComponentState extends State<RefreshLoadComponent> {
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.BOTTOM,
                   timeInSecForIosWeb: 1,
-                  fontSize: 16.0.sp);
+                  fontSize: ConstantHelperMadaFlutter.toastFontSize ?? 16.0.sp);
               return Future.value(false);
             }
             SystemNavigator.pop();

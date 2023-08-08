@@ -21,6 +21,7 @@ class ConstantHelperMadaFlutter {
   static String? token;
   static RxBool isLogOut = RxBool(false);
   static Widget? drawerWidget;
+  static double? toastFontSize ;
   static ScrollPhysics? scrollPhysics = BouncingScrollPhysics();
 
 
