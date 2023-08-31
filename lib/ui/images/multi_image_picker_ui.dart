@@ -4,12 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:helper_plugin/helper.dart';
-import 'package:helper_plugin/utilitis/helper_functions.dart';
-import 'package:image_downloader/image_downloader.dart';
-import 'package:photo_browser/photo_browser.dart';
 
 import '../../utilitis/media_model.dart';
 import 'componentes/privew_image.dart';

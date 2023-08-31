@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:helper_plugin/utilitis/helper_functions.dart';
 import 'package:helper_plugin/utilitis/media_model.dart';
-import 'package:image_downloader/image_downloader.dart';
+
+// import 'package:image_downloader/image_downloader.dart';
 import 'package:photo_browser/photo_browser.dart';
 
 Future<void> previewImage(
@@ -46,11 +49,16 @@ Future<void> previewImage(
                       ),
                       onTap: () async {
                         try {
-                          await ImageDownloader.downloadImage(
-                              "${imagesUrls[curIndex].url}",
-                              destination:
-                                  AndroidDestinationType.directoryPictures);
-                          ;
+                          FileDownloader.downloadFile(
+                              url: "${imagesUrls[curIndex].url}",
+                              name: "${imagesUrls[curIndex].id}",
+                              onDownloadCompleted: (String path) {
+                                printHelper(
+                                    "don download file path => ${path}");
+                              },
+                              onDownloadError: (String error) {
+                                printHelper("error download file ${error}");
+                              });
                         } catch (e) {
                           Fluttertoast.showToast(msg: "حدث خطاء ما ");
                         }
