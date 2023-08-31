@@ -13,10 +13,10 @@ dependencies:
   flutter_web_plugins:
     sdk: flutter
   plugin_platform_interface: ^2.0.2
-  file_picker: ^5.5.0
+#  file_picker: ^5.5.0
   flutter_native_image: ^0.0.6+1
   flutter_screenutil: ^5.7.0
-  fluttertoast: ^8.2.1
+  fluttertoast: ^8.2.2
   get: ^4.6.5
   dio: ^5.1.1
   dotted_border: ^2.0.0+3
