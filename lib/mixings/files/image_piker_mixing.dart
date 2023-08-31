@@ -1,6 +1,6 @@
 import 'dart:io';
 
-// import 'package:file_picker/file_picker.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:flutter_native_image/flutter_native_image.dart';
@@ -59,51 +59,51 @@ mixin ImagePickerMixin {
     //   //set image count if using image url and decrement image count from main image count
     //   imageCount = realImageCount;
     // }
-    // FilePickerResult? result = await FilePicker.platform
-    //     .pickFiles(allowMultiple: isMultiFiles, type: FileType.image);
-    // if (result != null) {
-    //   if (isMultiFiles) {
-    //     //take only  required item fro compete images list length to imageCount
-    //     List<PlatformFile> pikerImages = result.files.take(imageCount).toList();
-    //     if (images.isEmpty) {
-    //       for (PlatformFile img in pikerImages) {
-    //         images.add(File("${img.path}"));
-    //       }
-    //     } else {
-    //       for (PlatformFile imgP in pikerImages) {
-    //         bool addImage = true;
-    //         for (File imgFile in images.toList()) {
-    //           if (imgP.path!.split("-").last == imgFile.path.split("-").last) {
-    //             addImage = false;
-    //           }
-    //         }
-    //         if (addImage) {
-    //           images.add(
-    //             File("${imgP.path}"),
-    //           );
-    //         } else {
-    //           if (pikerImages.length > 1) {
-    //             Fluttertoast.showToast(
-    //                 msg: " احد الصور موجوده بالفعل ",
-    //                 toastLength: Toast.LENGTH_SHORT,
-    //                 gravity: ToastGravity.BOTTOM,
-    //                 timeInSecForIosWeb: 1,
-    //                 fontSize: 16.0.sp);
-    //           } else {
-    //             Fluttertoast.showToast(
-    //                 msg: "الصورة موجوده بالفعل ",
-    //                 toastLength: Toast.LENGTH_SHORT,
-    //                 gravity: ToastGravity.BOTTOM,
-    //                 timeInSecForIosWeb: 1,
-    //                 fontSize: 16.0.sp);
-    //           }
-    //         }
-    //       }
-    //     }
-    //   } else {
-    //     image.value = File(result.files[0].path!);
-    //   }
-    // }
+    FilePickerResult? result = await FilePicker.platform
+        .pickFiles(allowMultiple: isMultiFiles, type: FileType.image);
+    if (result != null) {
+      if (isMultiFiles) {
+        //take only  required item fro compete images list length to imageCount
+        List<PlatformFile> pikerImages = result.files.take(imageCount).toList();
+        if (images.isEmpty) {
+          for (PlatformFile img in pikerImages) {
+            images.add(File("${img.path}"));
+          }
+        } else {
+          for (PlatformFile imgP in pikerImages) {
+            bool addImage = true;
+            for (File imgFile in images.toList()) {
+              if (imgP.path!.split("-").last == imgFile.path.split("-").last) {
+                addImage = false;
+              }
+            }
+            if (addImage) {
+              images.add(
+                File("${imgP.path}"),
+              );
+            } else {
+              if (pikerImages.length > 1) {
+                Fluttertoast.showToast(
+                    msg: " احد الصور موجوده بالفعل ",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    fontSize: 16.0.sp);
+              } else {
+                Fluttertoast.showToast(
+                    msg: "الصورة موجوده بالفعل ",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    fontSize: 16.0.sp);
+              }
+            }
+          }
+        }
+      } else {
+        image.value = File(result.files[0].path!);
+      }
+    }
   }
 
   Future<File?> compressFile({
