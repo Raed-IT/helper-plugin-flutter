@@ -2,7 +2,8 @@ import 'dart:io';
 
 // import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_image/flutter_native_image.dart';
+
+// import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -20,9 +21,8 @@ mixin ImagePickerMixin {
 
   bool get isEmptyImage => image.value == null;
 
-  Future<MapEntry<String, dio.MultipartFile> > getImage(
+  Future<MapEntry<String, dio.MultipartFile>> getImage(
       {String key = "image"}) async {
-
     return MapEntry(
       key,
       await dio.MultipartFile.fromFile(
@@ -31,8 +31,6 @@ mixin ImagePickerMixin {
           ).then((value) => value!.path),
           filename: image.value!.path.split('/').last),
     );
-
-
   }
 
   Future<List<MapEntry<String, dio.MultipartFile>>> getImages(
@@ -111,9 +109,10 @@ mixin ImagePickerMixin {
   Future<File?> compressFile({
     required File file,
   }) async {
-    File compressedFile = await FlutterNativeImage.compressImage(file.path,
-        quality: 30, percentage: 80);
-    return compressedFile;
+    // File compressedFile = await FlutterNativeImage.compressImage(file.path,
+    //     quality: 30, percentage: 80);
+    // return compressedFile;
+    return Future.value(file);
   }
 
   //syncImages todo sync image/s from ui to controller
