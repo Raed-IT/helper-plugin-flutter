@@ -37,7 +37,7 @@ class PickImageScreen extends GetView<PickImageController> {
             Padding(
               padding: EdgeInsets.all(20.sp),
               child: controller.buildPickerImagesWidget(
-                imageCount:3,
+                imageCount: 3,
                 onDeleteNetworkImage: (img) {
                   print(img.id);
                 },
@@ -63,8 +63,15 @@ class PickImageScreen extends GetView<PickImageController> {
             ),
             Padding(
               padding: EdgeInsets.all(20.sp),
-              child: controller.buildPickerImageWidget(),
+              child: controller.buildPickerImagesWidget(
+                  context: context, imageCount: 5),
             ),
+            MaterialButton(
+              onPressed: () async {
+                await controller.getImages();
+              },
+              child: Text("get images"),
+            )
           ],
         ),
       ),

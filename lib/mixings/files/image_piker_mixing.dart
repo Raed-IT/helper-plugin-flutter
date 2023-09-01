@@ -111,18 +111,28 @@ mixin ImagePickerMixin {
   Future<File?> compressFile({
     required File file,
   }) async {
-    XFile? compressedFile = await FlutterImageCompress.compressAndGetFile(
-      file.path,
-      file.path,
-      quality: 88,
-      rotate: 180,
+    print ("dfdfdfdfdf");
+    String path = file.path;
+    List<String> listInputPath = path.split("/");
+    List<String> listOutputPath =
+        listInputPath.sublist(0, listInputPath.length - 1);
+    listOutputPath.add("conpresser_${listInputPath.last}");
+
+    var result = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      listOutputPath.join("/"),
+      quality: 30,
+      rotate: 80,
     );
-    printHelper("befor compress${file.lengthSync()}");
-    printHelper("after compress${await compressedFile?.length()}");
+    print(
+        "befor compress${file.lengthSync()}   path  ==>  ${file.path} ");
+    print(
+        "after compress ${await result?.length()}    path==>${listOutputPath.join("/")}");
+    return result?.path != null ? File(result!.path) : file;
     // File compressedFile = await FlutterNativeImage.compressImage(file.path,
     //     quality: 30, percentage: 80);
     // return compressedFile;
-    return compressedFile?.path != null ? File(compressedFile!.path) : file;
+    // return compressedFile?.path != null ? File(compressedFile!.path) : file;
   }
 
   //syncImages todo sync image/s from ui to controller

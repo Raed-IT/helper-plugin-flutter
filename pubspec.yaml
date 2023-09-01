@@ -19,6 +19,7 @@ dependencies:
   fluttertoast: ^8.2.2
   flutter_image_compress: ^2.0.4
 
+
   get: ^4.6.5
   dio: ^5.1.1
   dotted_border: ^2.0.0+3
