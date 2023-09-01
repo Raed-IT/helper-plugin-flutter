@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 // import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:helper_plugin/utilitis/helper_functions.dart';
 import 'package:helper_plugin/utilitis/media_model.dart';
 
 import '../../ui/images/multi_image_picker_ui.dart';
@@ -109,10 +111,18 @@ mixin ImagePickerMixin {
   Future<File?> compressFile({
     required File file,
   }) async {
+    XFile? compressedFile = await FlutterImageCompress.compressAndGetFile(
+      file.path,
+      file.path,
+      quality: 88,
+      rotate: 180,
+    );
+    printHelper("befor compress${file.lengthSync()}");
+    printHelper("after compress${await compressedFile?.length()}");
     // File compressedFile = await FlutterNativeImage.compressImage(file.path,
     //     quality: 30, percentage: 80);
     // return compressedFile;
-    return Future.value(file);
+    return compressedFile?.path != null ? File(compressedFile!.path) : file;
   }
 
   //syncImages todo sync image/s from ui to controller
