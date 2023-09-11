@@ -64,7 +64,7 @@ mixin CheckResponseMixin {
         }
       }
     } catch (e) {
-      Fluttertoast.showToast(msg: "$e");
+      Fluttertoast.showToast(msg: "  error ==>  $e");
       return response;
     }
   }
