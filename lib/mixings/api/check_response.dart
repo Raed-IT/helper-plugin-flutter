@@ -11,9 +11,13 @@ mixin CheckResponseMixin {
             gravity: ConstantHelperMadaFlutter.toastPosition);
       }
       if (response.isOk) {
-        if (response.body[ConstantHelperMadaFlutter.normalApiKey] ==
-            ConstantHelperMadaFlutter.normalApiVal) {
-          return response;
+        if (response.body.containsKey(ConstantHelperMadaFlutter.normalApiKey)) {
+          if (response.body[ConstantHelperMadaFlutter.normalApiKey] ==
+              ConstantHelperMadaFlutter.normalApiVal) {
+            return response;
+          } else {
+            return response;
+          }
         } else {
           Fluttertoast.showToast(
               msg: response.body[ConstantHelperMadaFlutter.normalErrorMessage],
