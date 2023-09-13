@@ -1,6 +1,7 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:helper_plugin/utilitis/constats.dart';
+import 'package:helper_plugin/utilitis/helper_functions.dart';
 
 mixin CheckResponseMixin {
   Response checkResponse({required Response response}) {
@@ -12,14 +13,18 @@ mixin CheckResponseMixin {
       }
       if (response.isOk) {
         if (response.body.containsKey(ConstantHelperMadaFlutter.normalApiKey)) {
+          printHelper("containsKey ===>>> ${response.body['status']}");
           if (response.body[ConstantHelperMadaFlutter.normalApiKey] ==
               ConstantHelperMadaFlutter.normalApiVal) {
             return response;
           } else {
-            Fluttertoast.showToast(
-                msg:
-                    response.body[ConstantHelperMadaFlutter.normalErrorMessage],
-                gravity: ConstantHelperMadaFlutter.toastPosition);
+            if (response.body.containsKey(
+                ConstantHelperMadaFlutter.normalErrorMessage)) {
+              Fluttertoast.showToast(
+                  msg:
+                  response.body[ConstantHelperMadaFlutter.normalErrorMessage],
+                  gravity: ConstantHelperMadaFlutter.toastPosition);
+            }
             return Response(
                 request: response.request,
                 statusText: response.statusText,
