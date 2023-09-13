@@ -16,20 +16,21 @@ mixin CheckResponseMixin {
               ConstantHelperMadaFlutter.normalApiVal) {
             return response;
           } else {
-            return response;
+            Fluttertoast.showToast(
+                msg:
+                    response.body[ConstantHelperMadaFlutter.normalErrorMessage],
+                gravity: ConstantHelperMadaFlutter.toastPosition);
+            return Response(
+                request: response.request,
+                statusText: response.statusText,
+                statusCode: 201,
+                body: response.body,
+                bodyBytes: response.bodyBytes,
+                bodyString: response.bodyString,
+                headers: response.headers);
           }
         } else {
-          Fluttertoast.showToast(
-              msg: response.body[ConstantHelperMadaFlutter.normalErrorMessage],
-              gravity: ConstantHelperMadaFlutter.toastPosition);
-          return Response(
-              request: response.request,
-              statusText: response.statusText,
-              statusCode: 201,
-              body: response.body,
-              bodyBytes: response.bodyBytes,
-              bodyString: response.bodyString,
-              headers: response.headers);
+          return response;
         }
       } else {
         // theirs error
