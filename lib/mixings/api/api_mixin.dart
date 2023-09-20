@@ -56,7 +56,7 @@ mixin ApiHelperMixin {
                 _reGetData(
                     url:
                         "${url.url}${url.parameter != null ? "?${url.parameter}" : ''}",
-                    type: url.type!,
+                    type: url.type??'',
                     isPrintResponse: isPrintResponse);
               });
             } else {
