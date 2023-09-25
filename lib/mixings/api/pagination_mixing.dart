@@ -134,7 +134,9 @@ mixin PaginationMixin<T> {
               });
             }
           } catch (e) {
-            Fluttertoast.showToast(msg: "$e");
+            if (countTying == null) {
+              Fluttertoast.showToast(msg: "$e");
+            }
           }
         }
       }
