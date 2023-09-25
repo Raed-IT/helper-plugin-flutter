@@ -21,6 +21,7 @@ class RefreshLoadComponent extends StatefulWidget {
   FloatingActionButtonLocation? floatingActionButtonLocation;
   Widget? bottomNavigationBar;
   FloatingActionButtonAnimator? floatingActionButtonAnimator;
+  final bool? extendBody;
 
   RefreshLoadComponent({
     super.key,
@@ -35,6 +36,7 @@ class RefreshLoadComponent extends StatefulWidget {
     required this.isConnectionError,
     this.isLoadMore,
     this.loadModer,
+    this.extendBody = false,
     required this.scrollController,
   }) : assert(loadModer != null ? isLoadMore?.value != null : true,
             "if using load more function provide this component <<isLoadMore>> variable 😊");
@@ -50,6 +52,7 @@ class _RefreshLoadComponentState extends State<RefreshLoadComponent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: widget.extendBody,
       floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
       bottomNavigationBar: widget.bottomNavigationBar,
       drawerEnableOpenDragGesture:

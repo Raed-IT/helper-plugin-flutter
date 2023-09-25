@@ -170,11 +170,13 @@ mixin PaginationMixin<T> {
     FloatingActionButtonLocation? floatingActionButtonLocation,
     Widget? bottomNavigationBar,
     bool isClosable = false,
+    bool? extendBody,
     FloatingActionButtonAnimator? floatingActionButtonAnimator,
     Future<void> Function()? onRefresh,
     Future<bool> Function()? onLoadModer,
   }) {
     return RefreshLoadComponent(
+      extendBody: extendBody,
       floatingActionButtonAnimator: floatingActionButtonAnimator,
       bottomNavigationBar: bottomNavigationBar,
       floatingActionButton: floatingActionButton,
