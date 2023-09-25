@@ -21,7 +21,7 @@ class RefreshLoadComponent extends StatefulWidget {
   FloatingActionButtonLocation? floatingActionButtonLocation;
   Widget? bottomNavigationBar;
   FloatingActionButtonAnimator? floatingActionButtonAnimator;
-  final bool? extendBody;
+    bool? extendBody;
 
   RefreshLoadComponent({
     super.key,
@@ -52,7 +52,7 @@ class _RefreshLoadComponentState extends State<RefreshLoadComponent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: widget.extendBody,
+      extendBody: widget.extendBody??false,
       floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
       bottomNavigationBar: widget.bottomNavigationBar,
       drawerEnableOpenDragGesture:
