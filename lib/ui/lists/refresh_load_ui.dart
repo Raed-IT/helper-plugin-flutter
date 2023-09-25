@@ -57,6 +57,7 @@ class _RefreshLoadComponentState extends State<RefreshLoadComponent> {
       drawer: ConstantHelperMadaFlutter.drawerWidget,
       floatingActionButton: widget.floatingActionButton,
       floatingActionButtonLocation: widget.floatingActionButtonLocation,
+      backgroundColor: ConstantHelperMadaFlutter.scaffoldColor,
       body: WillPopScope(
         onWillPop: () {
           if (widget.isClosable) {
