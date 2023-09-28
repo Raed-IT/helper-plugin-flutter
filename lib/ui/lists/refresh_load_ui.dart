@@ -98,27 +98,28 @@ class _RefreshLoadComponentState extends State<RefreshLoadComponent> {
                 widget.appBar,
                 ...widget.widgets,
                 if (_isFinshLoadMore)
-                  SliverToBoxAdapter(
-                    child: Container(
-                      margin: EdgeInsets.only(bottom: 40.h, top: 10.h),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            'لا يوجد مزيد من البيانات  ',
-                            style: TextStyle(color: Colors.black45),
+                  ConstantHelperMadaFlutter.loadMoreWidget ??
+                      SliverToBoxAdapter(
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 40.h, top: 10.h),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                'لا يوجد مزيد من البيانات  ',
+                                style: TextStyle(color: Colors.black45),
+                              ),
+                              SizedBox(
+                                width: 10.w,
+                              ),
+                              const Icon(
+                                Icons.next_plan_outlined,
+                                color: Colors.black45,
+                              )
+                            ],
                           ),
-                          SizedBox(
-                            width: 10.w,
-                          ),
-                          const Icon(
-                            Icons.next_plan_outlined,
-                            color: Colors.black45,
-                          )
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
                 if (widget.loadModer != null)
                   if (widget.isLoadMore!.value)
                     Obx(

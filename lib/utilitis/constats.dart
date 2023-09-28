@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 class ConstantHelperMadaFlutter {
   ConstantHelperMadaFlutter._();
@@ -23,6 +21,7 @@ class ConstantHelperMadaFlutter {
   static String? token;
   static RxBool isLogOut = RxBool(false);
   static Widget? drawerWidget;
+  static Widget? loadMoreWidget;
   static double? toastFontSize ;
   static ScrollPhysics? scrollPhysics = BouncingScrollPhysics();
   static Color? scaffoldColor =Colors.white;
