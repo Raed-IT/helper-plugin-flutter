@@ -98,7 +98,7 @@ class _RefreshLoadComponentState extends State<RefreshLoadComponent> {
                 widget.appBar,
                 ...widget.widgets,
                 if (_isFinshLoadMore)
-                  ConstantHelperMadaFlutter.loadMoreWidget ??
+                  ConstantHelperMadaFlutter.noDataWidget ??
                       SliverToBoxAdapter(
                         child: Container(
                           margin: EdgeInsets.only(bottom: 40.h, top: 10.h),
@@ -157,32 +157,33 @@ class _RefreshLoadComponentState extends State<RefreshLoadComponent> {
                                       ),
                                     ),
                                   )
-                                : Container(
-                                    margin: EdgeInsets.only(
-                                        bottom: 40.h, top: 10.h),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text('يتم تحميل البيانات ',
-                                            style: TextStyle(
-                                                color: Colors.black45)),
-                                        SizedBox(
-                                          width: 10.w,
-                                        ),
-                                        SizedBox(
-                                          height: 20.h,
-                                          width: 20.h,
-                                          child: CircularProgressIndicator(
-                                            color: Colors.black45,
-                                            strokeWidth: 1.sp,
+                                : ConstantHelperMadaFlutter.loadMoreWidget ??
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                          bottom: 40.h, top: 10.h),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text('يتم تحميل البيانات ',
+                                              style: TextStyle(
+                                                  color: Colors.black45)),
+                                          SizedBox(
+                                            width: 10.w,
                                           ),
-                                        )
-                                      ],
+                                          SizedBox(
+                                            height: 20.h,
+                                            width: 20.h,
+                                            child: CircularProgressIndicator(
+                                              color: Colors.black45,
+                                              strokeWidth: 1.sp,
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
-                                  ),
                           );
                         } else {
                           return SliverToBoxAdapter();
