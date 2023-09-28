@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 class ConstantHelperMadaFlutter {
@@ -25,6 +26,7 @@ class ConstantHelperMadaFlutter {
   static double? toastFontSize ;
   static ScrollPhysics? scrollPhysics = BouncingScrollPhysics();
   static Color? scaffoldColor =Colors.white;
+  static double ? loadMorAtHeight ;
 
 
   static final ConstantHelperMadaFlutter instance =

@@ -21,7 +21,7 @@ class RefreshLoadComponent extends StatefulWidget {
   FloatingActionButtonLocation? floatingActionButtonLocation;
   Widget? bottomNavigationBar;
   FloatingActionButtonAnimator? floatingActionButtonAnimator;
-    bool? extendBody;
+  bool? extendBody;
 
   RefreshLoadComponent({
     super.key,
@@ -52,7 +52,7 @@ class _RefreshLoadComponentState extends State<RefreshLoadComponent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: widget.extendBody??false,
+      extendBody: widget.extendBody ?? false,
       floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
       bottomNavigationBar: widget.bottomNavigationBar,
       drawerEnableOpenDragGesture:
@@ -203,7 +203,8 @@ class _RefreshLoadComponentState extends State<RefreshLoadComponent> {
   }
 
   void handelScrollController() async {
-    if (widget.scrollController.position.extentAfter < 300.h) {
+    double height = ConstantHelperMadaFlutter.loadMorAtHeight ?? 300.h;
+    if (widget.scrollController.position.extentAfter < height) {
       if (widget.loadModer != null) {
         bool state = await widget.loadModer!(false);
         if (mounted) {
