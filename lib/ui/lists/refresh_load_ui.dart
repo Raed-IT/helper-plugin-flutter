@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:helper_plugin/utilitis/helper_functions.dart';
 
 import '../../utilitis/constats.dart';
 
@@ -52,6 +51,7 @@ class _RefreshLoadComponentState extends State<RefreshLoadComponent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer: ConstantHelperMadaFlutter.endDrawerWidget,
       extendBody: widget.extendBody ?? false,
       floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
       bottomNavigationBar: widget.bottomNavigationBar,

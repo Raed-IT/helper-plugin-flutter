@@ -21,6 +21,7 @@ class ConstantHelperMadaFlutter {
   static String? token;
   static RxBool isLogOut = RxBool(false);
   static Widget? drawerWidget;
+  static Widget? endDrawerWidget;
   static Widget? noDataWidget;
   static Widget? loadMoreWidget;
   static double? toastFontSize ;
