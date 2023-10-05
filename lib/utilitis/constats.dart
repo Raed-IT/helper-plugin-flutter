@@ -28,6 +28,7 @@ class ConstantHelperMadaFlutter {
   static ScrollPhysics? scrollPhysics = BouncingScrollPhysics();
   static Color? scaffoldColor =Colors.white;
   static double ? loadMorAtHeight ;
+  static Map<String, String> ? header ;
 
 
   static final ConstantHelperMadaFlutter instance =

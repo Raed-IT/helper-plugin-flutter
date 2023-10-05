@@ -12,6 +12,9 @@ class BaseGetConnect extends GetConnect with CheckResponseMixin {
       request.headers['Authorization'] =
           "Bearer ${ConstantHelperMadaFlutter.token}";
       request.headers['Accept'] = "application/json";
+      if (ConstantHelperMadaFlutter.header != null) {
+        request.headers.addAll(ConstantHelperMadaFlutter.header!);
+      }
       return request;
     });
     httpClient.addResponseModifier<dynamic>(
