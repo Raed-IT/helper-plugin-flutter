@@ -178,7 +178,7 @@ mixin PaginationMixin<T> {
     Future<void> Function()? onRefresh,
     Future<bool> Function()? onLoadModer,
   }) {
-    scrollController ??= ScrollController();
+    scrollController = ScrollController();
     return RefreshLoadComponent(
       extendBody: extendBody,
       floatingActionButtonAnimator: floatingActionButtonAnimator,
