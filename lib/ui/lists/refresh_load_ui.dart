@@ -207,11 +207,15 @@ class _RefreshLoadComponentState extends State<RefreshLoadComponent> {
   @override
   void initState() {
     super.initState();
+
     widget.scrollController.addListener(handelScrollController);
   }
 
   void handelScrollController() async {
     double height = ConstantHelperMadaFlutter.loadMorAtHeight ?? 300.h;
+    if (!widget.scrollController.hasClients) {
+      widget.scrollController = ScrollController();
+    }
     if (widget.scrollController.position.extentAfter < height) {
       if (widget.loadModer != null) {
         bool state = await widget.loadModer!(false);
