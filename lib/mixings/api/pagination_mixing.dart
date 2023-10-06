@@ -16,7 +16,7 @@ mixin PaginationMixin<T> {
 
   // RxInt total = RxInt(0);
   bool isFirstPage = false;
-  final ScrollController  scrollController = ScrollController();
+    ScrollController  scrollController = ScrollController();
   ApiProvider paginationProvider = ApiProvider();
   String? paginationParameter;
   RxList<T> paginationData = RxList([]);
