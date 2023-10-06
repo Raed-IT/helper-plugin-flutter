@@ -16,7 +16,7 @@ mixin PaginationMixin<T> {
 
   // RxInt total = RxInt(0);
   bool isFirstPage = false;
-  ScrollController scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   ApiProvider paginationProvider = ApiProvider();
   String? paginationParameter;
   RxList<T> paginationData = RxList([]);
@@ -167,6 +167,7 @@ mixin PaginationMixin<T> {
 
   Widget buildScreen({
     required List<Widget> widgets,
+    ScrollController? scrollController,
     required Widget appBar,
     Widget? floatingActionButton,
     FloatingActionButtonLocation? floatingActionButtonLocation,
@@ -216,7 +217,7 @@ mixin PaginationMixin<T> {
         return Future.value(true);
       },
       widgets: widgets,
-      scrollController: scrollController,
+      scrollController: scrollController ?? _scrollController,
       isConnectionError: isConnectionError,
     );
   }

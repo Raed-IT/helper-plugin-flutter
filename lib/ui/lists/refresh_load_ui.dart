@@ -207,7 +207,6 @@ class _RefreshLoadComponentState extends State<RefreshLoadComponent> {
   @override
   void initState() {
     super.initState();
-
     widget.scrollController.addListener(handelScrollController);
   }
 
