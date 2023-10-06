@@ -49,6 +49,12 @@ class _RefreshLoadComponentState extends State<RefreshLoadComponent> {
   var ctime;
 
   @override
+  void dispose() {
+    widget.scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       endDrawer: ConstantHelperMadaFlutter.endDrawerWidget,
