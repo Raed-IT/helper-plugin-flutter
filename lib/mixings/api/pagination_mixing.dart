@@ -16,9 +16,11 @@ mixin PaginationMixin<T> {
 
   // RxInt total = RxInt(0);
   bool isFirstPage = false;
+  ScrollController? _scrollController;
 
   ScrollController get scrollController {
-    return ScrollController();
+    _scrollController ??= ScrollController();
+    return _scrollController!;
   }
 
   ApiProvider paginationProvider = ApiProvider();
