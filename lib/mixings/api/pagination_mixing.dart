@@ -16,7 +16,10 @@ mixin PaginationMixin<T> {
 
   // RxInt total = RxInt(0);
   bool isFirstPage = false;
-  ScrollController? scrollController;
+
+  ScrollController get scrollController {
+    return ScrollController();
+  }
 
   ApiProvider paginationProvider = ApiProvider();
   String? paginationParameter;
@@ -178,7 +181,7 @@ mixin PaginationMixin<T> {
     Future<void> Function()? onRefresh,
     Future<bool> Function()? onLoadModer,
   }) {
-    scrollController ??= ScrollController();
+    // scrollController ??= ScrollController();
     return RefreshLoadComponent(
       extendBody: extendBody,
       floatingActionButtonAnimator: floatingActionButtonAnimator,
