@@ -120,6 +120,7 @@ mixin ImagePickerMixin {
 
     var result = await FlutterImageCompress.compressAndGetFile(
       file.absolute.path,
+
       listOutputPath.join("/"),
       quality: 30,
     );
