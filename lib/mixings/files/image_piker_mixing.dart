@@ -122,7 +122,6 @@ mixin ImagePickerMixin {
       file.absolute.path,
       listOutputPath.join("/"),
       quality: 30,
-      rotate: 80,
     );
     print(
         "befor compress${file.lengthSync()}   path  ==>  ${file.path} ");
