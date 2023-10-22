@@ -20,6 +20,9 @@ mixin PaginationMixin<T> {
 
   ScrollController get scrollController {
     _scrollController ??= ScrollController();
+    if (!_scrollController!.hasClients){
+    _scrollController = ScrollController();
+    }
     return _scrollController!;
   }
 
