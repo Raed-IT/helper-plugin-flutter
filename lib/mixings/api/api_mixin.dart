@@ -7,6 +7,7 @@ import 'package:helper_plugin/utilitis/constats.dart';
 import 'package:helper_plugin/utilitis/error_type_enum.dart';
 import 'package:helper_plugin/utilitis/internet_connection_checker.dart';
 import 'package:helper_plugin/utilitis/url_model.dart';
+import 'package:logger/logger.dart';
 
 import '../../utilitis/helper_functions.dart';
 
@@ -105,7 +106,8 @@ mixin ApiHelperMixin {
           }
         });
       }
-    } catch (e) {
+    } catch (e, stackTree) {
+      Logger().e(stackTree);
       Fluttertoast.showToast(
           msg: "$e", gravity: ConstantHelperMadaFlutter.toastPosition);
     }

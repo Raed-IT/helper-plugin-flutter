@@ -32,6 +32,7 @@ dependencies:
 
   #  image_downloader: ^0.31.0
   internet_connection_checker_plus: ^1.0.1
+  logger:
 
 dev_dependencies:
   flutter_test:
