@@ -47,7 +47,7 @@ mixin ApiHelperMixin {
           )
               .then((response) {
             if (isPrintResponse) {
-              printHelper("${response.body}");
+              // printHelper("${response.body}");
             }
             if (response.statusCode == 200) {
               getModelFromJsonUsing(response.body, "${url.type}");
@@ -65,7 +65,8 @@ mixin ApiHelperMixin {
               onError("${url.type}");
             }
           });
-        } catch (e) {
+        } catch (e, stackTree) {
+          Logger().e(stackTree);
           Fluttertoast.showToast(
               msg: "$e", gravity: ConstantHelperMadaFlutter.toastPosition);
         }
@@ -162,7 +163,9 @@ mixin ApiHelperMixin {
           }
           isPostDio = false;
           return response;
-        } on dio.DioError catch (e) {
+        } on dio.DioError catch (e, stackTree) {
+          Logger().e(stackTree);
+
           if (ConstantHelperMadaFlutter.allowPrintResponse) {
             printHelper(e.response);
             printHelper(e.response);
@@ -184,6 +187,8 @@ mixin ApiHelperMixin {
                 msg: "${e.message}",
                 gravity: ConstantHelperMadaFlutter.toastPosition);
           }
+        } catch (e, stackTree) {
+          Logger().e(stackTree);
         }
       }
     } else {
