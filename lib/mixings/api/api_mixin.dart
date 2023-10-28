@@ -56,7 +56,7 @@ mixin ApiHelperMixin {
                 _reGetData(
                     url:
                         "${url.url}${url.parameter != null ? "?${url.parameter}" : ''}",
-                    type: url.type??'',
+                    type: url.type ?? '',
                     isPrintResponse: isPrintResponse);
               });
             } else {
@@ -70,6 +70,7 @@ mixin ApiHelperMixin {
         }
       }
     } else {
+      isLoad.value = false;
       Fluttertoast.showToast(msg: "لايوجد اتصال بالانترنت ");
     }
   }
@@ -81,12 +82,12 @@ mixin ApiHelperMixin {
       int? countTying}) async {
     try {
       Response response = await apiProvider.getData(url: url);
+      isLoad.value = false;
       if (isPrintResponse) {
         printHelper(" retry get url ==> $url");
       }
       if (response.statusCode == 200) {
         getModelFromJsonUsing(response.body, type);
-        isLoad.value = false;
       } else if (response.statusCode == null) {
         await Future.delayed(const Duration(seconds: 3), () async {
           if (countTying != null && countTying == 2) {
@@ -105,6 +106,8 @@ mixin ApiHelperMixin {
         });
       }
     } catch (e) {
+      isLoad.value = false;
+
       Fluttertoast.showToast(
           msg: "$e", gravity: ConstantHelperMadaFlutter.toastPosition);
     }
@@ -113,13 +116,17 @@ mixin ApiHelperMixin {
   Future<dio.Response?> postDataDio(
       {required String url,
       required dio.FormData data,
-      Function(int count)? onSendProgress}) async {
+      Function(int count)? onSendProgress,
+      Map<String, dynamic>? header}) async {
+    isPostDio = true;
     if (await checkInternet()) {
       if (!isPostDio) {
-        isPostDio = true;
         dio.Dio dioR = dio.Dio();
         dioR.options.headers["authorization"] =
             "Bearer ${ConstantHelperMadaFlutter.token}";
+        if (header != null) {
+          dioR.options.headers.addAll(header);
+        }
         try {
           dio.Response response = await dioR.post(url,
               data: data,
@@ -180,6 +187,7 @@ mixin ApiHelperMixin {
         }
       }
     } else {
+      isPostDio = false;
       Fluttertoast.showToast(msg: "لايوجد اتصال بالانترنت ");
     }
     return null;
@@ -189,9 +197,9 @@ mixin ApiHelperMixin {
     required String url,
     required FormData data,
   }) async {
+    isPostGetConnect.value = true;
     if (await checkInternet()) {
       if (!isPostGetConnect.value) {
-        isPostGetConnect.value = true;
         Response res = await apiProvider.postData(url: url, data: data);
         if (res.statusCode == ConstantHelperMadaFlutter.normalResponse) {
           getModelFromJsonUsing(res.body, "postGetConnect");
@@ -207,6 +215,8 @@ mixin ApiHelperMixin {
         return res;
       }
     } else {
+      isPostGetConnect.value = false;
+
       Fluttertoast.showToast(msg: "لايوجد اتصال بالانترنت ");
     }
     return null;
@@ -216,9 +226,9 @@ mixin ApiHelperMixin {
       {required String url,
       required int id,
       bool isPrintResponse = false}) async {
+    isDelete = true;
     if (await checkInternet()) {
       if (!isDelete) {
-        isDelete = true;
         Response res = await apiProvider.deleteData(url: url, id: id);
         if (isPrintResponse) {
           printHelper("${res.body}");
@@ -233,6 +243,7 @@ mixin ApiHelperMixin {
         }
       }
     } else {
+      isDelete = false;
       Fluttertoast.showToast(msg: "لايوجد اتصال بالانترنت ");
     }
     return false;
