@@ -56,7 +56,7 @@ mixin ApiHelperMixin {
                 _reGetData(
                     url:
                         "${url.url}${url.parameter != null ? "?${url.parameter}" : ''}",
-                    type: url.type??'',
+                    type: url.type ?? '',
                     isPrintResponse: isPrintResponse);
               });
             } else {
@@ -110,16 +110,21 @@ mixin ApiHelperMixin {
     }
   }
 
-  Future<dio.Response?> postDataDio(
-      {required String url,
-      required dio.FormData data,
-      Function(int count)? onSendProgress}) async {
+  Future<dio.Response?> postDataDio({
+    required String url,
+    required dio.FormData data,
+    Function(int count)? onSendProgress,
+    Map<String, dynamic>? header,
+  }) async {
     if (await checkInternet()) {
       if (!isPostDio) {
         isPostDio = true;
         dio.Dio dioR = dio.Dio();
         dioR.options.headers["authorization"] =
             "Bearer ${ConstantHelperMadaFlutter.token}";
+        if (header != null) {
+          dioR.options.headers.addAll(header);
+        }
         try {
           dio.Response response = await dioR.post(url,
               data: data,
