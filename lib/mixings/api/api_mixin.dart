@@ -107,6 +107,7 @@ mixin ApiHelperMixin {
       }
     } catch (e) {
       isLoad.value = false;
+      printHelper("no connection   url ==> $url");
 
       Fluttertoast.showToast(
           msg: "$e", gravity: ConstantHelperMadaFlutter.toastPosition);
@@ -120,6 +121,7 @@ mixin ApiHelperMixin {
       Map<String, dynamic>? header}) async {
     isPostDio = true;
     if (await checkInternet()) {
+      printHelper(" post data to  url ==> $url");
       if (!isPostDio) {
         dio.Dio dioR = dio.Dio();
         dioR.options.headers["authorization"] =
@@ -189,6 +191,8 @@ mixin ApiHelperMixin {
     } else {
       isPostDio = false;
       Fluttertoast.showToast(msg: "لايوجد اتصال بالانترنت ");
+      printHelper("no connection   url ==> $url");
+
     }
     return null;
   }
@@ -216,6 +220,7 @@ mixin ApiHelperMixin {
       }
     } else {
       isPostGetConnect.value = false;
+      printHelper("no connection   url ==> $url");
 
       Fluttertoast.showToast(msg: "لايوجد اتصال بالانترنت ");
     }
@@ -245,6 +250,8 @@ mixin ApiHelperMixin {
     } else {
       isDelete = false;
       Fluttertoast.showToast(msg: "لايوجد اتصال بالانترنت ");
+      printHelper("no connection   url ==> $url");
+
     }
     return false;
   }
