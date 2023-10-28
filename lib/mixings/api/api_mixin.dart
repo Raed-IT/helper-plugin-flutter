@@ -56,7 +56,7 @@ mixin ApiHelperMixin {
                 _reGetData(
                     url:
                         "${url.url}${url.parameter != null ? "?${url.parameter}" : ''}",
-                    type: url.type??'',
+                    type: url.type ?? '',
                     isPrintResponse: isPrintResponse);
               });
             } else {
@@ -70,6 +70,7 @@ mixin ApiHelperMixin {
         }
       }
     } else {
+      isLoad.value = false;
       Fluttertoast.showToast(msg: "لايوجد اتصال بالانترنت ");
     }
   }
@@ -113,7 +114,8 @@ mixin ApiHelperMixin {
   Future<dio.Response?> postDataDio(
       {required String url,
       required dio.FormData data,
-      Function(int count)? onSendProgress,Map<String, dynamic>? header}) async {
+      Function(int count)? onSendProgress,
+      Map<String, dynamic>? header}) async {
     if (await checkInternet()) {
       if (!isPostDio) {
         isPostDio = true;
