@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:helper_plugin/utilitis/helper_functions.dart';
+import 'package:logger/logger.dart';
 import '../../providers/api_provider.dart';
 import '../../ui/lists/refresh_load_ui.dart';
 import '../../utilitis/internet_connection_checker.dart';
@@ -17,8 +18,6 @@ mixin PaginationMixin<T> {
   // RxInt total = RxInt(0);
   bool isFirstPage = false;
   ScrollController? scrollController;
-
-
 
   ApiProvider paginationProvider = ApiProvider();
   String? paginationParameter;
@@ -104,7 +103,8 @@ mixin PaginationMixin<T> {
           } else {
             isLoadPagination.value = false;
           }
-        } catch (e) {
+        } catch (e, stackTree) {
+          Logger().e(stackTree);
           Fluttertoast.showToast(msg: "$e");
         }
       } else {
@@ -136,7 +136,8 @@ mixin PaginationMixin<T> {
                 }
               });
             }
-          } catch (e) {
+          } catch (e, stackTree) {
+            Logger().e(stackTree);
             if (countTying == null) {
               Fluttertoast.showToast(msg: "$e");
             }
