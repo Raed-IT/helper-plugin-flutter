@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:helper_plugin/utilitis/helper_functions.dart';
+import 'package:helper_plugin/utilitis/no_indeternet_totast.dart';
 import 'package:logger/logger.dart';
 import '../../providers/api_provider.dart';
 import '../../ui/lists/refresh_load_ui.dart';
@@ -90,8 +91,7 @@ mixin PaginationMixin<T> {
           } else if (response.statusCode == null) {
             await Future.delayed(const Duration(seconds: 3), () async {
               if (countTying != null && countTying == 4) {
-                Fluttertoast.showToast(
-                    msg: "الرجاء التاكد من الاتصال بالانترنت  ");
+                showNoInternetToast();
                 isLoadPagination.value = false;
               } else {
                 getPaginationData(
@@ -126,8 +126,9 @@ mixin PaginationMixin<T> {
                 if (countTying != null && countTying == 2) {
                   isConnectionError.value = true;
                   isLoadMore.value = true;
-                  Fluttertoast.showToast(
-                      msg: "الرجاء التاكد من الاتصال بالانترنت  ");
+                  showNoInternetToast();
+                  // Fluttertoast.showToast(
+                  //     msg: "الرجاء التاكد من الاتصال بالانترنت  ");
                 } else {
                   getPaginationData(
                       isRefresh: false,
@@ -147,7 +148,8 @@ mixin PaginationMixin<T> {
       // return true is Last page data else we have more data
       // printHelper("countTrying=> $countTying");
     } else {
-      Fluttertoast.showToast(msg: "لايوجد اتصال بالانترنت ");
+      showNoInternetToast();
+      // Fluttertoast.showToast(msg: "لايوجد اتصال بالانترنت ");
     }
     return nextPageUrl == null;
   }

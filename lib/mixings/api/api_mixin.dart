@@ -6,6 +6,7 @@ import 'package:helper_plugin/providers/api_provider.dart';
 import 'package:helper_plugin/utilitis/constats.dart';
 import 'package:helper_plugin/utilitis/error_type_enum.dart';
 import 'package:helper_plugin/utilitis/internet_connection_checker.dart';
+import 'package:helper_plugin/utilitis/no_indeternet_totast.dart';
 import 'package:helper_plugin/utilitis/url_model.dart';
 import 'package:logger/logger.dart';
 
@@ -73,7 +74,8 @@ mixin ApiHelperMixin {
       }
     } else {
       isLoad.value = false;
-      Fluttertoast.showToast(msg: "لايوجد اتصال بالانترنت ");
+      showNoInternetToast();
+      // Fluttertoast.showToast(msg: "لايوجد اتصال بالانترنت ");
     }
   }
 
@@ -94,9 +96,10 @@ mixin ApiHelperMixin {
         await Future.delayed(const Duration(seconds: 3), () async {
           if (countTying != null && countTying == 2) {
             onError(type);
-            Fluttertoast.showToast(
-                msg: "الرجاء التاكد من الاتصال بالانترنت  ",
-                gravity: ConstantHelperMadaFlutter.toastPosition);
+            showNoInternetToast();
+            // Fluttertoast.showToast(
+            //     msg: "الرجاء التاكد من الاتصال بالانترنت  ",
+            //     gravity: ConstantHelperMadaFlutter.toastPosition);
             isLoad.value = false;
           } else {
             _reGetData(
@@ -192,7 +195,8 @@ mixin ApiHelperMixin {
         }
       }
     } else {
-      Fluttertoast.showToast(msg: "لايوجد اتصال بالانترنت ");
+      showNoInternetToast();
+      // Fluttertoast.showToast(msg: "لايوجد اتصال بالانترنت ");
     }
     return null;
   }
@@ -219,7 +223,8 @@ mixin ApiHelperMixin {
         return res;
       }
     } else {
-      Fluttertoast.showToast(msg: "لايوجد اتصال بالانترنت ");
+      showNoInternetToast();
+      // Fluttertoast.showToast(msg: "لايوجد اتصال بالانترنت ");
     }
     return null;
   }
@@ -245,7 +250,8 @@ mixin ApiHelperMixin {
         }
       }
     } else {
-      Fluttertoast.showToast(msg: "لايوجد اتصال بالانترنت ");
+      showNoInternetToast();
+      // Fluttertoast.showToast(msg: "لايوجد اتصال بالانترنت ");
     }
     return false;
   }
